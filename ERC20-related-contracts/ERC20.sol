@@ -33,15 +33,22 @@ import "../../utils/Context.sol";
  * allowances. See {IERC20-approve}.
  */
 contract ERC20 is Context, IERC20, IERC20Metadata {
+    // このマッピングがトークン残高の本体．名付けるならトークン残高．
+    // アドレスに対してトークンの量を紐づけ，残高とみなす．
     mapping(address => uint256) private _balances;
 
+    // このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．
+    // 任意のアドレスAから，他の任意のアドレスBに対してアドレスAの残高からの引き出し許可を与えるというもの．
     mapping(address => mapping(address => uint256)) private _allowances;
 
+    // 文字通り，総供給量
     uint256 private _totalSupply;
 
+    // トークンネームとトークンシンボルの箱．恐らくは，defi等でトークン情報を出力するときに使われる．
     string private _name;
     string private _symbol;
 
+    // コンストラクタ．デプロイ時に実行される定数(変数)初期化．
     /**
      * @dev Sets the values for {name} and {symbol}.
      *
@@ -56,6 +63,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         _symbol = symbol_;
     }
 
+    // トークンネームを参照する関数
     /**
      * @dev Returns the name of the token.
      */
@@ -63,6 +71,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return _name;
     }
 
+    // トークンシンボルを参照する関数
     /**
      * @dev Returns the symbol of the token, usually a shorter version of the
      * name.
@@ -71,6 +80,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return _symbol;
     }
 
+    // decimalsを参照，ではなくdecimalsを返す関数．
+    // 後々の変更はまずないだろうということで，変数としておいていないのだと考えられる．
     /**
      * @dev Returns the number of decimals used to get its user representation.
      * For example, if `decimals` equals `2`, a balance of `505` tokens should
@@ -88,6 +99,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return 18;
     }
 
+    // 総供給量を参照する関数．
     /**
      * @dev See {IERC20-totalSupply}.
      */
@@ -95,6 +107,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return _totalSupply;
     }
 
+    // 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．
     /**
      * @dev See {IERC20-balanceOf}.
      */
@@ -102,6 +115,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return _balances[account];
     }
 
+    // 送金を行う関数．
+    // 実際の処理を行う本体とも言える_trancefer関数については，後に説明がなされる．
+    // ※中身が直下に無いのは，Solidityのコーディング規則に由来する．関数の可視性によって順序づけて書くようにと
+    // 　ドキュメントに言及がある．(https://solidity-jp.readthedocs.io/ja/latest/style-guide.html#order-of-functions)
     /**
      * @dev See {IERC20-transfer}.
      *
@@ -116,6 +133,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return true;
     }
 
+    // allowance(引き出し許可)を参照する関数．
+    // 最初の方で定義した_allowancesマッピングを参照している．
     /**
      * @dev See {IERC20-allowance}.
      */
@@ -123,6 +142,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return _allowances[owner][spender];
     }
 
+    // 引き出し許可残高を変更する関数．
+    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
     /**
      * @dev See {IERC20-approve}.
      *
@@ -139,6 +160,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return true;
     }
 
+    // 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．
+    // _spendAllowance関数で引き出し許可残高を引き出す残高だけへらし，
+    // _transfer関数で対象アドレスか自身のアドレスへ，残高を移動させる
+    // 実際の処理を行う本体とも言える _ のついた関数については，後に説明がなされる．
     /**
      * @dev See {IERC20-transferFrom}.
      *
@@ -166,6 +191,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return true;
     }
 
+    // 引き出し許可残高を増やす関数．
+    // allowance関数で呼び出した引き出し許可残高に増やしたい値を足した値 を用いて_approve関数を叩くことで，
+    // 引き出し許可残高を上書きしている．
+    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
     /**
      * @dev Atomically increases the allowance granted to `spender` by the caller.
      *
@@ -184,6 +213,11 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return true;
     }
 
+    // 引き出し許可残高を減らす関数．
+    // allowance関数で呼び出した引き出し許可残高から減らしたい値を引いた値 を用いて_approve関数を叩くことで，
+    // 引き出し許可残高を上書きしている．
+    // require文では，_approve関数に入れるuint成分が負の値とならないかどうか確認している．
+    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
     /**
      * @dev Atomically decreases the allowance granted to `spender` by the caller.
      *
@@ -208,7 +242,15 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
         return true;
     }
-
+    
+    // トークン転送(送金)の仕組みがかいてある．
+    // 以下を順に実行している．
+    // ・自身のアドレスと相手のアドレスが0アドレスでないことを要求
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認
+    // ・転送(送金先と送金元のアドレスの残高をamount分だけ増減させる)
+    // ・転送完了をイベントでフロントへ通知
+    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
     /**
      * @dev Moves `amount` of tokens from `from` to `to`.
      *
@@ -247,15 +289,16 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         _afterTokenTransfer(from, to, amount);
     }
 
-    /** @dev Creates `amount` tokens and assigns them to `account`, increasing
-     * the total supply.
-     *
-     * Emits a {Transfer} event with `from` set to the zero address.
-     *
-     * Requirements:
-     *
-     * - `account` cannot be the zero address.
-     */
+    // トークンmint(貨幣発行)の仕組みがかいてある．
+    // mint関数は実装されていないため，transfer関数のような形で_mint関数を含む関数を別途実装する必要がある．
+    // uncheckedというブロックは，ガス軽減策のようである．
+    // 以下を順に実行している．
+    // ・自身のアドレスが0アドレスでないことを要求
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・mintしたい量(amount)を総供給量に追加
+    // ・mint(mint先のアドレスの残高をamount分だけ増加させる)
+    // ・mint完了をイベントでフロントへ通知
+    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
     function _mint(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: mint to the zero address");
 
@@ -270,7 +313,15 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
         _afterTokenTransfer(address(0), account, amount);
     }
-
+    // トークンburn(貨幣の消去，焼却)の仕組みがかいてある．
+    // burn関数は実装されていないため，transfer関数のような形で_burn関数を含む関数を別途実装する必要がある．
+    // 以下を順に実行している．
+    // ・自身のアドレスが0アドレスでないことを要求
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認
+    // ・送金(送金先と送金元のアドレスの残高をamount分だけ増減させる)
+    // ・送金完了をイベントでフロントへ通知
+    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
     /**
      * @dev Destroys `amount` tokens from `account`, reducing the
      * total supply.
@@ -300,6 +351,13 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         _afterTokenTransfer(account, address(0), amount);
     }
 
+    // トークン引き出し許可更新の仕組みがかいてある．
+    // 自分のアドレスに対して相手のアドレスと残高をマッピングで紐づけることによって，
+    // 相手に対して自分の残高の引き出し許可を定義している．
+    // 以下を順に実行しているっぽい．
+    // ・自身と許可を与える者のアドレスが0アドレスでないことを要求
+    // ・引き出し許可残高を更新
+    // ・引き出し許可更新完了をイベントでフロントへ通知
     /**
      * @dev Sets `amount` as the allowance of `spender` over the `owner` s tokens.
      *
@@ -325,6 +383,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         emit Approval(owner, spender, amount);
     }
 
+    // トークン引き出し許可残高を減らす関数
     /**
      * @dev Updates `owner` s allowance for `spender` based on spent `amount`.
      *
@@ -347,6 +406,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         }
     }
 
+    // トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行前に行いたい動作を設定できる．
+    // デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．
     /**
      * @dev Hook that is called before any transfer of tokens. This includes
      * minting and burning.
@@ -367,6 +428,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         uint256 amount
     ) internal virtual {}
 
+    // トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行後に行いたい動作を設定できる．
+    // デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．
     /**
      * @dev Hook that is called after any transfer of tokens. This includes
      * minting and burning.
