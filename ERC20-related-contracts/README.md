@@ -3,39 +3,370 @@
 ### 1. [はじめに](#はじめに)
 ### 2. ERC20.solにインポートされているファイル
 
-1. [Context.sol](#contextsol)
-2. [IERC20.sol](#ierc20sol)
-3. [IERC20Metadata.sol](#ierc20metadatasol)
+1. [Context.sol](#21-contextsol)
+2. [IERC20.sol](#22-ierc20sol)
+3. [IERC20Metadata.sol](#23-ierc20metadatasol)
 
-### 3. [ERC20.sol](#erc20sol)
+### 3. [ERC20.sol](#3-erc20sol)
+
+### 4. [SCAMとapprove関数](#4-scamとapprove関数)
 
 ## 1. はじめに
-ここでは，ERC20.solとその中でインポートされている３つを含めた４つのsolファイルについてコードベースでよみとくことによってERC20を完全に理解することを目指します．
+ここでは，ERC20.solとその中でインポートされている３つを含めた４つのsolファイルについて，順番にコードベースでよみとくことによってERC20を完全に理解することを目指します．
 
 しかし，このREADME.mdファイルではコードは極力使わず，実際にコードを読み解くsolファイル群へのリンクは添えたうえで，日本語ベース・ノーコードでなるべく簡潔な解説を行っていきます．
 
 > 尚，Solidityの文法に関してはある程度前提としていますが，Solidityのハンズオンラーニングの手段ともなりえるように，検索可能な用語を用いることを心掛けることとします．
 
-## 2.1 Context.sol
+## 2.1. Context.sol
 
+ERC20上で最初に import されているのがこのファイルです．
 
+このファイルでは，``abstract`` という分類の ``contract`` の中で，``msg.sender`` という宣言をラップする ``_msgSender``という関数を宣言しています． 
+
+わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いた場合に ``msg.sender`` 宣言が正常に機能しないからだそう．(要追記)
 
 ↓元ファイル
 [openzeppelin-contracts/contracts/utils/Context.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol)
 
-## 2.2 IERC20.sol
+## 2.2. IERC20.sol
 
+次に import されているのがこのファイルです．
+
+このファイルでは，``interface`` という分類の ``contract`` の中で，可視性が ``private`` でないものの型定義と，コメントを用いた関数の説明がなされています．
+
+``abstract`` と ``interface`` の違いは，``contract`` 内に関数を内包するか否かです．
 
 ↓元ファイル
 [openzeppelin-contracts/contracts/token/ERC20/IERC20.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol)
 
-## 2.3 IERC20Metadata.sol
+## 2.3. IERC20Metadata.sol
+
+最後に ``import`` されているのがこのファイルです．
+
+このファイルでは，``interface`` という分類の ``contract`` の中で，
+
+``_name`` 変数を参照する ``name`` 関数，
+``_symbol`` 変数を参照する ``symbol`` 関数，
+``decimals`` を定義する ``decimals`` 関数
+
+の三つの関数を型定義しています．
+
 ↓元ファイル
 [openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/IERC20Metadata.sol)
 
 ## 3. ERC20.sol
 
+さぁ，それでは本体である ``ERC20.sol`` についてみていきましょう．
 
+まず最初に，先程紹介した3つの ``.sol`` ファイルを import した後，各 ``contract`` を ``ERC20`` という ``contract`` に継承させています．
+
+```
+import "./IERC20.sol";
+import "./extensions/IERC20Metadata.sol";
+import "../../utils/Context.sol";
+contract ERC20 is Context, IERC20, IERC20Metadata {
+```
+
+そして，各グローバル変数を定義．
+
+```
+    // このマッピングがトークン残高の本体．名付けるならトークン残高．
+    // アドレスに対してトークンの量を紐づけ，残高とみなす．
+    mapping(address => uint256) private _balances;
+
+    // このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．
+    // 任意のアドレスAから，他の任意のアドレスBに対してアドレスAの残高からの引き出し許可を与えるというもの．
+    mapping(address => mapping(address => uint256)) private _allowances;
+
+    // 文字通り，総供給量
+    uint256 private _totalSupply;
+
+    // トークンネームとトークンシンボルの箱．恐らくは，defi等でトークン情報を出力するときに使われる．
+    string private _name;
+    string private _symbol;
+```
+
+続いて，デプロイ時にstring変数を初期化する ``constructor`` が定義されています．引数(トークン名とトークンシンボル)はデプロイ時にコンパイルされたSolidityファイルと一緒に渡してあげます．
+
+```
+    constructor(string memory name_, string memory symbol_) {
+        _name = name_;
+        _symbol = symbol_;
+    }
+```
+
+その後に，関数が定義されていきます．
+
+まずは，変数を変更(変数に代入)できない ``view`` 関数で，処理が少ないものが定義されています．
+
+```
+    // トークンネームを参照する関数
+    function name() public view virtual override returns (string memory) {
+        return _name;
+    }
+
+    // トークンシンボルを参照する関数
+    function symbol() public view virtual override returns (string memory) {
+        return _symbol;
+    }
+
+    // decimalsを参照，ではなくdecimalsを返す関数．
+    // 規格からの変更はまずないだろうということで，変数としておいていないのだと考えられる．
+    function decimals() public view virtual override returns (uint8) {
+        return 18;
+    }
+
+    // 総供給量を参照する関数．
+    function totalSupply() public view virtual override returns (uint256) {
+        return _totalSupply;
+    }
+
+    // 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．
+    function balanceOf(address account) public view virtual override returns (uint256) {
+        return _balances[account];
+    }
+
+```
+
+そして，``ERC20`` の主な機能のトリガーとなる関数が定義されます．
+
+主に6つあり
+
+- 自分による，自分のアドレスから任意のアドレスへのトークン転送
+- 自分による，任意のアドレスからの引き出し許可残高を参照
+- 自分による，任意のアドレスからの引き出し許可残高を変更
+- 自分による，任意のアドレスから任意のアドレスへのトークン転送
+- 自分による，任意のアドレスからの引き出し許可残高の増額
+- 自分による，任意のアドレスからの引き出し許可残高の減額
+
+などの様々な機能のトリガーとなる関数です．
+
+```
+    // 送金を行う関数．
+    // 実際の処理を行う本体とも言える_trancefer関数については，後に説明がなされる．
+    // ※中身が直下に無いのは，Solidityのコーディング規則に由来する．関数の可視性によって順序づけて書くようにと
+    // 　ドキュメントに言及がある．(https://solidity-jp.readthedocs.io/ja/latest/style-guide.html#order-of-functions)
+    function transfer(address to, uint256 amount) public virtual override returns (bool) {
+        address owner = _msgSender();
+        _transfer(owner, to, amount);
+        return true;
+    }
+
+    // allowance(引き出し許可残高)を参照する関数．
+    // 最初の方で定義した_allowancesマッピングを参照している．
+    function allowance(address owner, address spender) public view virtual override returns (uint256) {
+        return _allowances[owner][spender];
+    }
+
+    // 引き出し許可残高を変更する関数．
+    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
+    function approve(address spender, uint256 amount) public virtual override returns (bool) {
+        address owner = _msgSender();
+        _approve(owner, spender, amount);
+        return true;
+    }
+
+    // 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．
+    // _spendAllowance関数で引き出し許可残高を引き出す残高だけへらし，
+    // _transfer関数で対象アドレスか自身のアドレスへ，残高を移動させる
+    // 実際の処理を行う本体とも言える _ のついた関数については，後に説明がなされる．
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) public virtual override returns (bool) {
+        address spender = _msgSender();
+        _spendAllowance(from, spender, amount);
+        _transfer(from, to, amount);
+        return true;
+    }
+
+    // 引き出し許可残高を増やす関数．
+    // allowance関数で呼び出した引き出し許可残高に増やしたい値を足した値 を用いて_approve関数を叩くことで，
+    // 引き出し許可残高を上書きしている．
+    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
+    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
+        address owner = _msgSender();
+        _approve(owner, spender, allowance(owner, spender) + addedValue);
+        return true;
+    }
+
+    // 引き出し許可残高を減らす関数．
+    // allowance関数で呼び出した引き出し許可残高から減らしたい値を引いた値 を用いて_approve関数を叩くことで，
+    // 引き出し許可残高を上書きしている．
+    // require文では，_approve関数に入れるuint成分が負の値とならないかどうか確認している．
+    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
+    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
+        address owner = _msgSender();
+        uint256 currentAllowance = allowance(owner, spender);
+        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
+        unchecked {
+            _approve(owner, spender, currentAllowance - subtractedValue);
+        }
+
+        return true;
+    }
+```
+
+最後に，主な機能を司ったり追加実装の行ったりするための ``internal`` 関数が定義されています．
+
+※関数の可視性(``public``, ``private``, ``internal``, ``external``)については[ここ](https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0)を見るとよいでしょう．
+
+
+```
+// トークン転送(送金)の仕組みがかいてある．
+    // 以下を順に実行している．
+    // ・自身のアドレスと相手のアドレスが0アドレスでないことを要求
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認
+    // ・転送(送金先と送金元のアドレスの残高をamount分だけ増減させる)
+    // ・転送完了をイベントでフロントへ通知
+    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
+    function _transfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual {
+        require(from != address(0), "ERC20: transfer from the zero address");
+        require(to != address(0), "ERC20: transfer to the zero address");
+
+        _beforeTokenTransfer(from, to, amount);
+
+        uint256 fromBalance = _balances[from];
+        require(fromBalance >= amount, "ERC20: transfer amount exceeds balance");
+        unchecked {
+            _balances[from] = fromBalance - amount;
+            // Overflow not possible: the sum of all balances is capped by totalSupply, and the sum is preserved by
+            // decrementing then incrementing.
+            _balances[to] += amount;
+        }
+
+        emit Transfer(from, to, amount);
+
+        _afterTokenTransfer(from, to, amount);
+    }
+
+    // トークンmint(貨幣発行)の仕組みがかいてある．
+    // mint関数は実装されていないため，transfer関数のような形で_mint関数を含む関数を別途実装する必要がある．
+    // uncheckedというブロックは，ガス軽減策のようである．
+    // 以下を順に実行している．
+    // ・自身のアドレスが0アドレスでないことを要求
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・mintしたい量(amount)を総供給量に追加
+    // ・mint(mint先のアドレスの残高をamount分だけ増加させる)
+    // ・mint完了をイベントでフロントへ通知
+    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
+    function _mint(address account, uint256 amount) internal virtual {
+        require(account != address(0), "ERC20: mint to the zero address");
+
+        _beforeTokenTransfer(address(0), account, amount);
+
+        _totalSupply += amount;
+        unchecked {
+            // Overflow not possible: balance + amount is at most totalSupply + amount, which is checked above.
+            _balances[account] += amount;
+        }
+        emit Transfer(address(0), account, amount);
+
+        _afterTokenTransfer(address(0), account, amount);
+    }
+
+    // トークンburn(貨幣の消去，焼却)の仕組みがかいてある．
+    // burn関数は実装されていないため，transfer関数のような形で_burn関数を含む関数を別途実装する必要がある．
+    // 以下を順に実行している．
+    // ・自身のアドレスが0アドレスでないことを要求
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認
+    // ・送金(送金先と送金元のアドレスの残高をamount分だけ増減させる)
+    // ・送金完了をイベントでフロントへ通知
+    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
+    function _burn(address account, uint256 amount) internal virtual {
+        require(account != address(0), "ERC20: burn from the zero address");
+
+        _beforeTokenTransfer(account, address(0), amount);
+
+        uint256 accountBalance = _balances[account];
+        require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
+        unchecked {
+            _balances[account] = accountBalance - amount;
+            // Overflow not possible: amount <= accountBalance <= totalSupply.
+            _totalSupply -= amount;
+        }
+
+        emit Transfer(account, address(0), amount);
+
+        _afterTokenTransfer(account, address(0), amount);
+    }
+
+    // トークン引き出し許可更新の仕組みがかいてある．
+    // 自分のアドレスに対して相手のアドレスと残高をマッピングで紐づけることによって，
+    // 相手に対して自分の残高の引き出し許可を定義している．
+    // 以下を順に実行しているっぽい．
+    // ・自身と許可を与える者のアドレスが0アドレスでないことを要求
+    // ・引き出し許可残高を更新
+    // ・引き出し許可更新完了をイベントでフロントへ通知
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual {
+        require(owner != address(0), "ERC20: approve from the zero address");
+        require(spender != address(0), "ERC20: approve to the zero address");
+
+        _allowances[owner][spender] = amount;
+        emit Approval(owner, spender, amount);
+    }
+
+    // トークン引き出し許可残高を減らす関数
+    function _spendAllowance(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual {
+        uint256 currentAllowance = allowance(owner, spender);
+        if (currentAllowance != type(uint256).max) {
+            require(currentAllowance >= amount, "ERC20: insufficient allowance");
+            unchecked {
+                _approve(owner, spender, currentAllowance - amount);
+            }
+        }
+    }
+
+    // トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行前に行いたい動作を設定できる．
+    // デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual {}
+
+    // トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行後に行いたい動作を設定できる．
+    // デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．
+    function _afterTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual {}
+}
+```
 
 ↓元ファイル
 [openzeppelin-contracts/contracts/token/ERC20/ERC20.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol)
+
+
+## 4. SCAMとapprove関数
+
+秘密鍵(メタマスクにおけるシードフレーズ)を SCAMMERs に知られてしまえば，彼らは自身のデバイスにあなたのウォレットをインポートすることができるようになり，あなたのERC20トークンは彼らの手によっていとも簡単にあなたのウォレットから抜かれてしまうでしょう．
+
+しかし，秘密鍵を知られなければSCAM被害にはあわないのでしょうか？
+
+答えはNOです．
+
+例えば，SCAMサイトのウォレットコネクトボタンに，メタマスクを呼び出す ``web3.js`` や ``ethers.js`` によるウォレットコネクトリクエストに加えて，あなたの残高からの多額の引き出し許可を SCAMMERs のウォレットに対して与える単一または複数の ``approve`` 関数の実行を承認するための関数実行リクエストが仕込まれていた場合のことを考えてみましょう．
+
+あなたがウォレットコネクト要求を承認すると，もう一つの承認を要求されます．そのトランザクションに署名してしまったが最後，あなたのウォレットは SCAMMERs から(特定の1種または複数通貨の)残高を抜かれ放題です．
+
+SCAMMERs による攻撃はこのような方法だけというわけではなく，今この瞬間にもあたらしい手法がかいはつされていることでしょう．
+
+信頼のおけるサイト以外からのメタマスクのリクエストには十分に注意を払い，怪しいと思ったら各チェーンの SCANNING アプリケーションで ``contract`` を確認してみるようにしましょう．

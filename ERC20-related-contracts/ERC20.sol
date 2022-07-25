@@ -81,7 +81,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     }
 
     // decimalsを参照，ではなくdecimalsを返す関数．
-    // 後々の変更はまずないだろうということで，変数としておいていないのだと考えられる．
+    // 規格からの変更はまずないだろうということで，変数としておいていないのだと考えられる．
     /**
      * @dev Returns the number of decimals used to get its user representation.
      * For example, if `decimals` equals `2`, a balance of `505` tokens should
@@ -133,7 +133,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         return true;
     }
 
-    // allowance(引き出し許可)を参照する関数．
+    // allowance(引き出し許可残高)を参照する関数．
     // 最初の方で定義した_allowancesマッピングを参照している．
     /**
      * @dev See {IERC20-allowance}.

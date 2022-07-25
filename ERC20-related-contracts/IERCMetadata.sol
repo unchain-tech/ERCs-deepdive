@@ -5,9 +5,8 @@ pragma solidity ^0.8.0;
 
 import "../IERC20.sol";
 
-// 標準搭載されている2つの変数である，トークン名とトークンシンボルの値，
-// そして関数内でいわば不変変数的に定義されているようなdecimalsの値を
-// それぞれ確認できる3つの関数について，型定義されています．
+// _name 変数を参照する name 関数，_symbol 変数を参照する symbol 関数，decimals を定義する decimals 関数
+// の3つの関数について，型定義されています．
  /**
  * @dev Interface for the optional metadata functions from the ERC20 standard.
  *
