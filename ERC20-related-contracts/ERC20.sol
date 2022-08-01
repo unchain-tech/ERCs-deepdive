@@ -41,7 +41,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     // 任意のアドレスAから，他の任意のアドレスBに対してアドレスAの残高からの引き出し許可を与えるというもの．
     mapping(address => mapping(address => uint256)) private _allowances;
 
-    // 文字通り，総供給量
+    // 文字通り，総供給量.
     uint256 private _totalSupply;
 
     // トークンネームとトークンシンボルの箱．恐らくは，defi等でトークン情報を出力するときに使われる．
