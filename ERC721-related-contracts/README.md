@@ -31,6 +31,9 @@
 
 ## 2. ERC721.sol にインポートされているファイル
 
+以下では，``ERC721.sol`` でインポートされているそれぞれのファイルについて，おおまかな内容と ``ERC721.sol`` 内での用途を説明していきます．
+レポジトリ内の同名ファイルには，原本に適宜コメントを追加したファイルを同梱してあります．ご活用ください．
+
 ### 2.1. Address,sol
 
 hogehoge
@@ -38,12 +41,18 @@ hogehoge
 
 ### 2.2. Context.sol
 
-hogehoge
+このファイルでは，``abstract`` という分類の ``contract`` の中で，``msg.sender`` という宣言をラップする ``_msgSender``という関数を宣言しています． 
+
+わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いた場合に ``msg.sender`` 宣言が正常に機能しないからだそう．(要追記)
+
+↓元ファイル
+[openzeppelin-contracts/contracts/utils/Context.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol)
+
 
 
 ### 2.3. Strings.sol
 
-hogehoge
+この関数では，uint列を16進数列
 
 
 ### 2.4. ERC165.sol
@@ -53,7 +62,12 @@ hogehoge
 
 ### 2.5. IERC721.sol
 
-hogehoge
+このファイルでは，``interface`` という分類の ``contract`` の中で，``ERC721.sol`` 内に存在する関数の中で可視性が ``internal`` でないものの型定義と，コメントを用いた関数の説明がなされています．
+
+``abstract`` と ``interface`` の違いは，``contract`` 内に関数を内包するか否かです．
+
+↓元ファイル
+[openzeppelin-contracts/contracts/token/ERC721/IERC721.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol)
 
 
 ### 2.6. IERC721Receiver.sol
@@ -63,8 +77,16 @@ hogehoge
 
 ### 2.7. IERC721Metadata.sol
 
-hogehoge
+このファイルでは，``interface`` という分類の ``contract`` の中で，
 
+``ERC721.sol`` 内で ``_name`` 変数を参照する ``name`` 関数，
+``ERC721.sol`` 内で ``_symbol`` 変数を参照する ``symbol`` 関数，
+``ERC721.sol`` 内で ``tokenId`` を参照する ``tokenURI`` 関数
+
+の三つの関数を型定義しています．
+
+↓元ファイル
+[openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/IERC721Metadata.sol)
 
 ## 3. ERC721
 
@@ -73,7 +95,7 @@ hogehoge
 hugahuga
 
 
-### 3.2. hoge
+### 3.2. huga
 
 hugahuga
 
