@@ -46,11 +46,11 @@ abstract contract ERC2771Context is Context {
             // The assembly code is more direct than the Solidity version using `abi.decode`.
             /// @solidity memory-safe-assembly
             assembly {
-                // forwarderのexecuteでabi.encodePacked(req.data, req.from)しているので、msg.dataの最後の20bytesがaddressのデータとして使用される
-                // sub(calldatasize(), 20)でaddressのスタート地点を計算する。
-                // その値をcalldataloadに渡して、そこから32bytesを取り出す。
-                // 32bytesの中身は e36ab9f4cc11bD98753F05943D5394D16B356D6A000000000000000000000000 こんな感じになっているので、
-                // shift right 96bits(32bytes)をして、000000000000000000000000e36ab9f4cc11bD98753F05943D5394D16B356D6A の状態にする。
+                // forwarderのexecuteでabi.encodePacked(req.data, req.from)しているので、msg.dataの最後の20bytes(hexの40文字)がaddressのデータとして使用される
+                // sub(calldatasize(), 20)でaddressのスタート地点を計算する
+                // その値をcalldataloadに渡して、そこから32bytesを取り出す
+                // 32bytesの中身は最初の20bytes以外はデータがなく e36ab9f4cc11bD98753F05943D5394D16B356D6A000000000000000000000000 こんな感じのaddressとpaddingとなっているので、
+                // shift right 96bits(12bytes、hexの24文字)をして、000000000000000000000000e36ab9f4cc11bD98753F05943D5394D16B356D6A の状態にして20bytesのaddress型として取り出せるようにする
                 sender := shr(96, calldataload(sub(calldatasize(), 20)))
             }
         } else {
