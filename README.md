@@ -11,7 +11,7 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 
 ・Meta Transactions
 
-### Contributer
+### Contributor
 ・cohurin
 
 ・kii
