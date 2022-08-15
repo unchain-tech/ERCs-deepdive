@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 // EIP-2771などのメタトランザクションソリューション
 // (ガス代を仲介者が肩代わりするスキーム)が存在していて，
-// それを使用するとmsg.senderでmassage senderを指定できないらしい．
+// それを使用するとmsg.senderやmsg.dataがオーバーライドされてしまい，欲しいデータが呼び出せないらしい．
 // その対策として存在している抽象契約だそう．
  /**
  * @dev Provides information about the current execution context, including the
