@@ -9,13 +9,13 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 
 ・ERC721
 
-
+・Meta Transactions
 
 ### Contributer
 ・cohurin
 
 ・kii
 
-・
+・terapasta
 
 ・
