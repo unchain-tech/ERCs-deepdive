@@ -3,10 +3,17 @@
 
 pragma solidity ^0.8.1;
 
+// このファイルではAddress型，主にコントラクトのアドレスを変数にとる関数を集めたライブラリが定義されています．
+// ERC721に使われているのは``isContract``関数のみであるため，解説はそこのみにとどめます．
 /**
  * @dev Collection of functions related to the address type
  */
 library Address {
+
+    // 引数として入力したアドレスがコントラクトアドレスかどうかを判定するための関数です．
+    // ただ，注にもある通り，「アドレスの長さがゼロでない」ことしか担保されていないため，
+    // この関数に通らなかったためにコントラクトのアドレスではないとするのは早計です．
+
     /**
      * @dev Returns true if `account` is a contract.
      *
