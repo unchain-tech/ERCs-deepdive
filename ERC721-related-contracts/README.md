@@ -51,12 +51,6 @@ ERC721における用途は，``isContract()`` の利用です．この関数は
 
 > ``msg.sender`` は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に ``msg.sender`` をラップした ``_msgSender()`` 関数を使うことによって，メタトランザクション使用時には ``_msg.sender()`` 関数をオーバーライドして返り値を書き換えることにより ``msg.sender(gas feeを支払うアドレス)`` と ``_msgSender()の返り値(txを実行したいアドレス)`` を分けることができるようになります．
 
-
-// 詳しくはここを参照()．
-// 
-// 
-// 
-// 
 ↓元ファイル
 [openzeppelin-contracts/contracts/utils/Context.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol)
 
