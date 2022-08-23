@@ -40,6 +40,8 @@
 ERC721における用途は，``isContract()`` の利用です．この関数は ``address`` 値を引数にとり，そのアドレス長が0より大きいかどうかを ``bool`` 値で返します．こうすることで，4種ほどの例外を除き，引数のアドレスがコントラクトアドレスかどうかを判断します．
 > この例外というのはコントラクトが機能しない特殊な状況にある場合です．なので，実質的にはコントラクトが利用可能な状態であるかどうかを示すものになります．そして，コントラクトとウォレットアドレス(EOAアドレス)は形式が同じであるため，仮に存在するウォレットアドレスを引数としたとしても ``isContract()`` は ``true`` を返すと思われます．
 
+↓元ファイル
+[openzeppelin-contracts/contracts/utils/Address.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol)
 
 ### 2.2. Context.sol
 
