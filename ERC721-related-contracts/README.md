@@ -58,8 +58,16 @@ ERC721における用途は，``isContract()`` の利用です．この関数は
 
 ### 2.3. Strings.sol
 
-この関数では，uint列を16進数列
+これは，uint列を文字列，特に16進数文字列に変換する関数のスタンダードを集めたライブラリです．
+使い道については，下のような実例をみるとわかりやすいでしょう．
+元ファイルではあまり触れられていませんが，エンコード(変換作業)のしくみについても少しふれてあるので，そのあたりも気になる方はレポジトリ内のコメント入りファイルを見てみてください．
 
+> このERC271においては，tokenURIを参照する ``tokenURI(uint256 tokenId)`` 関数において， uint である ``tokenId`` を string に変換するときに用いている．
+これは関数内で string である ``_baseURI()`` と uint である ``tokenId`` を結合するためである．
+uint である ``tokenId`` を string に変換して ``_baseURI()`` と結合することで ``tokenURI`` を生成し，string 値として返すのである．
+
+↓元ファイル
+[openzeppelin-contracts/contracts/utils/Strings.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Strings.sol)
 
 ### 2.4. ERC165.sol
 

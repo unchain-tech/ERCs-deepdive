@@ -3,6 +3,8 @@
 
 pragma solidity ^0.8.0;
 
+// これは，uint列を文字列，特に16進数文字列に変換する関数のスタンダードを集めたライブラリです．
+// ERC721に使われているのは ``toString(uint256 value)``関数のみであるため，解説はそこのみにとどめます．
 /**
  * @dev String operations.
  */
@@ -10,6 +12,10 @@ library Strings {
     bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
     uint8 private constant _ADDRESS_LENGTH = 20;
 
+    // 一つ目のwhile文で引数に指定したuintの桁数をuint変数であるdigitsに格納し，
+    // 二つ目のwhile文では，引数のuintを一桁ずつUtf-8形式の1バイトHEXstringに変換したうえで
+    // bufferというbytes(配列)として格納しています．
+    // 最後にstring()を利用してbuffer配列を番号順に連結してUtf-8にエンコードしています．
     /**
      * @dev Converts a `uint256` to its ASCII `string` decimal representation.
      */
