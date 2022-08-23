@@ -97,7 +97,7 @@ hogehoge
 
 ``ERC721.sol`` 内で ``_name`` 変数を参照する ``name`` 関数，
 ``ERC721.sol`` 内で ``_symbol`` 変数を参照する ``symbol`` 関数，
-``ERC721.sol`` 内で ``tokenId`` を参照する ``tokenURI`` 関数
+``ERC721.sol`` 内で ``_baseURI()`` の返り値と ``tokenId`` を参照する ``tokenURI`` 関数
 
 の三つの関数を型定義しています．
 
