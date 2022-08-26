@@ -5,6 +5,8 @@ pragma solidity ^0.8.0;
 
 import "../../utils/introspection/IERC165.sol";
 
+// このファイルでは，``interface`` という分類の ``contract`` の中で，``ERC721.sol`` 内に存在する関数の中で可視性が ``internal`` でないものの型定義と，コメントを用いた関数の説明がなされています．
+// ``abstract`` と ``interface`` の違いは，``contract`` 内に関数を内包するか否かです．
 /**
  * @dev Required interface of an ERC721 compliant contract.
  */
