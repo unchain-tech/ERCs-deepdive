@@ -11,11 +11,16 @@ pragma solidity ^0.8.0;
 library Strings {
     bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
     uint8 private constant _ADDRESS_LENGTH = 20;
-
-    // 一つ目のwhile文で引数に指定したuintの桁数をuint変数であるdigitsに格納し，
-    // 二つ目のwhile文では，引数のuintを一桁ずつUtf-8形式の1バイトHEXstringに変換したうえで
-    // bufferというbytes(配列)として格納しています．
-    // 最後にstring()を利用してbuffer配列を番号順に連結してUtf-8にエンコードしています．
+    // この関数は，引数のuintをストリング形式に変換しています．
+    // 一つ目のwhile文で引数に指定したuintの桁数をuint変数であるdigitsに格納します．
+    // 二つ目のwhile文では，まず引数のuintの一桁一桁を10を法としたmod演算(%)で分割した後，
+    // それぞれに48(0x30)を足してから1バイトのバイナリ形式に変換し，桁数として格納したdigitsを上手く用いることによって
+    // bufferというbytes(配列)として一桁ずつ順番に格納しています．
+    // 48を足す(16進数二桁表示にしたときに一桁目が3になる)ことによって，
+    // アラビア数字の0～9の数値の大きさが，ASCIIコードに即したアラビア数字0～9の文字コードのバイナリ情報に変換されます．
+    // (ASCIIコードについては右を参照→(https://www.gixo.jp/blog/12465/))
+    // 最後にstring()関数(バイナリの配列要素を順に連結してSolidityのstringとしてエンコードしてくれる)を利用して，
+    // buffer配列をstring形式(Utf-8)にエンコードしています．
     /**
      * @dev Converts a `uint256` to its ASCII `string` decimal representation.
      */
@@ -28,13 +33,16 @@ library Strings {
         }
         uint256 temp = value;
         uint256 digits;
+        // 一つ目のwhile文
         while (temp != 0) {
             digits++;
             temp /= 10;
         }
         bytes memory buffer = new bytes(digits);
+        // 二つ目のwhile文
         while (value != 0) {
             digits -= 1;
+            // 48(10進数) = 16^2 * 3 + 16^1 * 0 = 30(16進数)
             buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
             value /= 10;
         }
