@@ -90,8 +90,15 @@ uint である ``tokenId`` を string に変換して ``_baseURI()`` と結合�
 
 ### 2.6. IERC721Receiver.sol
 
-hogehoge
+このファイルでは，ERC721トークンをtransferするときに，``to`` アドレスがERC721トークンを受け取ることができるかを判断できるものとなっています．
+というのも，コントラクトアドレスに送信したNFTというのは基本的にはGOXします．
+例外として，コントラクトアドレス側にNFTを扱うためのコントラクトが存在する場合に引き出すことが出来るのです．
+そのため，不運なGOXを避けるために，NFTの送信を行う際には送信先の ``to`` アドレスがコントラクトアドレスだった場合にこのインターフェイスが導入されていないものには送れないようにする ``_safeTransfer`` という送信規格が提案されました．
+よって，NFTの送信を受けるためのコントラクトを作りたい場合はこのインターフェイスを継承しておくことが推奨されます．
+仕組みについては，``_checkOnERC721Received()`` 関数の説明で少しふれます．
 
+↓元ファイル
+[openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721Receiver.sol)
 
 ### 2.7. IERC721Metadata.sol
 
