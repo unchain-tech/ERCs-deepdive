@@ -36,6 +36,7 @@ ERC20上で最初に import されているのがこのファイルです．
 > ``msg.sender`` は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に ``msg.sender`` をラップした ``_msgSender()`` 関数を使うことによって，メタトランザクション使用時には ``_msg.sender()`` 関数をオーバーライドして返り値を書き換えることにより ``msg.sender(gas feeを支払うアドレス)`` と ``_msgSender()の返り値(txを実行したいアドレス)`` を分けることができるようになります．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/utils/Context.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol)
 
 ## 2.2. IERC20.sol
@@ -47,6 +48,7 @@ ERC20上で最初に import されているのがこのファイルです．
 ``abstract`` と ``interface`` の違いは，``contract`` 内に関数を内包するか否かです．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/token/ERC20/IERC20.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol)
 
 ## 2.3. IERC20Metadata.sol
@@ -62,6 +64,7 @@ ERC20上で最初に import されているのがこのファイルです．
 の三つの関数を型定義しています．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/IERC20Metadata.sol)
 
 ## 3. ERC20.sol
@@ -375,6 +378,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 ```
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/token/ERC20/ERC20.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol)
 
 
