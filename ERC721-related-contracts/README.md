@@ -1,7 +1,7 @@
 # ERC721
 ## 目次
-### 1. [はじめに](#はじめに)
-### 2. ERC721.solにインポートされているファイル
+### 1. [はじめに](#1-はじめに)
+### 2. [ERC721.solにインポートされているファイル](#2-erc721sol-にインポートされているファイル)
 
 1. [Address,sol](#21-addresssol)
 2. [Context.sol](#22-contextsol)
@@ -15,11 +15,11 @@
 ### 3. [ERC721.sol]()
 "
 1. [""import""，""using""，変数定義，そして ""constructor""](#31-importusing変数定義そして-constructor)
-2. [ブロックチェーン上の変数を参照する ""view"" 関数群](#32-ブロックチェーン上の変数を参照する-view-関数群)
+2. [ストレージ上の値を書き換えることがない ""view"" 関数群](#32-ストレージ上の値を書き換えることがない-view-関数群)
 3. [主要な機能の発動を担う標準搭載関数群](#33-主要な機能の発動を担う標準搭載関数群)
 4. [挙動を司る関数群，追加実装のための関数群](#34-挙動を司る関数群追加実装のための関数群)
 
-### 4. [TIPs]()
+### 4. [TIPs](#4-tips)
 
 ## 1. はじめに
 
@@ -41,6 +41,7 @@ ERC721における用途は，``isContract()`` の利用です．この関数は
 > この例外というのはコントラクトが機能しない特殊な状況にある場合です．なので，実質的にはコントラクトが利用可能な状態であるかどうかを示すものになります．そして，コントラクトとウォレットアドレス(EOAアドレス)は形式が同じであるため，仮に存在するウォレットアドレスを引数としたとしても ``isContract()`` は ``true`` を返すと思われます．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/utils/Address.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol)
 
 ### 2.2. Context.sol
@@ -54,6 +55,7 @@ ERC721における用途は，``isContract()`` の利用です．この関数は
 > ``msg.sender`` は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に ``msg.sender`` をラップした ``_msgSender()`` 関数を使うことによって，メタトランザクション使用時には ``_msg.sender()`` 関数をオーバーライドして返り値を書き換えることにより ``msg.sender(gas feeを支払うアドレス)`` と ``_msgSender()の返り値(txを実行したいアドレス)`` を分けることができるようになります．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/utils/Context.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol)
 
 
@@ -69,6 +71,7 @@ ERC721における用途は，``isContract()`` の利用です．この関数は
 uint である ``tokenId`` を string に変換して ``_baseURI()`` と結合することで ``tokenURI`` を生成し，string 値として返すのである．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/utils/Strings.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Strings.sol)
 
 ### 2.4. ERC165.sol
@@ -85,6 +88,7 @@ uint である ``tokenId`` を string に変換して ``_baseURI()`` と結合�
 ``abstract`` と ``interface`` の違いは，``contract`` 内に関数を内包するか否かです．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/token/ERC721/IERC721.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol)
 
 
@@ -98,6 +102,7 @@ uint である ``tokenId`` を string に変換して ``_baseURI()`` と結合�
 仕組みについては，``_checkOnERC721Received()`` 関数の説明で少しふれます．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721Receiver.sol)
 
 ### 2.7. IERC721Metadata.sol
@@ -111,6 +116,7 @@ uint である ``tokenId`` を string に変換して ``_baseURI()`` と結合�
 の三つの関数を型定義しています．
 
 ↓元ファイル
+
 [openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/IERC721Metadata.sol)
 
 ## 3. ERC721
@@ -756,6 +762,10 @@ mint系の2つについては，NFTの発行のためにいずれかを必ず実
 }
 ```
 
+↓元ファイル
+
+[openzeppelin-contracts/contracts/token/ERC721/ERC721.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol)
+
 ## 4. TIPs
 
-# 寄稿をお待ちしております！！
+### 寄稿をお待ちしております！！
