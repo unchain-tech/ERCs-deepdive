@@ -13,7 +13,7 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 ・Meta Transactions
 
 ### Contributors
-・[cohurin](https://github.com/neila)
-・[kii](https://github.com/empire-uts)
-・[terapasta](https://github.com/terapasta)
-・[tomo](https://github.com/Tomosuke0930)
+- [cohurin](https://github.com/neila)
+- [kii](https://github.com/empire-uts)
+- [terapasta](https://github.com/terapasta)
+- [tomo](https://github.com/Tomosuke0930)
