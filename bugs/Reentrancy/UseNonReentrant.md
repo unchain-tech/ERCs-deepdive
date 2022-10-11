@@ -94,9 +94,8 @@ https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/sec
 
 また Check-Effect-Interaction パターンに従ってください
 
-```
 
 ## 👬 Similar Issue
 
 https://github.com/code-423n4/2022-05-rubicon-findings/issues/283
-```
+
