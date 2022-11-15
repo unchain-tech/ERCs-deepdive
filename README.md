@@ -1,10 +1,11 @@
 # OPENZEPPELIN-DEEPDIVE
 
 ### About
-OpenZeppelin の主要規格について，日本語ベース・コードベースでまとめていこうという企画です.
-また、ERC規格毎によくあるbugの対策サンプルなどもまとめています.
 
-全てのSolidity初学者・非修得者に愛をこめて.
+OpenZeppelin の主要規格について，日本語ベース・コードベースでまとめていこうという企画です.
+また、ERC 規格毎によくある bug の対策サンプルなどもまとめています.
+
+全ての Solidity 初学者・非修得者に愛をこめて.
 
 ### Contents
 
@@ -13,7 +14,9 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 ・Meta Transactions
 
 ### Contributors
+
 - [cohurin](https://github.com/neila)
 - [kii](https://github.com/empire-uts)
 - [terapasta](https://github.com/terapasta)
 - [tomo](https://github.com/Tomosuke0930)
+- [yawn](https://github.com/yawn-c111)
