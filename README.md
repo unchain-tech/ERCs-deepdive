@@ -9,9 +9,10 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 
 ### Contents
 
-・ERC20
-・ERC721
-・Meta Transactions
+- ERC20
+- ERC721
+- ERC5192
+- Meta Transactions
 
 ### Contributors
 
