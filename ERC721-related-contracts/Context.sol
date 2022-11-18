@@ -12,7 +12,7 @@ pragma solidity ^0.8.0;
 // msg.sender(gas feeを支払うアドレス)と_msgSender()の返り値(txを実行したいアドレス)を
 // 分けることができるようになる．
 // そのために存在している抽象契約だそう．
- /**
+/**
  * @dev Provides information about the current execution context, including the
  * sender of the transaction and its data. While these are generally available
  * via msg.sender and msg.data, they should not be accessed in such a direct

@@ -1,7 +1,10 @@
 # ERC20
+
 ## 目次
+
 ### 1. [はじめに](#はじめに)
-### 2. ERC20.solにインポートされているファイル
+
+### 2. ERC20.sol にインポートされているファイル
 
 1. [Context.sol](#21-contextsol)
 2. [IERC20.sol](#22-ierc20sol)
@@ -14,28 +17,29 @@
 3. [標準搭載関数群](#33-標準搭載関数群)
 4. [メソッド記述と追加機能実装を担う ""internal"" 関数群](#34-メソッド記述と追加機能実装を担う-internal-関数群)
 
-### 4. [SCAMとapprove関数](#4-scamとapprove関数)
+### 4. [SCAM と approve 関数](#4-scamとapprove関数)
 
 ## 1. はじめに
-ここでは，ERC20.solとその中でインポートされている３つを含めた４つのsolファイルについて，順番にコードベースでよみとくことによってERC20を完全に理解することを目指します．
 
-しかし，このREADME.mdファイルではコードは極力使わず，実際にコードを読み解くsolファイル群へのリンクは添えたうえで，日本語ベース・ノーコードでなるべく簡潔な解説を行っていきます．
+ここでは，ERC20.sol とその中でインポートされている３つを含めた４つの sol ファイルについて，順番にコードベースでよみとくことによって ERC20 を完全に理解することを目指します．
 
-> 尚，Solidityの文法に関してはある程度前提としていますが，Solidityのハンズオンラーニングの手段ともなりえるように，検索可能な用語を用いることを心掛けることとします．
+しかし，この README.md ファイルではコードは極力使わず，実際にコードを読み解く sol ファイル群へのリンクは添えたうえで，日本語ベース・ノーコードでなるべく簡潔な解説を行っていきます．
+
+> 尚，Solidity の文法に関してはある程度前提としていますが，Solidity のハンズオンラーニングの手段ともなりえるように，検索可能な用語を用いることを心掛けることとします．
 
 ## 2.1. Context.sol
 
-ERC20上で最初に import されているのがこのファイルです．
+ERC20 上で最初に import されているのがこのファイルです．
 
-このファイルでは，``abstract`` という分類の ``contract`` の中で，``msg.sender`` という宣言をラップする ``_msgSender``という関数を宣言しています． 
+このファイルでは，`abstract` という分類の `contract` の中で，`msg.sender` という宣言をラップする `_msgSender`という関数を宣言しています．
 
-わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いる場合に ``msg.sender`` をそのまま使うのは都合が悪いからです．
+わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いる場合に `msg.sender` をそのまま使うのは都合が悪いからです．
 
-以下に簡単な説明をのせておきます．詳しくは[ここ](https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx-related-contracts#2-meta-transaction%E3%81%A8%E3%81%AF-1)を参照してください． 
+以下に簡単な説明をのせておきます．詳しくは[ここ](https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx-related-contracts#2-meta-transaction%E3%81%A8%E3%81%AF-1)を参照してください．
 
-> ``msg.sender`` は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に ``msg.sender`` をラップした ``_msgSender()`` 関数を使うことによって，メタトランザクション使用時には ``_msg.sender()`` 関数をオーバーライドして返り値を書き換えることにより ``msg.sender(gas feeを支払うアドレス)`` と ``_msgSender()の返り値(txを実行したいアドレス)`` を分けることができるようになります．
+> `msg.sender` は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に `msg.sender` をラップした `_msgSender()` 関数を使うことによって，メタトランザクション使用時には `_msg.sender()` 関数をオーバーライドして返り値を書き換えることにより `msg.sender(gas feeを支払うアドレス)` と `_msgSender()の返り値(txを実行したいアドレス)` を分けることができるようになります．
 
-↓元ファイル
+↓ 元ファイル
 
 [openzeppelin-contracts/contracts/utils/Context.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol)
 
@@ -43,39 +47,39 @@ ERC20上で最初に import されているのがこのファイルです．
 
 次に import されているのがこのファイルです．
 
-このファイルでは，``interface`` という分類の ``contract`` の中で，可視性が ``private`` でないものの型定義と，コメントを用いた関数の説明がなされています．
+このファイルでは，`interface` という分類の `contract` の中で，可視性が `private` でないものの型定義と，コメントを用いた関数の説明がなされています．
 
-``abstract`` と ``interface`` の違いは，``contract`` 内に関数を内包するか否かです．
+`abstract` と `interface` の違いは，`contract` 内に関数を内包するか否かです．
 
-↓元ファイル
+↓ 元ファイル
 
 [openzeppelin-contracts/contracts/token/ERC20/IERC20.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol)
 
 ## 2.3. IERC20Metadata.sol
 
-最後に ``import`` されているのがこのファイルです．
+最後に `import` されているのがこのファイルです．
 
-このファイルでは，``interface`` という分類の ``contract`` の中で，
+このファイルでは，`interface` という分類の `contract` の中で，
 
-``_name`` 変数を参照する ``name`` 関数，
-``_symbol`` 変数を参照する ``symbol`` 関数，
-``decimals`` を定義する ``decimals`` 関数
+`_name` 変数を参照する `name` 関数，
+`_symbol` 変数を参照する `symbol` 関数，
+`decimals` を定義する `decimals` 関数
 
 の三つの関数を型定義しています．
 
-↓元ファイル
+↓ 元ファイル
 
 [openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/IERC20Metadata.sol)
 
 ## 3. ERC20.sol
 
-### 3.1. ""import"", 変数定義から "constructor" まで 
+### 3.1. ""import"", 変数定義から "constructor" まで
 
-さぁ，それでは本体である ``ERC20.sol`` についてみていきましょう．
+さぁ，それでは本体である `ERC20.sol` についてみていきましょう．
 
-まず最初に，先程紹介した3つの ``.sol`` ファイルを import した後，各 ``contract`` を ``ERC20`` という ``contract`` に継承させています．
+まず最初に，先程紹介した 3 つの `.sol` ファイルを import した後，各 `contract` を `ERC20` という `contract` に継承させています．
 
-```
+```solidity
 import "./IERC20.sol";
 import "./extensions/IERC20Metadata.sol";
 import "../../utils/Context.sol";
@@ -84,7 +88,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 そして，各グローバル変数を定義．
 
-```
+```solidity
     // このマッピングがトークン残高の本体．名付けるならトークン残高．
     // アドレスに対してトークンの量を紐づけ，残高とみなす．
     mapping(address => uint256) private _balances;
@@ -101,22 +105,22 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     string private _symbol;
 ```
 
-続いて，デプロイ時にstring変数を初期化する ``constructor`` が定義されています．引数(トークン名とトークンシンボル)はデプロイ時にコンパイルされたSolidityファイルと一緒に渡してあげます．
+続いて，デプロイ時に string 変数を初期化する `constructor` が定義されています．引数(トークン名とトークンシンボル)はデプロイ時にコンパイルされた Solidity ファイルと一緒に渡してあげます．
 
-```
+```solidity
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
     }
 ```
-### 3.2. ブロックチェーン上の変数を参照する ""view"" 関数群
 
+### 3.2. ブロックチェーン上の変数を参照する ""view"" 関数群
 
 その後に，関数が定義されていきます．
 
-まずは，変数を変更(変数に代入)できない ``view`` 関数で，処理が少ないものが定義されています．
+まずは，変数を変更(変数に代入)できない `view` 関数で，処理が少ないものが定義されています．
 
-```
+```solidity
     // トークンネームを参照する関数
     function name() public view virtual override returns (string memory) {
         return _name;
@@ -144,9 +148,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     }
 
 ```
+
 ### 3.3. 標準搭載関数群
- 
-そして，``ERC20`` に標準搭載されている関数が定義されます．
+
+そして，`ERC20` に標準搭載されている関数が定義されます．
 
 - 自分による，自分のアドレスから任意のアドレスへのトークン転送
 - 自分による，任意のアドレスからの引き出し許可残高を参照
@@ -155,11 +160,11 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 - 自分による，任意のアドレスからの引き出し許可残高の増額
 - 自分による，任意のアドレスからの引き出し許可残高の減額
 
-以上6機能のトリガーとなる関数です．適切な引数と変数を定義し，次章で解説する実際の操作が記述された ""internal"" 関数をメソッドとして呼び出しています．
+以上 6 機能のトリガーとなる関数です．適切な引数と変数を定義し，次章で解説する実際の操作が記述された ""internal"" 関数をメソッドとして呼び出しています．
 
 メソッドとトリガーと分ける理由は，複雑な関数を定義したいデベロッパーへの配慮のためでしょう．これにより，基本機能だけを用いたいデベロッパーは標準搭載関数で手間なく実装が完了でき，複雑な関数を定義したいデベロッパーは基本機能のメソッドが記述された ""internal"" 関数を骨組みとした複雑な関数の定義を容易に行えます．
 
-```
+```solidity
     // 送金を行う関数．
     // 実際の処理を行う本体とも言える_trancefer関数については，後に説明がなされる．
     // ※中身が直下に無いのは，Solidityのコーディング規則に由来する．関数の可視性によって順序づけて書くようにと
@@ -228,19 +233,17 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 ### 3.4. メソッド記述と追加機能実装を担う ""internal"" 関数群
 
-最後に，標準搭載関数のメソッドを記述するためのものや追加実装を行うためのものからなる ``internal`` 関数群が定義されています．
+最後に，標準搭載関数のメソッドを記述するためのものや追加実装を行うためのものからなる `internal` 関数群が定義されています．
 
-※``internal`` という修飾子は関数の可視性(``public``, ``private``, ``internal``, ``external``)を表しています．これついては[ここ](https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0)を見るとよいでしょう．
+※`internal` という修飾子は関数の可視性(`public`, `private`, `internal`, `external`)を表しています．これついては[ここ](https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0)を見るとよいでしょう．
 
 3.3. でものべたように，多くの関数は標準搭載関数のメソッドを記述する関数ですが，違うものもあります．
 
-まずは""_mint"" 関数と ""_burn"" 関数です．これらは文字通りトークンのミントとバーンのメソッドを記述した関数ですが，そのトリガー関数が ""ERC20.sol"" 上に標準搭載されていません．実装する場合は，[ERC20Burnable.sol]() を ""import"" して ""burn"" 関数をを定義したり，直接 "mint" 関数を定義したりして メソッドを実行する関数を定義しなければなりません．
+まずは""\_mint"" 関数と ""\_burn"" 関数です．これらは文字通りトークンのミントとバーンのメソッドを記述した関数ですが，そのトリガー関数が ""ERC20.sol"" 上に標準搭載されていません．実装する場合は，[ERC20Burnable.sol]() を ""import"" して ""burn"" 関数をを定義したり，直接 "mint" 関数を定義したりして メソッドを実行する関数を定義しなければなりません．
 
-さらに，"_beforeTokenTransfer"，"_afterTokenTransfer" という，標準搭載関数の中でトークン転送を行う関数の前後で追加操作を行う関数が定義されています．これらはデフォルトでは何も定義されておらず，実装時に "override" 修飾子をつけて記述することで関数を上書きして使用します．
+さらに，"\_beforeTokenTransfer"，"\_afterTokenTransfer" という，標準搭載関数の中でトークン転送を行う関数の前後で追加操作を行う関数が定義されています．これらはデフォルトでは何も定義されておらず，実装時に "override" 修飾子をつけて記述することで関数を上書きして使用します．
 
-
-
-```
+```solidity
 // トークン転送(送金)の仕組みがかいてある．
     // 以下を順に実行している．
     // ・自身のアドレスと相手のアドレスが0アドレスでないことを要求
@@ -377,23 +380,22 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 }
 ```
 
-↓元ファイル
+↓ 元ファイル
 
 [openzeppelin-contracts/contracts/token/ERC20/ERC20.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol)
 
+## 4. SCAM と approve 関数
 
-## 4. SCAMとapprove関数
+秘密鍵(メタマスクにおけるシードフレーズ)を SCAMMER に知られてしまえば，彼らは自身のデバイスにあなたのウォレットをインポートすることができるようになり，あなたの ERC20 トークンは彼らの手によっていとも簡単にあなたのウォレットから抜かれてしまうでしょう．
 
-秘密鍵(メタマスクにおけるシードフレーズ)を SCAMMER に知られてしまえば，彼らは自身のデバイスにあなたのウォレットをインポートすることができるようになり，あなたのERC20トークンは彼らの手によっていとも簡単にあなたのウォレットから抜かれてしまうでしょう．
+しかし，秘密鍵を知られなければ SCAM 被害にはあわないのでしょうか？
 
-しかし，秘密鍵を知られなければSCAM被害にはあわないのでしょうか？
+答えは NO です．
 
-答えはNOです．
+例えば，SCAM サイトのウォレットコネクトボタンに，メタマスクを呼び出す `web3.js` や `ethers.js` によるウォレットコネクトリクエストに加えて，あなたの残高からの多額の引き出し許可を SCAMMERs のウォレットに対して与える単一または複数の `approve` 関数の実行を承認するための関数実行リクエストが仕込まれていた場合のことを考えてみましょう．
 
-例えば，SCAMサイトのウォレットコネクトボタンに，メタマスクを呼び出す ``web3.js`` や ``ethers.js`` によるウォレットコネクトリクエストに加えて，あなたの残高からの多額の引き出し許可を SCAMMERs のウォレットに対して与える単一または複数の ``approve`` 関数の実行を承認するための関数実行リクエストが仕込まれていた場合のことを考えてみましょう．
-
-あなたがウォレットコネクト要求を承認すると，もう一つの承認を要求されます．そのトランザクションに署名してしまったが最後，あなたのウォレットは特定の1種または複数の通貨の残高を SCAMMER から抜かれ放題な状態になります．
+あなたがウォレットコネクト要求を承認すると，もう一つの承認を要求されます．そのトランザクションに署名してしまったが最後，あなたのウォレットは特定の 1 種または複数の通貨の残高を SCAMMER から抜かれ放題な状態になります．
 
 SCAMMERs による攻撃はこのような方法だけというわけではなく，今この瞬間にもあたらしい手法が開発されていることでしょう．
 
-信頼のおけるサイト以外からのメタマスクのリクエストには十分に注意を払い，初回や怪しいと思った際には必ず，各チェーンの SCANNING アプリケーションで ``contract`` を確認してみるようにしましょう．
+信頼のおけるサイト以外からのメタマスクのリクエストには十分に注意を払い，初回や怪しいと思った際には必ず，各チェーンの SCANNING アプリケーションで `contract` を確認してみるようにしましょう．

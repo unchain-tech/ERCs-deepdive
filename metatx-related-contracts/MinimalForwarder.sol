@@ -3,8 +3,8 @@
 
 pragma solidity ^0.8.0;
 
-import "../utils/cryptography/ECDSA.sol";
-import "../utils/cryptography/draft-EIP712.sol";
+import "./ECDSA.sol";
+import "./draft-EIP712.sol";
 
 // 主にテスト用のコントラクト、実運用するためのforwarderとしては機能が不十分。
 // from address(送信者)の署名とNonceを検証する

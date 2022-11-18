@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.9;
 
-import "../utils/Context.sol";
+import "./Context.sol";
 
 // metatxのRecipientContractにあたるContractに継承するコントラクト
 // trustedForwarderからmetatxを受け取るときに使用する

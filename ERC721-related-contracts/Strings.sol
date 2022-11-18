@@ -11,6 +11,7 @@ pragma solidity ^0.8.0;
 library Strings {
     bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
     uint8 private constant _ADDRESS_LENGTH = 20;
+
     // この関数は，引数のuintをストリング形式に変換しています．
     // 一つ目のwhile文で引数に指定したuintの桁数をuint変数であるdigitsに格納します．
     // 二つ目のwhile文では，まず引数のuintの一桁一桁を10を法としたmod演算(%)で分割した後，
@@ -68,7 +69,11 @@ library Strings {
     /**
      * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.
      */
-    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {
+    function toHexString(uint256 value, uint256 length)
+        internal
+        pure
+        returns (string memory)
+    {
         bytes memory buffer = new bytes(2 * length + 2);
         buffer[0] = "0";
         buffer[1] = "x";

@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../IERC721.sol";
+import "./IERC721.sol";
 
 // このファイルでは，``interface`` という分類の ``contract`` の中で，
 // ``ERC721.sol`` 内で ``_name`` 変数を参照する ``name`` 関数，

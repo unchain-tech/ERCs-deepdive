@@ -5,11 +5,11 @@ pragma solidity ^0.8.0;
 
 import "./IERC721.sol";
 import "./IERC721Receiver.sol";
-import "./extensions/IERC721Metadata.sol";
-import "../../utils/Address.sol";
-import "../../utils/Context.sol";
-import "../../utils/Strings.sol";
-import "../../utils/introspection/ERC165.sol";
+import "./IERC721Metadata.sol";
+import "./Address.sol";
+import "./Context.sol";
+import "./Strings.sol";
+import "./ERC165.sol";
 
 /**
  * @dev Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including
@@ -64,7 +64,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC165, IERC165)
+        returns (bool)
+    {
         return
             interfaceId == type(IERC721).interfaceId ||
             interfaceId == type(IERC721Metadata).interfaceId ||
@@ -76,8 +82,17 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-balanceOf}.
      */
-    function balanceOf(address owner) public view virtual override returns (uint256) {
-        require(owner != address(0), "ERC721: address zero is not a valid owner");
+    function balanceOf(address owner)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        require(
+            owner != address(0),
+            "ERC721: address zero is not a valid owner"
+        );
         return _balances[owner];
     }
 
@@ -86,7 +101,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-ownerOf}.
      */
-    function ownerOf(uint256 tokenId) public view virtual override returns (address) {
+    function ownerOf(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (address)
+    {
         address owner = _owners[tokenId];
         require(owner != address(0), "ERC721: invalid token ID");
         return owner;
@@ -116,11 +137,20 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721Metadata-tokenURI}.
      */
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
         _requireMinted(tokenId);
 
         string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
+        return
+            bytes(baseURI).length > 0
+                ? string(abi.encodePacked(baseURI, tokenId.toString()))
+                : "";
     }
 
     // 上で言及したメタデータの中身．
@@ -145,7 +175,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         // 同一ならrevert．
         require(to != owner, "ERC721: approval to current owner");
 
-
         // トランザクション送信者が当該tokenのownerまたは移送許可を受けた者であるか確認
         require(
             _msgSender() == owner || isApprovedForAll(owner, _msgSender()),
@@ -160,7 +189,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-getApproved}.
      */
-    function getApproved(uint256 tokenId) public view virtual override returns (address) {
+    function getApproved(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (address)
+    {
         // mintされているものかを確認
         _requireMinted(tokenId);
 
@@ -174,7 +209,11 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-setApprovalForAll}.
      */
-    function setApprovalForAll(address operator, bool approved) public virtual override {
+    function setApprovalForAll(address operator, bool approved)
+        public
+        virtual
+        override
+    {
         // 挙動を司る子関数を呼び出している
         _setApprovalForAll(_msgSender(), operator, approved);
     }
@@ -183,7 +222,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-isApprovedForAll}.
      */
-    function isApprovedForAll(address owner, address operator) public view virtual override returns (bool) {
+    function isApprovedForAll(address owner, address operator)
+        public
+        view
+        virtual
+        override
+        returns (bool)
+    {
         // 移送許可情報が記録されているマッピングを参照
         return _operatorApprovals[owner][operator];
     }
@@ -199,7 +244,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     ) public virtual override {
         //solhint-disable-next-line max-line-length
         // 移送許可があるかどうかを確認
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner or approved");
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "ERC721: caller is not token owner or approved"
+        );
 
         // 挙動を司る子関数を呼び出している
         _transfer(from, to, tokenId);
@@ -229,7 +277,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         bytes memory data
     ) public virtual override {
         // 移送許可があるかどうかを確認
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner or approved");
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "ERC721: caller is not token owner or approved"
+        );
         // 挙動を司る関数を呼び出している
         _safeTransfer(from, to, tokenId, data);
     }
@@ -262,7 +313,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         // 挙動を司る子関数を呼び出している
         _transfer(from, to, tokenId);
         // 送信先がコントラクトでかつERC721Receiverを採用していない場合revertする
-        require(_checkOnERC721Received(from, to, tokenId, data), "ERC721: transfer to non ERC721Receiver implementer");
+        require(
+            _checkOnERC721Received(from, to, tokenId, data),
+            "ERC721: transfer to non ERC721Receiver implementer"
+        );
     }
 
     // _requireMinted()関数の子関数．
@@ -289,11 +343,18 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      *
      * - `tokenId` must exist.
      */
-    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
+    function _isApprovedOrOwner(address spender, uint256 tokenId)
+        internal
+        view
+        virtual
+        returns (bool)
+    {
         // マッピングを用いてIdからオーナーアドレスを参照しローカル変数に定義
         address owner = ERC721.ownerOf(tokenId);
         // 引数のアドレスとオーナー，上位移送許可の有無，そして通常移送許可の有無についての真偽演算を論理和にかける
-        return (spender == owner || isApprovedForAll(owner, spender) || getApproved(tokenId) == spender);
+        return (spender == owner ||
+            isApprovedForAll(owner, spender) ||
+            getApproved(tokenId) == spender);
     }
 
     // _mint関数にERC721Rceiverを適用した関数．
@@ -312,8 +373,8 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         _safeMint(to, tokenId, "");
     }
 
-    直上から呼び出される子関数．
-    ERC721Rceiverを適用している．
+    //直上から呼び出される子関数．
+    //ERC721Rceiverを適用している．
     /**
      * @dev Same as {xref-ERC721-_safeMint-address-uint256-}[`_safeMint`], with an additional `data` parameter which is
      * forwarded in {IERC721Receiver-onERC721Received} to contract recipients.
@@ -417,7 +478,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         uint256 tokenId
     ) internal virtual {
         // 引数tokenIdのトークンownerが引数のfromと一致しているか確認する
-        require(ERC721.ownerOf(tokenId) == from, "ERC721: transfer from incorrect owner");
+        require(
+            ERC721.ownerOf(tokenId) == from,
+            "ERC721: transfer from incorrect owner"
+        );
         // 移送先が0アドレスでないことを確認
         require(to != address(0), "ERC721: transfer to the zero address");
 
@@ -505,17 +569,26 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         if (to.isContract()) {
             // 当該コントラクトERC721Rceiverを実装しているか確かめる
             // 実装されていれば関数のセレクター(関数識別子)が返ってくるので，真偽演算で判定する
-            try IERC721Receiver(to).onERC721Received(_msgSender(), from, tokenId, data) returns (bytes4 retval) {
+            try
+                IERC721Receiver(to).onERC721Received(
+                    _msgSender(),
+                    from,
+                    tokenId,
+                    data
+                )
+            returns (bytes4 retval) {
                 // onERC721Receiverの正しい関数識別子を呼び出し，to上での当該関数識別子呼び出しと比較
                 return retval == IERC721Receiver.onERC721Received.selector;
             } catch (bytes memory reason) {
                 // reasonのlengthプロパティを参照
                 // 空ならばカスタムエラーは存在しない
                 if (reason.length == 0) {
-                    revert("ERC721: transfer to non ERC721Receiver implementer");
-                // 空でない場合，カスタムエラーが存在するので，
-                // エラー内容をアセンブリrevertでキャッチする
-                // https://ethereum.stackexchange.com/questions/133748/trying-to-understand-solidity-assemblys-revert-function
+                    revert(
+                        "ERC721: transfer to non ERC721Receiver implementer"
+                    );
+                    // 空でない場合，カスタムエラーが存在するので，
+                    // エラー内容をアセンブリrevertでキャッチする
+                    // https://ethereum.stackexchange.com/questions/133748/trying-to-understand-solidity-assemblys-revert-function
                 } else {
                     /// @solidity memory-safe-assembly
                     assembly {
