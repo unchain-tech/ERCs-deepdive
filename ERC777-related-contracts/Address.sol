@@ -4,7 +4,7 @@
 pragma solidity ^0.8.1;
 
 // このファイルではAddress型，主にコントラクトのアドレスを変数にとる関数を集めたライブラリが定義されています．
-// ERC721に使われているのは``isContract``関数のみであるため，解説はそこのみにとどめます．
+// ERC777に使われているのは``isContract``関数のみであるため，解説はそこのみにとどめます．
 /**
  * @dev Collection of functions related to the address type
  */
