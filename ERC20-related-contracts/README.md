@@ -239,7 +239,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 3.3. でものべたように，多くの関数は標準搭載関数のメソッドを記述する関数ですが，違うものもあります．
 
-まずは""\_mint"" 関数と ""\_burn"" 関数です．これらは文字通りトークンのミントとバーンのメソッドを記述した関数ですが，そのトリガー関数が ""ERC20.sol"" 上に標準搭載されていません．実装する場合は，[ERC20Burnable.sol]() を ""import"" して ""burn"" 関数をを定義したり，直接 "mint" 関数を定義したりして メソッドを実行する関数を定義しなければなりません．
+まずは""\_mint"" 関数と ""\_burn"" 関数です．これらは文字通りトークンのミントとバーンのメソッドを記述した関数ですが，そのトリガー関数が ""ERC20.sol"" 上に標準搭載されていません．実装する場合は，[ERC20Burnable.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/ERC20Burnable.sol) を ""import"" して ""burn"" 関数をを定義したり，直接 "mint" 関数を定義したりして メソッドを実行する関数を定義しなければなりません．
 
 さらに，"\_beforeTokenTransfer"，"\_afterTokenTransfer" という，標準搭載関数の中でトークン転送を行う関数の前後で追加操作を行う関数が定義されています．これらはデフォルトでは何も定義されておらず，実装時に "override" 修飾子をつけて記述することで関数を上書きして使用します．
 
