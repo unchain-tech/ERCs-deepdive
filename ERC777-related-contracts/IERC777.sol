@@ -3,6 +3,8 @@
 
 pragma solidity ^0.8.0;
 
+// ERC777に登場する多くの関数・イベントについて型定義されています．
+// 各関数のコメントには，関数について少し説明がなされています．
 /**
  * @dev Interface of the ERC777Token standard as defined in the EIP.
  *
