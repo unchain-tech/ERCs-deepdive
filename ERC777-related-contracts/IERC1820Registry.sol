@@ -3,10 +3,10 @@
 
 pragma solidity ^0.8.0;
 
-// このファイルはERC1820のインタフェースを定義しています。
+// このファイルはERC1820のインタフェースを定義しています.
 // ERC1820はインタフェースのハッシュ値とそのインタフェースを実装するコントラクトのアドレスの関係をマッピングにより登録・管理します.
-// ERC1820のコントラクトはブロックチェーン内に1つだけ存在し, ブロックチェーン内のコントラクトがどのインタフェースを実装しているのかを保存する台帳となります。
-// Managerという機能により, コントラクトの登録はすべてのアカウント(レギュラーアカウント/コントラクト)が実行可能です。
+// ERC1820のコントラクトはブロックチェーン内に1つだけ存在し, ブロックチェーン内のコントラクトがどのインタフェースを実装しているのかを保存する台帳となります.
+// Managerという機能により, コントラクトの登録はすべてのアカウント(レギュラーアカウント/コントラクト)が実行可能です.
 // ERC777に使われているのは``setInterfaceImplementer``/``getInterfaceImplementer``関数のみであるため，解説はそこのみにとどめます．
 /**
  * @dev Interface of the global ERC1820 Registry, as defined in the
@@ -49,10 +49,10 @@ interface IERC1820Registry {
      */
     function getManager(address account) external view returns (address);
 
-    // 引数のimplementerコントラクトをinterfaceHashを実装しているものとして登録します。
-    // accountは「この登録を行うアカウントのアドレス」= Managerを指します。
-    // Managerは事前に設定されていない場合はaccountをManagerとみなします。
-    // interfaceHashの生成方法はERC777で実際に使用されている部分を見るとわかります。
+    // 引数のimplementerコントラクトをinterfaceHashを実装しているものとして登録します.
+    // accountは「この登録を行うアカウントのアドレス」= Managerを指します.
+    // Managerは事前に設定されていない場合はaccountをManagerとみなします.
+    // interfaceHashの生成方法はERC777で実際に使用されている部分を見るとわかります.
     /**
      * @dev Sets the `implementer` contract as ``account``'s implementer for
      * `interfaceHash`.
@@ -75,8 +75,8 @@ interface IERC1820Registry {
      */
     function setInterfaceImplementer(address account, bytes32 _interfaceHash, address implementer) external;
 
-    // 引数のアカウントが登録したインタフェースを実装しているコントラクトのアドレスを返却します。
-    // 登録されていない場合は0アドレスを返却します。
+    // 引数のアカウントが登録したインタフェースを実装しているコントラクトのアドレスを返却します.
+    // 登録されていない場合は0アドレスを返却します.
     /**
      * @dev Returns the implementer of `interfaceHash` for `account`. If no such
      * implementer is registered, returns the zero address.
