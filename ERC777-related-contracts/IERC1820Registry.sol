@@ -52,6 +52,8 @@ interface IERC1820Registry {
     // 引数のimplementerコントラクトをinterfaceHashを実装しているものとして登録します.
     // accountは「この登録を行うアカウントのアドレス」= Managerを指します.
     // Managerは事前に設定されていない場合はaccountをManagerとみなします.
+    // accountに0x0を指定した場合: msg.senderを指します。
+    // implementerに0x0を指定した場合: implementerの登録を削除します。
     // interfaceHashの生成方法はERC777で実際に使用されている部分を見るとわかります.
     /**
      * @dev Sets the `implementer` contract as ``account``'s implementer for
@@ -76,7 +78,7 @@ interface IERC1820Registry {
     function setInterfaceImplementer(address account, bytes32 _interfaceHash, address implementer) external;
 
     // 引数のアカウントが登録したインタフェースを実装しているコントラクトのアドレスを返却します.
-    // 登録されていない場合は0アドレスを返却します.
+    // 登録されていない場合は0x0アドレスを返却します.
     /**
      * @dev Returns the implementer of `interfaceHash` for `account`. If no such
      * implementer is registered, returns the zero address.
