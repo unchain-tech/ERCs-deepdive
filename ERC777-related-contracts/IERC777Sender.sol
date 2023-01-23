@@ -34,7 +34,7 @@ interface IERC777Sender {
     // 引数の内容は以下です.
     // operator: operator
     // from: holder
-    // to: トークンの転送先
+    // to: トークンの転送先(0x0の場合はトークンが焼却されることを指す)
     // amount: 転送量
     // userData: (空でなければ)転送に付与されたデータ
     // operatorData: (空でなければ)operatorによって付与されたデータ
