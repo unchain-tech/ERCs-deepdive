@@ -4,8 +4,8 @@
 pragma solidity ^0.8.0;
 
 // `IERC777Sender`は`tokensToSend`という関数の実装を定義するインタフェースです.
-// `tokensToSend`はトークンホルダーの「トークンがどこかに転送される」=「トークンが減少する」アクションが起きた際に, 
-// そのことをトークンホルダーに通知する役目を担います.
+// `tokensToSend`はトークン保有者の「トークンがどこかに転送される」=「トークンが減少する」アクションが起きた際に, 
+// そのことをトークン保有者に通知する役目を担います.
 //
 // 以下に`IERC777Sender`と`tokensToSend`が使用される場面を示します. 先に`ERC777`と`IERC1820`のファイル冒頭の説明に目を通してください.
 // 登場人物: `ERC777`のholderであるH. HのoperatorであるO.
@@ -28,6 +28,16 @@ pragma solidity ^0.8.0;
  * See {IERC1820Registry} and {ERC1820Implementer}.
  */
 interface IERC777Sender {
+    // この関数はholderの残高が変更される前に呼び出される必要がある.
+    // revert処理を入れることでトークンの転送をキャンセルすることが可能.
+    // msg.senderはERC777であることが期待される.
+    // 引数の内容は以下です.
+    // operator: operator
+    // from: holder
+    // to: トークンの転送先
+    // amount: 転送量
+    // userData: (空でなければ)転送に付与されたデータ
+    // operatorData: (空でなければ)operatorによって付与されたデータ
     /**
      * @dev Called by an {IERC777} token contract whenever a registered holder's
      * (`from`) tokens are about to be moved or destroyed. The type of operation
