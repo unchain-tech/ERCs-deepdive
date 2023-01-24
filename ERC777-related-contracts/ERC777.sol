@@ -12,9 +12,11 @@ import "../../utils/Context.sol";
 import "../../utils/introspection/IERC1820Registry.sol";
 
 // ERC777には以下の用語があります.
-// ホルダー: トークンの保有者.
-// オペレータ: ホルダーに代わってトークンを送信したりバーンすることができるアドレス. 
-// 全てのアカウントは自分自身のオペレータであり, 自分自身をオペレータから削除することはできません. つまり自身のトークンを制御できなくなることはありません.
+// holder: トークンの保有者.
+// operator: holderに代わってトークンを送信したり焼却(バーン)することができるアドレス. 
+//
+// 全てのアカウントは自分自身のoperatorであり, 自分自身をoperatorから削除することはできません. 
+// つまり自身のトークンを制御できなくなることはありません.
 
 /**
  * @dev Implementation of the {IERC777} interface.
@@ -37,7 +39,7 @@ contract ERC777 is Context, IERC777, IERC20 {
     using Address for address;
 
     // ERC1820をインスタンス化.
-    // ERC1820はブロックチェーン上に1つのみなのでアドレス値は固定です.
+    // ERC1820はブロックチェーン内に1つのみなのでアドレス値は固定です.
     IERC1820Registry internal constant _ERC1820_REGISTRY = IERC1820Registry(0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24);
 
     // このマッピングがトークン残高の本体．名付けるならトークン残高．
@@ -52,26 +54,40 @@ contract ERC777 is Context, IERC777, IERC20 {
     string private _symbol;
 
     // インタフェースのハッシュ値を保存. 
-    // 後にIERC1820を介して, これらのインタフェースをアカウントが実装しているかどうかの判定に使用する.
+    // 後にIERC1820を介して, これらのインタフェースを実装したアカウントが登録されているかの判定に使用する.
     bytes32 private constant _TOKENS_SENDER_INTERFACE_HASH = keccak256("ERC777TokensSender");
     bytes32 private constant _TOKENS_RECIPIENT_INTERFACE_HASH = keccak256("ERC777TokensRecipient");
 
-    // コントラクト作成時に設定される, 全てのホルダーのデフォルトのオペレータの集まり.
-    // ホルダーはデフォルトオペレータの取り消し・再認証が可能.
-    // 規則など詳細は{IERC777-Operators}.
+    // 全てのholderに適用されるデフォルトのoperatorのリスト.
+    // 後述のコントラクト作成(コンストラタ)時に設定できる.
+    // セキュリティ上の理由からコントラクト作成後のリストの変更はできない.
+    // holderはデフォルトoperatorの取り消し・再認証が可能.
     // This isn't ever read from - it's only used to respond to the defaultOperators query.
     address[] private _defaultOperatorsArray;
 
+    // このマッピングは, 任意のアドレスがデフォルトoperatorであるかを判別するために使用される.
+    // 後述のコンストラクタで, _defaultOperatorsArrayを元に記録される.
     // Immutable, but accounts may revoke them (tracked in __revokedDefaultOperators).
     mapping(address => bool) private _defaultOperators;
 
+    // これらのマッピングは, アドレスAに対してアドレスBがoperatorであるかを判別するために使用される.
+    // アドレスBがデフォルトoperatorの場合は_revokedDefaultOperatorsが使用される.
     // For each account, a mapping of its operators and revoked default operators.
     mapping(address => mapping(address => bool)) private _operators;
     mapping(address => mapping(address => bool)) private _revokedDefaultOperators;
 
+    // このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．
+    // 任意のアドレスAから，他の任意のアドレスBに対してアドレスAの残高からの引き出し許可を与えるというもの．
+    // ERC20との後方互換性のために実装されている.
     // ERC20-allowances
     mapping(address => mapping(address => uint256)) private _allowances;
 
+    // コントラクト作成時の処理を記述する関数.
+    // nameやsymbolを記録する.
+    // デフォルトoperatorを記録する.
+    // `ERC777Token`インタフェースと共に自身を`ERC1820`に登録する必要がある.
+    // また, ERC20との後方互換性を維持する場合は同様に`ERC1820`に登録する必要がある.
+    // もしコントラクトにERC777/ERC20の機能を有効/無効にするような実装がある場合は, `ERC1820`への登録/解除も併せて行う必要がある.
     /**
      * @dev `defaultOperators` may be an empty array.
      */
@@ -105,10 +121,10 @@ contract ERC777 is Context, IERC777, IERC20 {
         return _symbol;
     }
 
-    // TODO 最後の部分読んだら書く
-    // ここも読む
-    // ERC-20 compatibility requirement:
-    // The decimals of the token MUST always be 18. For a pure ERC777 token the ERC-20 decimals function is OPTIONAL, and its existence SHALL NOT be relied upon when interacting with the token contract. (The decimal value of 18 is implied.) For an ERC-20 compatible token, the decimals function is REQUIRED and MUST return 18. (In ERC-20, the decimals function is OPTIONAL. If the function is not present, the decimals value is not clearly defined and may be assumed to be 0. Hence for compatibility reasons, decimals MUST be implemented for ERC-20 compatible tokens.)
+    // decimalsを返す関数．
+    // `ERC-20`との後方互換性を保つ場合は, decimalsが参照される可能性があるため実装する必要がある.
+    // 実装した場合は常に18を返さなければならない.
+    // 18に強制する理由は, 一般的または暗黙的に使用されている10^18の単位とこのトークンの単位に違いが出ることによる混乱を避けるためだと思われる.
     /**
      * @dev See {ERC20-decimals}.
      *
@@ -122,7 +138,7 @@ contract ERC777 is Context, IERC777, IERC20 {
     // トークンが分割できる最小単位を返却する関数.
     // ほとんどのトークンの場合は完全に分割できるべきで, 任意の量による分割を許可しない正当な理由がない限り1を返すべき.
     // ゲーム内アイテムの購入など, コントラクトが特定の用途と数量に限られている場合に不正転送を防ぐなどが前述の正当な理由になるかもしれない.
-    // granularityの規則など詳細は{IERC777-granularity}を参照.
+    // granularityに1以外を設定する場合は, トークンの発行・送信・焼却の際にその数量がgranularityの倍数でなければいけないことに注意.
     /**
      * @dev See {IERC777-granularity}.
      *
@@ -150,8 +166,11 @@ contract ERC777 is Context, IERC777, IERC20 {
 
     // トークンを送信する関数．
     // 実際の処理を行う本体とも言える_send関数については，後に説明がなされる．
-    // ホルダーはオペレータもmsg.senderである.
-    // TODO: reciepientのtrueについてなぜか考察
+    // ERC20でトークン送信に使用されるtransferとは定義を明確に分けるためにsendという名前で定義されている.
+    // Etherと同じようにsend(recipient, amount, data)という形式で実行でき, dataには任意のデータを渡すことができる.
+    // _send関数に渡す引数について以下参考.
+    // ・operatorData: holder自身による実行を想定しているため空文字列
+    // ・requireReceptionAck: ERC20の機能と区別するためにあるbool値で, デフォルトではtrue.
     /**
      * @dev See {IERC777-send}.
      *
@@ -161,6 +180,11 @@ contract ERC777 is Context, IERC777, IERC20 {
         _send(_msgSender(), recipient, amount, data, "", true);
     }
 
+    // トークンを送信する関数.
+    // 実際の処理を行う本体とも言える_send関数については，後に説明がなされる．
+    // ERC20との後方互換性のために実装されている.
+    // _send関数に渡す引数について以下参考.
+    // ・data/operatorData/requireReceptionAck: ERC20には無い概念のため空文字列 or false
     /**
      * @dev See {IERC20-transfer}.
      *
@@ -174,6 +198,12 @@ contract ERC777 is Context, IERC777, IERC20 {
         return true;
     }
 
+    // トークンを焼却する関数．
+    // 実際の処理を行う本体とも言える_burn関数については，後に説明がなされる．
+    // ERC20では明示的に定義されていなかった関数だが, ERC777ではウォレットやDappsにトークン焼却のプロセスを統合することを想定して明示的に定義されている.
+    // しかし, コントラクトの実装として一部または全holderがトークンを焼却することを禁止してもよい.
+    // _burn関数に渡す引数について以下参考.
+    // ・operatorData: holder自身による実行を想定しているため空文字列
     /**
      * @dev See {IERC777-burn}.
      *
@@ -183,7 +213,10 @@ contract ERC777 is Context, IERC777, IERC20 {
         _burn(_msgSender(), amount, data, "");
     }
 
-    // 引数のアドレスがホルダーのオペレータであるか否かを返却する関数.
+    // 引数の`operator`と`tokenHolder`の間にoperatorとholderの関係があるか否かを返却する関数.
+    // ・2つのアドレスが同じ場合は, 全てのholderは自身のoperatorでもあるためtrue
+    // ・`operator`がデフォルトoperatorで, `tokenHolder`によって取り消されていなければtrue
+    // ・`operator`が`tokenHolder`のoperatorに設定されていればtrue
     /**
      * @dev See {IERC777-isOperatorFor}.
      */
@@ -194,7 +227,10 @@ contract ERC777 is Context, IERC777, IERC20 {
             _operators[tokenHolder][operator];
     }
 
-    // 引数で渡されたオペレータを, 関数を呼び出したアカウントのオペレータとして認証する関数.
+    // 引数の`operator`を, 関数を呼び出したアカウントのoperatorとして認証する関数.
+    // 全てのholderが自身のoperatorでもあることは不変で, その関係性の取り消しや再認証はできない.
+    // `operator`がデフォルトoperatorである場合は, 「_revokedDefaultOperatorsから削除する」=「再認証」.
+    // そうでない場合は_operatorsに追加しoperatorとして設定する.
     /**
      * @dev See {IERC777-authorizeOperator}.
      */
@@ -210,7 +246,10 @@ contract ERC777 is Context, IERC777, IERC20 {
         emit AuthorizedOperator(operator, _msgSender());
     }
 
-    // 引数で渡されたオペレータを, 関数を呼び出したアカウントのオペレータから削除する関数.
+    // 引数の`operator`を, 関数を呼び出したアカウントのoperatorから削除する関数.
+    // 全てのholderが自身のoperatorでもあることは不変で, その関係性の取り消しや再認証はできない.
+    // `operator`がデフォルトoperatorである場合は, 「_revokedDefaultOperatorsに追加する」=「取り消し」.
+    // そうでない場合は_operatorsから削除しoperator設定を取り消す.
     /**
      * @dev See {IERC777-revokeOperator}.
      */
@@ -226,7 +265,7 @@ contract ERC777 is Context, IERC777, IERC20 {
         emit RevokedOperator(operator, _msgSender());
     }
 
-    // デフォルトオペレータを返却する関数.
+    // デフォルトoperatorを返却する関数.
     /**
      * @dev See {IERC777-defaultOperators}.
      */
@@ -234,11 +273,12 @@ contract ERC777 is Context, IERC777, IERC20 {
         return _defaultOperatorsArray;
     }
 
-    // オペレータ(msg.sender)がホルダー(引数ではsender)に代わってトークンを送信する関数.
-    // msg.senderとsenderが同じ場合, operatorDataの存在を除いてはsend関数と同じである.
-    // operatorData: dataに似ているが, オペレータによってのみ提供されるデータ.
-    //               ロギングや特定のケース(支払いの参照など)目的で使われる.
-    //               トークン受信者はこのデータを無視するか, 使っても記録する程度とのこと.
+    // operator(msg.sender)がholder(引数では`sender`)に代わってトークンを送信する関数.
+    // operatorに権限がない場合はトランザクションをキャンセルする.
+    // 実際の処理を行う本体とも言える_send関数については，後に説明がなされる．
+    // msg.senderと`sender`が同じ場合, operatorDataの存在を除いてはsend関数と同じである.
+    // _send関数に渡す引数について以下参考.
+    // ・requireReceptionAck: ERC20の機能と区別するためにあるbool値で, デフォルトではtrue.
     /**
      * @dev See {IERC777-operatorSend}.
      *
@@ -255,6 +295,9 @@ contract ERC777 is Context, IERC777, IERC20 {
         _send(sender, recipient, amount, data, operatorData, true);
     }
 
+    // operator(msg.sender)がholder(引数では`account`)に代わってトークンを焼却する関数.
+    // operatorに権限がない場合はトランザクションをキャンセルする.
+    // msg.senderと`account`が同じ場合, operatorDataの存在を除いてはburn関数と同じである.
     /**
      * @dev See {IERC777-operatorBurn}.
      *
@@ -270,6 +313,9 @@ contract ERC777 is Context, IERC777, IERC20 {
         _burn(account, amount, data, operatorData);
     }
 
+    // allowance(引き出し許可残高)を参照する関数．
+    // 最初の方で定義した_allowancesマッピングを参照している．
+    // ERC20との後方互換性のために実装されている.
     /**
      * @dev See {IERC20-allowance}.
      *
@@ -281,6 +327,9 @@ contract ERC777 is Context, IERC777, IERC20 {
         return _allowances[holder][spender];
     }
 
+    // 引き出し許可残高を変更する関数．
+    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
+    // ERC20との後方互換性のために実装されている.
     /**
      * @dev See {IERC20-approve}.
      *
@@ -295,6 +344,12 @@ contract ERC777 is Context, IERC777, IERC20 {
         return true;
     }
 
+    // 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．
+    // ERC20との後方互換性のために実装されている.
+    // 以下を順に実行している．
+    // ・_spendAllowance関数で引き出し許可残高を引き出す残高だけへらす
+    // ・_send関数で対象アドレスから自身のアドレスへ，残高を移動させる
+    // 実際の処理を行う本体とも言える_のついた関数については，後に説明がなされる．
     /**
      * @dev See {IERC20-transferFrom}.
      *
@@ -314,6 +369,10 @@ contract ERC777 is Context, IERC777, IERC20 {
         return true;
     }
 
+    // _mint関数(後に説明がなされる)を呼び出す関数．
+    // _mint関数には`requireReceptionAck`という引数があり, 
+    // この引数はERC20の機能と区別するためにあるbool値で, デフォルトではtrue.
+    // そのためわざわざtrueを指定しなくても実行できるようにこの関数が実装されていると思われる.
     /**
      * @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
@@ -336,6 +395,18 @@ contract ERC777 is Context, IERC777, IERC20 {
         _mint(account, amount, userData, operatorData, true);
     }
 
+    // トークンmint(貨幣発行)の仕組みがかいてある．
+    // 一般的にmintプロセスは各トークンに固有であるため, ERC-777標準では定義されていない. そのためmint関数はない.
+    // 以下を順に実行している．
+    // ・自身のアドレスが0アドレスでないことを要求
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・mintしたい量(amount)を総供給量に追加
+    // ・mint(mint先のアドレスの残高をamount分だけ増加させる)
+    // ・アカウントのトークン残高が増加したため_callTokensReceivedを実行(後述)
+    //   operatorDataはoperatorが_mintを呼び出す際に使用されるデータ.
+    //   _callTokensReceived内で実行される関数で使用される可能性がある.
+    // ・mint完了をMintedイベントでフロントへ通知
+    // ・ERC20との後方互換性のためにTransferイベントも発生させる.
     /**
      * @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
@@ -378,10 +449,24 @@ contract ERC777 is Context, IERC777, IERC20 {
     }
 
     // トークン転送(送金)の流れが書いてある．
-    // msg.senderをオペレータとする. 
-    // ホルダーがsend関数経由で呼び出している場合(msg.sender=ホルダー)についてもホルダーはオペレータでもあるので問題ない.
-    // _callTokensToSend -> _move -> _callTokensReceived の順に実行する.
-    // 各関数については後に説明がなされる.
+    // 実際の処理を行う本体とも言える_のついた関数については，後に説明がなされる．
+    // 以下を順に実行している．
+    // ・各アカウントのアドレスが0x0でないことを要求
+    // ・msg.senderをoperatorとする
+    // 　※ holderがこの関数を呼び出している場合(msg.sender=holder)についてもholderは自身のoperatorでもあるので成立する.
+    // ・`from`(=holder)の残高が減るため, トークン残高を変更する前に_callTokensToSendを呼び出す
+    // ・トークンの残高を変更するために_move関数を呼び出す
+    // ・`to`の残高が増えたため, トークン残高を変更後に_callTokensToSendを呼び出す
+    //
+    // ERC20の後方互換性のために実装されたtransfer/transferFromにおいてもこの_send関数が使用される.
+    // つまり, ERC20には無い_callTokensToSend/_callTokensToSend関数の実行が行われるが, これは後方互換性より優先されるとのこと.
+    //
+    // データ引数について以下に説明をする.
+    //         data: etherの送信と同様に, holderによって提供された情報を含む.
+    //               _callTokensToSend, _callTokensReceived内で呼び出される関数でトランザクションを拒否するどうかの判断に使用することも可能.
+    // operatorData: dataに似ているが, operatorによってのみ提供されるデータ.
+    //               ロギの記録や特定のケース(支払いの参照など)目的で使われる.
+    //               トークン受信者はこのデータを無視するか, 使っても記録する程度とのこと.
     /**
      * @dev Send tokens
      * @param from address token holder address
@@ -411,6 +496,26 @@ contract ERC777 is Context, IERC777, IERC20 {
         _callTokensReceived(operator, from, to, amount, userData, operatorData, requireReceptionAck);
     }
 
+    // トークンburn(貨幣の消去，焼却)の仕組みがかいてある．
+    // 以下を順に実行している．
+    // ・`from`が0x0でないことを要求
+    // ・msg.senderをoperatorとする
+    // 　※ holderがこの関数を呼び出している場合(msg.sender=holder)についてもholderは自身のoperatorでもあるので成立する.
+    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
+    // ・`from`(=holder)の残高が減るため, トークン残高を変更する前に_callTokensToSend(後述)を呼び出す
+    // ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認
+    //   ※ 既に送金元の残高が0より小さくならないことを確認しているため, 
+    //     次の処理ではuncheckedで囲み余計な処理(オーバーフローの検証)を除くことでガス軽減を狙っているのだろう．
+    // ・送金(送金元アドレスと総供給量の残高をamount分だけ増減させる)
+    // ・送金完了をBurnedイベントでフロントへ通知
+    // ・ERC20との後方互換性のためにTransferイベントも発生させる.
+    //
+    // データ引数について以下に説明をする.
+    //         data: etherの送信と同様に, holderによって提供された情報を含む.
+    //               _callTokensToSend, _callTokensReceived内で呼び出される関数でトランザクションを拒否するどうかの判断に使用することも可能.
+    // operatorData: dataに似ているが, operatorによってのみ提供されるデータ.
+    //               ロギの記録や特定のケース(支払いの参照など)目的で使われる.
+    //               トークン受信者はこのデータを無視するか, 使っても記録する程度とのこと.
     /**
      * @dev Burn tokens
      * @param from address token holder address
@@ -446,7 +551,8 @@ contract ERC777 is Context, IERC777, IERC20 {
     //   ※ 既に送金元の残高が0より小さくならないことを確認しているため, 
     //     次の処理ではuncheckedで囲み余計な処理(オーバーフローの検証)を除くことでガス軽減を狙っているのだろう．
     // ・転送(送金先と送金元のアドレスの残高をamount分だけ増減させる)
-    // ・転送完了をイベントでフロントへ通知
+    // ・転送完了をSentイベントでフロントへ通知
+    // ・ERC20との後方互換性のためにTransferイベントも発生させる.
     function _move(
         address operator,
         address from,
@@ -468,6 +574,9 @@ contract ERC777 is Context, IERC777, IERC20 {
         emit Transfer(from, to, amount);
     }
 
+    // トークン引き出し許可更新の仕組みがかいてある．
+    // 自分のアドレスに対して相手のアドレスと残高をマッピングで紐づけることによって，相手に対して自分の残高の引き出し許可を定義している．
+    // ERC20との後方互換性のために実装されている.
     /**
      * @dev See {ERC20-_approve}.
      *
@@ -481,10 +590,10 @@ contract ERC777 is Context, IERC777, IERC20 {
         emit Approval(holder, spender, value);
     }
 
-    // トークンの送信 or バーンがある場合にその処理前に呼び出される.
-    // ホルダーが`ERC777TokensSender`の実装を登録している場合に, 
-    // 実装しているコントラクト(implementer)に対して`tokensToSend`関数を呼び出す.
-    // `ERC777TokensSender`と`tokensToSend`に関してはIERC777TokensSender.solで説明がなされる.
+    // アカウントのトークンが減少(_send, _burn)する際にトークンの残高操作前に呼び出される.
+    // holderがERC777TokensSenderの実装を登録している場合に, 
+    // 実装しているコントラクト(implementer)に対してtokensToSend関数を呼び出す.
+    // ERC777TokensSenderとtokensToSendに関してはIERC777TokensSender.solで説明がなされる.
     /**
      * @dev Call from.tokensToSend() if the interface is registered
      * @param operator address operator requesting the transfer
@@ -508,10 +617,11 @@ contract ERC777 is Context, IERC777, IERC20 {
         }
     }
 
-    // トークンの送信 or バーンがある場合にその処理後に呼び出される.
-    // ホルダーが`ERC777TokensRecipient`の実装を登録している場合に, 
-    // 実装しているコントラクト(implementer)に対して`tokensReceived`関数を呼び出す.
-    // `ERC777TokensRecipient`と`tokensReceived`に関してはIERC777TokensSender.solで説明がなされる.
+    // アカウントのトークンが増加(_mint, _send)する際にトークンの残高操作後に呼び出される.
+    // holderがERC777TokensRecipientの実装を登録している場合に, 
+    // 実装しているコントラクト(implementer)に対してtokensReceived関数を呼び出す.
+    // ERC777TokensRecipientとtokensReceivedに関してはIERC777TokensSender.solで説明がなされる.
+    // TODO: ここでロックしないためにcontractに実装を求めていることを説明
     /**
      * @dev Call to.tokensReceived() if the interface is registered. Reverts if the recipient is a contract but
      * tokensReceived() was not registered for the recipient
@@ -540,6 +650,8 @@ contract ERC777 is Context, IERC777, IERC20 {
         }
     }
 
+    // トークン引き出し許可残高を減らす関数.
+    // ERC20との後方互換性のために実装されている.
     /**
      * @dev Updates `owner` s allowance for `spender` based on spent `amount`.
      *
@@ -558,6 +670,11 @@ contract ERC777 is Context, IERC777, IERC20 {
         }
     }
 
+    // トークンの操作を行う関数(_mint, _burn, _move関数)の実行前に行いたい動作を設定できる．
+    // デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．
+    // 例えば入力パラメータの検証などが可能.
+    // ERC20には_afterTokenTransferという「トークン操作後に行いたい動作」の実装も定義されているが, ERC777にはない.
+    // 上記の理由はわからないが, ERC777の作者から見てトークン操作後に行いたい処理の必要性が無かったのではないだろうか.
     /**
      * @dev Hook that is called before any token transfer. This includes
      * calls to {send}, {transfer}, {operatorSend}, minting and burning.
