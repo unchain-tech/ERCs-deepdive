@@ -12,6 +12,7 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 - ERC20
 - ERC721
 - ERC5192
+- ERC5564
 - Meta Transactions
 
 ### Contributors
@@ -21,3 +22,4 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 - [terapasta](https://github.com/terapasta)
 - [tomo](https://github.com/Tomosuke0930)
 - [yawn](https://github.com/yawn-c111)
+- [mashharuki](https://github.com/mashharuki)
