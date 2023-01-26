@@ -15,7 +15,7 @@ import "../../utils/introspection/IERC1820Registry.sol";
 // holder: トークンの保有者.
 // operator: holderに代わってトークンを送信したり焼却(バーン)することができるアドレス. 
 //
-// 全てのアカウントは自分自身のoperatorであり, 自分自身をoperatorから削除することはできません. 
+// 全てのアカウントはデフォルトで自分自身のoperatorであり, 自分自身をoperatorから削除することはできません. 
 // つまり自身のトークンを制御できなくなることはありません.
 
 /**
@@ -34,12 +34,12 @@ import "../../utils/introspection/IERC1820Registry.sol";
  * destroyed. This makes integration with ERC20 applications seamless.
  */
 contract ERC777 is Context, IERC777, IERC20 {
-    // addressをAddressで表現できるようにしている.
-    // コードを読みやすくするために使用されるらしい.
+    // ライブラリの使用を宣言.
+    // {address型のオブジェクト}.isContract, のようにAddressライブラリの関数を使用できるようになる.
     using Address for address;
 
     // ERC1820をインスタンス化.
-    // ERC1820はブロックチェーン内に1つのみなのでアドレス値は固定です.
+    // ERC1820はブロックチェーン内に1つのみなのでアドレス値は固定.
     IERC1820Registry internal constant _ERC1820_REGISTRY = IERC1820Registry(0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24);
 
     // このマッピングがトークン残高の本体．名付けるならトークン残高．
@@ -58,7 +58,7 @@ contract ERC777 is Context, IERC777, IERC20 {
     bytes32 private constant _TOKENS_SENDER_INTERFACE_HASH = keccak256("ERC777TokensSender");
     bytes32 private constant _TOKENS_RECIPIENT_INTERFACE_HASH = keccak256("ERC777TokensRecipient");
 
-    // 全てのholderに適用されるデフォルトのoperatorのリスト.
+    // 全てのholderに適用されるデフォルトのoperatorリスト.
     // 後述のコントラクト作成(コンストラタ)時に設定できる.
     // セキュリティ上の理由からコントラクト作成後のリストの変更はできない.
     // holderはデフォルトoperatorの取り消し・再認証が可能.
@@ -124,7 +124,7 @@ contract ERC777 is Context, IERC777, IERC20 {
     // decimalsを返す関数．
     // `ERC-20`との後方互換性を保つ場合は, decimalsが参照される可能性があるため実装する必要がある.
     // 実装した場合は常に18を返さなければならない.
-    // 18に強制する理由は, 一般的または暗黙的に使用されている10^18の単位とこのトークンの単位に違いが出ることによる混乱を避けるためだと思われる.
+    // 18に強制する理由は, 一般的または暗黙的にトークンコントラクトで使用されている10^18の単位とこのトークンの単位に違いが出ることによる混乱を避けるためだと思われる.
     /**
      * @dev See {ERC20-decimals}.
      *
