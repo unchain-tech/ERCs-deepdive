@@ -38,8 +38,8 @@ contract ERC777 is Context, IERC777, IERC20 {
     // {address型のオブジェクト}.isContract, のようにAddressライブラリの関数を使用できるようになる.
     using Address for address;
 
-    // ERC1820をインスタンス化.
-    // ERC1820はブロックチェーン内に1つのみなのでアドレス値は固定.
+    // ERC1820 Registryをインスタンス化.
+    // ERC1820 Registryはブロックチェーン内に1つのみなのでアドレス値は固定.
     IERC1820Registry internal constant _ERC1820_REGISTRY = IERC1820Registry(0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24);
 
     // このマッピングがトークン残高の本体．名付けるならトークン残高．
@@ -54,7 +54,7 @@ contract ERC777 is Context, IERC777, IERC20 {
     string private _symbol;
 
     // インタフェースのハッシュ値を保存. 
-    // 後にIERC1820を介して, これらのインタフェースを実装したアカウントが登録されているかの判定に使用する.
+    // 後にERC1820 Registryを介して, これらのインタフェースを実装したアカウントが登録されているかの判定に使用する.
     bytes32 private constant _TOKENS_SENDER_INTERFACE_HASH = keccak256("ERC777TokensSender");
     bytes32 private constant _TOKENS_RECIPIENT_INTERFACE_HASH = keccak256("ERC777TokensRecipient");
 
@@ -85,9 +85,9 @@ contract ERC777 is Context, IERC777, IERC20 {
     // コントラクト作成時の処理を記述する関数.
     // nameやsymbolを記録する.
     // デフォルトoperatorを記録する.
-    // `ERC777Token`インタフェースと共に自身を`ERC1820`に登録する必要がある.
-    // また, ERC20との後方互換性を維持する場合は同様に`ERC1820`に登録する必要がある.
-    // もしコントラクトにERC777/ERC20の機能を有効/無効にするような実装がある場合は, `ERC1820`への登録/解除も併せて行う必要がある.
+    // ERC777Tokenインタフェースと共に自身をERC1820 Registryに登録する必要がある.
+    // また, ERC20との後方互換性を維持する場合は同様にERC1820 Registryに登録する必要がある.
+    // もしコントラクトにERC777/ERC20の機能を有効/無効にするような実装がある場合は, ERC1820 Registryへの登録/解除も併せて行う必要がある.
     /**
      * @dev `defaultOperators` may be an empty array.
      */
