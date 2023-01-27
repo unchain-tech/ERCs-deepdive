@@ -21,3 +21,4 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 - [terapasta](https://github.com/terapasta)
 - [tomo](https://github.com/Tomosuke0930)
 - [yawn](https://github.com/yawn-c111)
+- [rakiyama](https://github.com/ryojiroakiyama)
