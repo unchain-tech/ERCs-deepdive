@@ -528,7 +528,7 @@ contract ERC777 is Context, IERC777, IERC20 {
 
 ## 4. ERC20 との比較
 
-以下に ERC20 と比較して ERC777 が改善した主要な点を示す。
+以下に ERC20 と比較して ERC777 が改善した主要な点を示す.
 
 ### データ
 
