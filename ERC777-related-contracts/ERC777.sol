@@ -621,7 +621,8 @@ contract ERC777 is Context, IERC777, IERC20 {
     // holderがERC777TokensRecipientの実装を登録している場合に, 
     // 実装しているコントラクト(implementer)に対してtokensReceived関数を呼び出す.
     // ERC777TokensRecipientとtokensReceivedに関してはIERC777TokensSender.solで説明がなされる.
-    // TODO: ここでロックしないためにcontractに実装を求めていることを説明
+    // ERC777の機能として使用される場合(_mint, _send), `requireReceptionAck`=trueで引数が渡されます.
+    // -> 引数`to`がコントラクトの場合はトークンのロックを防ぐためにimplementerが必須となります.
     /**
      * @dev Call to.tokensReceived() if the interface is registered. Reverts if the recipient is a contract but
      * tokensReceived() was not registered for the recipient
