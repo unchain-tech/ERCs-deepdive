@@ -14,6 +14,33 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "empire-uts",
+      "name": "kii",
+      "avatar_url": "https://avatars.githubusercontent.com/u/98133495?v=4",
+      "profile": "https://github.com/empire-uts",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "ryojiroakiyama",
+      "name": "rakiyama",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77039327?v=4",
+      "profile": "https://github.com/ryojiroakiyama",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "neila",
+      "name": "SHØ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40727091?v=4",
+      "profile": "http://akxra.art",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "commitConvention": "angular",
