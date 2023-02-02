@@ -1,7 +1,21 @@
 {
   "projectName": "openzeppelin-deepdive",
   "projectOwner": "unchain-dev",
-  "files": ["README.md"],
+  "files": [
+    "README.md"
+  ],
   "imageSize": 100,
-  "contributors": []
+  "contributors": [
+    {
+      "login": "empire-uts",
+      "name": "kii",
+      "avatar_url": "https://avatars.githubusercontent.com/u/98133495?v=4",
+      "profile": "https://github.com/empire-uts",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "commitConvention": "angular",
+  "contributorsPerLine": 7
 }
