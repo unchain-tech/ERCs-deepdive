@@ -1,7 +1,21 @@
 {
   "projectName": "openzeppelin-deepdive",
   "projectOwner": "unchain-dev",
-  "files": ["README.md"],
+  "files": [
+    "README.md"
+  ],
   "imageSize": 100,
-  "contributors": []
+  "contributors": [
+    {
+      "login": "ryojiroakiyama",
+      "name": "rakiyama",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77039327?v=4",
+      "profile": "https://github.com/ryojiroakiyama",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "commitConvention": "angular",
+  "contributorsPerLine": 7
 }
