@@ -23,6 +23,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "mashharuki",
+      "name": "Haruki Kondo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/44923695?v=4",
+      "profile": "http://www.resume.id/haru28675",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "commitConvention": "angular",
