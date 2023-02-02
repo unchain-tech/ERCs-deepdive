@@ -1,7 +1,21 @@
 {
   "projectName": "openzeppelin-deepdive",
   "projectOwner": "unchain-dev",
-  "files": ["README.md"],
+  "files": [
+    "README.md"
+  ],
   "imageSize": 100,
-  "contributors": []
+  "contributors": [
+    {
+      "login": "Tomosuke0930",
+      "name": "Tomo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84496536?v=4",
+      "profile": "https://tom-sol.notion.site/tom-sol/TomoLabo-755d3474528145fd95e68ee90c18495a",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "commitConvention": "angular",
+  "contributorsPerLine": 7
 }
