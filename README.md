@@ -7,20 +7,23 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 
 全ての Solidity 初学者・非修得者に愛をこめて.
 
-### Contents
+## Contents
 
 - ERC20
 - ERC721
+- ERC777
 - ERC5192
 - ERC5564
-- Meta Transactions
+- Metatransactions
+- and related bugs
 
-### Contributors
+## Contributors
 
-- [cohurin](https://github.com/neila)
-- [kii](https://github.com/empire-uts)
-- [terapasta](https://github.com/terapasta)
-- [tomo](https://github.com/Tomosuke0930)
-- [yawn](https://github.com/yawn-c111)
-- [mashharuki](https://github.com/mashharuki)
-- [rakiyama](https://github.com/ryojiroakiyama)
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
