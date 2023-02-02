@@ -7,6 +7,14 @@
   "imageSize": 100,
   "contributors": [
     {
+      "login": "terapasta",
+      "name": "hiroaki terayama",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35390466?v=4",
+      "profile": "https://github.com/terapasta",
+      "contributions": [
+        "doc"
+      ]
+    },
       "login": "Tomosuke0930",
       "name": "Tomo",
       "avatar_url": "https://avatars.githubusercontent.com/u/84496536?v=4",
