@@ -7,6 +7,15 @@
   "imageSize": 100,
   "contributors": [
     {
+      "login": "Tomosuke0930",
+      "name": "Tomo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84496536?v=4",
+      "profile": "https://tom-sol.notion.site/tom-sol/TomoLabo-755d3474528145fd95e68ee90c18495a",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
       "login": "empire-uts",
       "name": "kii",
       "avatar_url": "https://avatars.githubusercontent.com/u/98133495?v=4",
