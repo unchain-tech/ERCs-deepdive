@@ -24,4 +24,3 @@
   - [Exploiting MEVs](./bugs/MEV.md)
   - [Exploiting Oracles](./bugs/Oracle.md)
   - [Rug pulls](./bugs/Rug-Pull.md)
-  - [PRs](./bugs/Issue.md)
