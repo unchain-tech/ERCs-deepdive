@@ -1,0 +1,8 @@
+{
+  "root": ".",
+  "title": "Deepdive into ERCs",
+  "description": "色んなERCを読んでみる",
+  "author": "https://github.com/neila",
+  "language": "ja",
+  "plugins": ["highlight", "mermaid-md-adoc"]
+}
