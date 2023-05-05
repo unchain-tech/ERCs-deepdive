@@ -17,6 +17,10 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 - [Metatransactions](./metatx-related-contracts/README.md)
 - and [related bugs](./bugs/README.md)
 
+## ページ追加方法
+
+- [テンプレート](https://github.com/unchain-tech/ERCs-deepdive/page-template.md)に倣ってください。
+
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
