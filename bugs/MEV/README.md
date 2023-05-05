@@ -1,3 +1,0 @@
-# MEVs
-
-- [Slippage](./NoSlippage.md)

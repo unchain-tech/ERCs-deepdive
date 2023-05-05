@@ -1,10 +1,14 @@
-# Underflow が起こる
+# Underflows / Overflows
 
-## 🔗 URL
+## Underflow
+
+Underflow が起こる
+
+### 🔗 URL
 
 https://github.com/code-423n4/2022-03-timeswap-findings/issues/32
 
-## ⛳️ Condition
+### ⛳️ Condition
 
 1. 変数の型が`uint`で、引き算の結果が 0 よりも小さくなる
 
@@ -20,7 +24,7 @@ if (maxCollateral > dueOut.collateral) {
 }
 ```
 
-## 👨‍💻 PoC
+### 👨‍💻 PoC
 
 1. `uint256 excess;`で、excess 変数が`uint256`の型で宣言されている。デフォルトの値は 0 なので、excess はこの時点で 0。
 2. `dueOut.collateral`が 1 だとすると、`unchecked`キーワードの影響で revert は帰さず excess の値は`2^256-1`の値になる
@@ -46,6 +50,6 @@ if (maxCollateral > dueOut.collateral) {
 }
 ```
 
-## 👬 Similar Issue
+### 👬 Similar Issue
 
 https://github.com/code-423n4/2022-04-backd-findings/issues/50

@@ -1,10 +1,14 @@
-# Oracle データフィードの検証が不十分
+# Oracles
 
-## 🔗 URL
+## Invalid Validation
+
+Oracle データフィードの検証が不十分
+
+### 🔗 URL
 
 https://github.com/code-423n4/2022-01-yield-findings/issues/136
 
-## ⛳️ Condition
+### ⛳️ Condition
 
 1. Chainlink の`latestRoundData`を使用している
 2. 取得したデータの検証が不十分である
@@ -26,12 +30,12 @@ function _collateralPriceUsd() internal view returns (uint256) {
 }
 ```
 
-## 👨‍💻 PoC
+### 👨‍💻 PoC
 
 価格が新しいものであるかの確認、timestamp の値が正当であるのかという確認がありません。
 この影響で価格が古かったり、間違った値を返してしまう可能性があります。
 
-## ✅ Recommendation
+### ✅ Recommendation
 
 ここにバグを修正する方法を記載してください
 
@@ -69,6 +73,6 @@ function _collateralPriceUsd() internal view returns (uint256) {
 }
 ```
 
-## 👬 Similar Issue
+### 👬 Similar Issue
 
 https://github.com/code-423n4/2022-04-backd-findings/issues/17

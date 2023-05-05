@@ -1,10 +1,14 @@
-# Admin は高額な手数料を設定できる
+# Rug pulls
 
-## 🔗 URL
+## Arbitrary Fees
+
+Admin は高額な手数料を設定できる
+
+### 🔗 URL
 
 https://github.com/code-423n4/2022-06-infinity-findings/issues/269
 
-## ⛳️ Condition
+### ⛳️ Condition
 
 1. Admin が設定できる fee の上限や下限が設定されていない
 
@@ -17,7 +21,7 @@ emit NewProtocolFee(_protocolFeeBps);
 }
 ```
 
-## 👨‍💻 PoC
+### 👨‍💻 PoC
 
 PROTOCOL_FEE_BPS = 500
 
@@ -26,7 +30,7 @@ PROTOCOL_FEE_BPS = 500
 3. Alice が高額な手数料を支払った後に、`setProtocolFee()`関数で 500 に戻す
 4. Alice は気づかない間に高額な手数料を支払うことになる
 
-## ✅ Recommendation
+### ✅ Recommendation
 
 PROTOCOL_FEE_BPS の上限値を設定してください
 
@@ -46,6 +50,6 @@ emit NewProtocolFee(_protocolFeeBps);
 }
 ```
 
-## 👬 Similar Issue
+### 👬 Similar Issue
 
 https://github.com/code-423n4/2022-05-cally-findings/issues/48

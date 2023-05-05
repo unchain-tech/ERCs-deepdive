@@ -1,10 +1,14 @@
-# Slot の衝突が起きる
+# Upgradeable Contracts
 
-## 🔗 URL
+## NoUpgradeable
+
+Slot の衝突が起きる
+
+### 🔗 URL
 
 https://github.com/code-423n4/2022-03-joyn-findings/issues/108
 
-## ⛳️ Condition
+### ⛳️ Condition
 
 1. Proxy を実装している
 2. EIP1967 のように Slot の衝突を避けるような実装がない
@@ -17,7 +21,7 @@ contract CoreProxy is Ownable {
 }
 ```
 
-## 👨‍💻 PoC
+### 👨‍💻 PoC
 
 ```
 /* Bug Pattern */
@@ -30,7 +34,7 @@ contract CoreProxy is Ownable {
 ------------------------------------------------------
 ```
 
-## ✅ Recommendation
+### ✅ Recommendation
 
 EIP1967 のような実装をして Slot の衝突をさける
 https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies
@@ -50,6 +54,6 @@ https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies
 
 ```
 
-## 👬 Similar Issue
+### 👬 Similar Issue
 
 https://github.com/code-423n4/2022-05-rubicon-findings/issues/441

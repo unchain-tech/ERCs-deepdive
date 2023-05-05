@@ -1,10 +1,14 @@
-# 長すぎるループ
+# DoS attack vectors
 
-## 🔗 URL
+## Unbounded Loops
+
+際限のないループ処理
+
+### 🔗 URL
 
 https://github.com/code-423n4/2022-03-joyn-findings/issues/6
 
-## ⛳️ Condition
+### ⛳️ Condition
 
 1. 誰でも配列のアイテムを追加できる
 2. その配列の長さに応じてループ処理をしている
@@ -38,14 +42,14 @@ function incrementWindow(uint256 royaltyAmount) public returns (bool) {
 }
 ```
 
-## 👨‍💻 PoC
+### 👨‍💻 PoC
 
 1. Eve が`incrementWindow()`を実行して currentWindow の配列を 1000 まで増加させる
 2. `currentWindow`を削除する関数がないため、増加するしかない
 3. ループを実行するとガス代がかかりすぎ、ブロックガスリミットを超えるためトランザクションが revert される
 4. 最終的にこのループを含む`claimForAllWindows()`が使用できなくなる(Denial of Service = サービスの妨害
 
-## ✅ Recommendation
+### ✅ Recommendation
 
 1. 配列の要素の最大を決める
 
@@ -83,7 +87,7 @@ function incrementWindow(uint256 royaltyAmount) public /* add */ onlyWhitelist r
 }
 ```
 
-## 👬 Similar Issue
+### 👬 Similar Issue
 
 https://github.com/code-423n4/2022-05-aura-findings/issues/197
 

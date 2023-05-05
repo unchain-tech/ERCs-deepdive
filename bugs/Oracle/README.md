@@ -1,3 +1,0 @@
-# Oracles
-
-- [InvalidValidation](./InvalidValidation.md)

@@ -1,10 +1,14 @@
-# スリッページの制限を設けない
+# MEVs
 
-## 🔗 URL
+## NoSlippage
+
+スリッページの制限を設けない
+
+### 🔗 URL
 
 https://github.com/code-423n4/2022-06-illuminate-findings/issues/289
 
-## ⛳️ Condition
+### ⛳️ Condition
 
 1. ユーザーが得られるトークンの最低量が設定できない 例: swap, sell, buy
 
@@ -30,12 +34,12 @@ function yield(
 }
 ```
 
-## 👨‍💻 PoC
+### 👨‍💻 PoC
 
 `sellBasePreview`で取得した`returned`に関して値のチェックをしていないため、ユーザーが予想していなかった価格になる可能性がある。
 このような関数は front-run アタックの標的になりうる
 
-## ✅ Recommendation
+### ✅ Recommendation
 
 ユーザーが`min_returned`などの引数を設定できるようにして、最低価格を下回る際にはトランザクションを中止させる
 
@@ -62,6 +66,6 @@ function yield(
 }
 ```
 
-## 👬 Similar Issue
+### 👬 Similar Issue
 
 https://github.com/code-423n4/2022-02-hubble-findings/issues/113

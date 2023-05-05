@@ -1,3 +1,0 @@
-# Reentrancy
-
-- [UseNonReentrant](./UseNonReentrant.md)
