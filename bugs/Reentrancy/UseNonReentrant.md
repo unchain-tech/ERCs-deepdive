@@ -13,7 +13,7 @@ https://github.com/code-423n4/2022-02-redacted-cartel-findings/issues/80
 
 https://github.com/code-423n4/2022-02-redacted-cartel/blob/main/contracts/BribeVault.sol#L164-L205
 
-```solidity
+```
 function depositBribeERC20(
     bytes32 bribeIdentifier,
     bytes32 rewardIdentifier,
@@ -60,7 +60,7 @@ function depositBribeERC20(
 
 ## 👨‍💻 PoC
 
-```solidity
+```
 function depositBribeERC20(
     bytes32 bribeIdentifier,
     bytes32 rewardIdentifier,

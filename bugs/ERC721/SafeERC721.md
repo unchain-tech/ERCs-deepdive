@@ -10,7 +10,7 @@ https://github.com/code-423n4/2022-05-cally-findings/issues/136
 
 https://github.com/code-423n4/2022-03-lifinance/blob/main/src/Facets/DexManagerFacet.sol#L62-L77
 
-```solidity
+```
 // transfer the NFTs or ERC20s back to the owner
 vault.tokenType == TokenType.ERC721
     ? ERC721(vault.token).transferFrom(address(this), msg.sender, vault.tokenIdOrAmount) // here
@@ -26,7 +26,7 @@ onERC721Received のチェックがなく、送信先が ERC721 トークンを�
 OpenZeppelin の safeTransferFrom を transferFrom の代わりに使用する
 https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol#L164-L170
 
-```solidity
+```
 // before
 // transfer the NFTs or ERC20s back to the owner
 vault.tokenType == TokenType.ERC721

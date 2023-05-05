@@ -19,7 +19,7 @@ _該当するコードがあると Good👍_
 
 https://github.com/code-423n4/2022-03-lifinance/blob/main/src/Facets/DexManagerFacet.sol#L62-L77
 
-```solidity
+```
 function batchRemoveDex(address[] calldata _dexs) external {
     LibDiamond.enforceIsContractOwner();
 
@@ -55,7 +55,7 @@ dexs.lengh = 20 とする
 
 例: 下記のように変更してください
 
-```solidity
+```
 // before
 for (uint256 j; j < s.dexs.length; j++) {
     if (s.dexs[j] == _dexs[i]) {

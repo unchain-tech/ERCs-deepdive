@@ -11,7 +11,7 @@ https://github.com/code-423n4/2022-02-hubble-findings/issues/29
 
 https://github.com/code-423n4/2022-05-sturdy/blob/78f51a7a74ebe8adfd055bdbaedfddc05632566f/smart-contracts/ConvexCurveLPVault.sol#L70-L85
 
-```solidity
+```
   function _transferYield(address _asset) internal {
     require(_asset != address(0), Errors.VT_PROCESS_YIELD_INVALID);
     uint256 yieldAmount = IERC20(_asset).balanceOf(address(this));
@@ -42,7 +42,7 @@ ERC20 トークンの中には、ゼロ枚の transfer で revert されるも�
    `TransferHelper.safeTransfer(LEND_TOKEN_ADDRESS, yieldManager, 0);`
 4. トランザクションが revert される
 
-```solidity
+```
     // transfer to treasury
     if (_vaultFee > 0) {
       uint256 treasuryAmount = _processTreasury(_asset, yieldAmount);
@@ -58,7 +58,7 @@ ERC20 トークンの中には、ゼロ枚の transfer で revert されるも�
 
 例: 下記のように変更してください
 
-```solidity
+```
 +	if (yieldAmount > 0) {
 	    // transfer to treasury
 	    if (_vaultFee > 0) {

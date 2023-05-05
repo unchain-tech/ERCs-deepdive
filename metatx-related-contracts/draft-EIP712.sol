@@ -113,7 +113,7 @@ abstract contract EIP712 {
      *
      * This hash can be used together with {ECDSA-recover} to obtain the signer of a message. For example:
      *
-     * ```solidity
+     * ```
      * bytes32 digest = _hashTypedDataV4(keccak256(abi.encode(
      *     keccak256("Mail(address to,string contents)"),
      *     mailTo,

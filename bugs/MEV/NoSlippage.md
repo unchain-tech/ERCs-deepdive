@@ -10,7 +10,7 @@ https://github.com/code-423n4/2022-06-illuminate-findings/issues/289
 
 https://github.com/code-423n4/2022-06-illuminate/blob/912be2a90ded4a557f121fe565d12ec48d0c4684/lender/Lender.sol#L641-L654
 
-```solidity
+```
 function yield(
     address u,
     address y,
@@ -39,7 +39,7 @@ function yield(
 
 ユーザーが`min_returned`などの引数を設定できるようにして、最低価格を下回る際にはトランザクションを中止させる
 
-```solidity
+```
 function yield(
     address u,
     address y,
