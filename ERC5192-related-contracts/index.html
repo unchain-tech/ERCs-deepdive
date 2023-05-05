@@ -1,0 +1,651 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <title>ERC5192 · Deepdive into ERCs</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 4.0.7">
+        <meta name="author" content="https://github.com/neila">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../ERC5564-related-contracts/" />
+    
+    
+    <link rel="prev" href="../ERC777-related-contracts/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索ワードを入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Understanding ERCs</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../ERC20-related-contracts/">
+            
+                <a href="../ERC20-related-contracts/">
+            
+                    
+                    ERC20
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../ERC721-related-contracts/">
+            
+                <a href="../ERC721-related-contracts/">
+            
+                    
+                    ERC721
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../ERC777-related-contracts/">
+            
+                <a href="../ERC777-related-contracts/">
+            
+                    
+                    ERC777
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    ERC5192
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../ERC5564-related-contracts/">
+            
+                <a href="../ERC5564-related-contracts/">
+            
+                    
+                    ERC5564
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../metatx-related-contracts/">
+            
+                <a href="../metatx-related-contracts/">
+            
+                    
+                    MetaTx
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Smart Contract Bugs</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../bugs/">
+            
+                <a href="../bugs/">
+            
+                    
+                    Bugs🐝
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../bugs/DoS/">
+            
+                <a href="../bugs/DoS/">
+            
+                    
+                    DoS attack vectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../bugs/ERC20/">
+            
+                <a href="../bugs/ERC20/">
+            
+                    
+                    ERC20-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../bugs/ERC721/">
+            
+                <a href="../bugs/ERC721/">
+            
+                    
+                    ERC721-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../bugs/Low-Level-Call/">
+            
+                <a href="../bugs/Low-Level-Call/">
+            
+                    
+                    Low-level calls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../bugs/MEV/">
+            
+                <a href="../bugs/MEV/">
+            
+                    
+                    Exploiting MEVs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../bugs/Oracle/">
+            
+                <a href="../bugs/Oracle/">
+            
+                    
+                    Exploiting Oracles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../bugs/Reentrancy/">
+            
+                <a href="../bugs/Reentrancy/">
+            
+                    
+                    Reentrancy attacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../bugs/Rug-Pull/">
+            
+                <a href="../bugs/Rug-Pull/">
+            
+                    
+                    Rug pulls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../bugs/Underflow-Overflow/">
+            
+                <a href="../bugs/Underflow-Overflow/">
+            
+                    
+                    Underflows & Overflows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../bugs/Upgradeable/">
+            
+                <a href="../bugs/Upgradeable/">
+            
+                    
+                    Upgradeable contracts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            HonKitで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >ERC5192</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="erc5192">ERC5192</h1>
+<h2 id="目次">目次</h2>
+<h3 id="1-はじめに">1. <a href="#1-はじめに">はじめに</a></h3>
+<h3 id="2--erc5192sol-にインポートされることになるであろうファイル">2. <a href="#2-erc5192sol-にインポートされているファイル"> ERC5192.sol にインポートされることになるであろうファイル</a></h3>
+<ol>
+<li><a href="#21-addresssol">Address,sol</a></li>
+<li><a href="#22-contextsol">Context.sol</a></li>
+<li><a href="#23-stringssol">Strings.sol</a></li>
+<li><a href="#24-erc165sol">ERC165.sol</a></li>
+<li><a href="#25-ierc5192sol">I<code>ERC5192.sol</code></a></li>
+<li><a href="#26-ierc721sol">IERC721.sol</a></li>
+<li><a href="#27-ierc721receiversol">IERC721Receiver.sol</a></li>
+<li><a href="#28-ierc721metadatasol">IERC721Metadata.sol</a></li>
+</ol>
+<h3 id="3-erc5192sol">3. <a href="#3-ERC5192sol"><code>ERC5192.sol</code></a></h3>
+<ol>
+<li><a href="#31-変数-_accountLock-と-関数-locked">変数 _accountLock と 関数 locked</a></li>
+<li><a href="#32-_mint-関数への引数-lock-の追加と，それによる-_accountLock-の状態の決定">_mint 関数への引数 lock の追加と，それによる _accountLock の状態の決定</a></li>
+<li><a href="#33-_accountLock-の状態により制限される関数">_accountLock の状態により制限される関数</a></li>
+</ol>
+<h3 id="4-tips">4. <a href="#4-tips">TIPs</a></h3>
+<h2 id="1-はじめに">1. はじめに</h2>
+<p>ここでは，今後，標準化されるであろう <code>ERC5192.sol</code> とその中でインポートされる可能性の高い 8 つを含めた 9 つの sol ファイルについて，順番にコードベースでよみとくことによって ERC5192 を理解することを目指します．</p>
+<p>ERC5192 はまだ EIP の段階であり，正式には ERC でないことにご留意ください．
+SoulBound Token （ SBT ）のための実装の一つである ERC5192 は，開発しやすいようにそのコンセプトの大部分が NFT として知られる ERC721 からの流用になっています．</p>
+<p>この <code>README.md</code> ファイルではコードは極力使わず，実際にコードを読み解く sol ファイル群へのリンクは添えたうえで，日本語ベース・ノーコードでなるべく簡潔な解説を行っていきます．</p>
+<blockquote>
+<p>尚，Solidity の文法に関してはある程度前提としていますが，Solidity のハンズオンラーニングの手段ともなりえるように，検索可能な用語を用いることを心掛けることとします．</p>
+</blockquote>
+<h2 id="2-erc5192sol-にインポートされているファイル">2. ERC5192.sol にインポートされているファイル</h2>
+<p>以下では，<code>ERC5192.sol</code> でインポートされる可能性のあるそれぞれのファイルについて，おおまかな内容と <code>ERC5192.sol</code> 内での用途を説明していきます．
+レポジトリ内の同名ファイルには，原本に適宜コメントを追加したファイルを同梱してあります．ご活用ください．</p>
+<h3 id="21-addresssol">2.1. Address.sol</h3>
+<p>このファイルでは， <code>address</code> 型の変数に関する関数を集めた <code>Address</code> ライブラリを定義しています．
+ERC5192 における用途は，<code>isContract()</code> の利用です．この関数は <code>address</code> 値を引数にとり，そのアドレス長が 0 より大きいかどうかを <code>bool</code> 値で返します．こうすることで，4 種ほどの例外を除き，引数のアドレスがコントラクトアドレスかどうかを判断します．</p>
+<blockquote>
+<p>この例外というのはコントラクトが機能しない特殊な状況にある場合です．なので，実質的にはコントラクトが利用可能な状態であるかどうかを示すものになります．そして，コントラクトとウォレットアドレス(EOA アドレス)は形式が同じであるため，仮に存在するウォレットアドレスを引数としたとしても <code>isContract()</code> は <code>true</code> を返すと思われます．</p>
+</blockquote>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol" target="_blank">openzeppelin-contracts/contracts/utils/Address.sol</a></p>
+<h3 id="22-contextsol">2.2. Context.sol</h3>
+<p>このファイルでは，<code>abstract</code> という分類の <code>contract</code> の中で，<code>msg.sender</code> という宣言をラップする <code>_msgSender</code>という関数を宣言しています．</p>
+<p>わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いる場合に <code>msg.sender</code> をそのまま使うのは都合が悪いからです．</p>
+<p>以下に簡単な説明をのせておきます．詳しくは<a href="https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx-related-contracts#2-meta-transaction%E3%81%A8%E3%81%AF-1" target="_blank">ここ</a>を参照してください．</p>
+<blockquote>
+<p><code>msg.sender</code> は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に <code>msg.sender</code> をラップした <code>_msgSender()</code> 関数を使うことによって，メタトランザクション使用時には <code>_msg.sender()</code> 関数をオーバーライドして返り値を書き換えることにより <code>msg.sender(gas feeを支払うアドレス)</code> と <code>_msgSender()の返り値(txを実行したいアドレス)</code> を分けることができるようになります．</p>
+</blockquote>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol" target="_blank">openzeppelin-contracts/contracts/utils/Context.sol</a></p>
+<h3 id="23-stringssol">2.3. Strings.sol</h3>
+<p>これは，uint 列を文字列，特に 16 進数文字列に変換する関数のスタンダードを集めたライブラリです．
+使い道については，下のような実例をみるとわかりやすいでしょう．
+元ファイルではあまり触れられていませんが，エンコード(変換作業)のしくみについても少しふれてあるので，そのあたりも気になる方はレポジトリ内のコメント入りファイルを見てみてください．</p>
+<blockquote>
+<p>この ERC271 においては，tokenURI を参照する <code>tokenURI(uint256 tokenId)</code> 関数において， uint である <code>tokenId</code> を string に変換するときに用いている．
+これは関数内で string である <code>_baseURI()</code> と uint である <code>tokenId</code> を結合するためである．
+uint である <code>tokenId</code> を string に変換して <code>_baseURI()</code> と結合することで <code>tokenURI</code> を生成し，string 値として返すのである．</p>
+</blockquote>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Strings.sol" target="_blank">openzeppelin-contracts/contracts/utils/Strings.sol</a></p>
+<h3 id="24-erc165sol">2.4. ERC165.sol</h3>
+<p>このファイルには，インターフェイス検知の標準規格である <code>ERC165</code> にもとづくメソッドが定義されています．
+検知を実装したいコントラクト，検知したいコントラクトに対して継承し，
+前者の検知を実装したいコントラクト内で <code>supportsInterface(bytes4 interfaceId)</code> 関数を適切に <code>override</code> することで検知を行えるようになります．
+仕組みについては ERC165，実装方法や検知の仕方については ERC5192 に追記することとします．</p>
+<h3 id="25-ierc5192sol">2.5. IERC5192.sol</h3>
+<p>SoulBound Token を実装するための EIP 段階の標準になります．</p>
+<p>このファイルでは，<code>interface</code> という分類の <code>contract</code> の中で，<code>ERC721.sol</code> 内に存在する関数の中で可視性が <code>internal</code> でないものの型定義と，コメントを用いた関数の説明がなされています．</p>
+<p><code>abstract</code> と <code>interface</code> の違いは，<code>contract</code> 内に関数を内包するか否かです．</p>
+<p><a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-5192.md" target="_blank">ethereum/EIPs/EIPS/eip-5192.md</a></p>
+<h3 id="26-ierc721sol">2.6. IERC721.sol</h3>
+<p>このファイルでは，<code>interface</code> という分類の <code>contract</code> の中で，<code>ERC5192.sol</code> 内に存在する関数の中で可視性が <code>internal</code> でないものの型定義と，コメントを用いた関数の説明がなされています．</p>
+<p><code>abstract</code> と <code>interface</code> の違いは，<code>contract</code> 内に関数を内包するか否かです．</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC721/IERC721.sol</a></p>
+<h3 id="27-ierc721receiversol">2.7. IERC721Receiver.sol</h3>
+<p>このファイルでは，ERC5192 トークンを transfer するときに，<code>to</code> アドレスが ERC5192 トークンを受け取ることができるかを判断できるものとなっています．
+というのも，コントラクトアドレスに送信した NFT というのは基本的には GOX します．
+例外として，コントラクトアドレス側に NFT を扱うためのコントラクトが存在する場合に引き出すことが出来るのです．
+そのため，不運な GOX を避けるために，NFT の送信を行う際には送信先の <code>to</code> アドレスがコントラクトアドレスだった場合にこのインターフェイスが導入されていないものには送れないようにする <code>_safeTransfer</code> という送信規格が提案されました．
+よって，NFT の送信を受けるためのコントラクトを作りたい場合はこのインターフェイスを継承しておくことが推奨されます．
+仕組みについては，<code>_checkOnERC721Received()</code> 関数の説明で少しふれます．</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721Receiver.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol</a></p>
+<h3 id="28-ierc721metadatasol">2.8. IERC721Metadata.sol</h3>
+<p>このファイルでは，<code>interface</code> という分類の <code>contract</code> の中で，</p>
+<p><code>ERC721.sol</code> 内で <code>_name</code> 変数を参照する <code>name</code> 関数，
+<code>ERC721.sol</code> 内で <code>_symbol</code> 変数を参照する <code>symbol</code> 関数，
+<code>ERC721.sol</code> 内で <code>_baseURI()</code> の返り値と <code>tokenId</code> を参照する <code>tokenURI</code> 関数</p>
+<p>の三つの関数を型定義しています．</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/IERC721Metadata.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Metadata.sol</a></p>
+<h2 id="3-erc5192">3. ERC5192</h2>
+<p>EIP 段階の IERC5192 をベースに，筆者が実装したものになります．
+ERC5192 は大部分が ERC721 と共通のため，共通部分の解説については ERC721 の README をご覧ください．</p>
+<p><a href="https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/ERC721-related-contracts#readme" target="_blank">unchain-dev/openzeppelin-deepdive/ERC721-related-contracts/README.md</a></p>
+<h3 id="31-変数-accountlock-と-関数-locked">3.1. 変数 _accountLock と 関数 locked</h3>
+<p>変数定義における ERC721 との違いは，以下の <code>_accountLock</code> のみで，これは筆者が EIP をもとに独自に実装した変数になります．
+この変数により，ERC5192 は transfer を制限可能な SoulBound Token としての役割を果たせるようになります．</p>
+<pre><code>mapping(uint256 =&gt; bool) private _accountLock;
+</code></pre><p>この変数は <code>uint256</code> のキーとして渡された <code>tokenId</code> が transfer 可能か否かを保存するフラグの役割を果たしています．
+ミント時にのみフラグは更新され， <code>locked</code> 関数で外部から状態を確認することが出来ます．</p>
+<p><code>locked</code> 関数は EIP で提唱された IERC5192 に沿ったもので，関数の内部は筆者が実装をしました．
+戻り値として， <code>tokenId</code> の transfer がロックされていれば <code>true</code> ，ロックされていなければ <code>false</code> を返します．</p>
+<pre><code>function locked(uint256 tokenId) external view override returns (bool) {
+    require(_exists(tokenId), &quot;invalid token ID&quot;);
+    return _accountLock[tokenId];
+}
+</code></pre><h3 id="32-mint-関数への引数-lock-の追加と，それによる-accountlock-の状態の決定">3.2. _mint 関数への引数 lock の追加と，それによる _accountLock の状態の決定</h3>
+<p>上述の <code>_accountLock</code> の状態を決定するため， <code>_mint</code> 関数で <code>lock</code> するかどうかの引数を受け取り， <code>_accountLock</code> に渡します．
+このとき，渡した状態を EIP5192 で決められた IERC5192 に倣ってイベントとしてエミットします．</p>
+<h3 id="33-accountlock-の状態により制限される関数">3.3. _accountLock の状態により制限される関数</h3>
+<ul>
+<li>approve</li>
+<li>getApproved</li>
+<li>transferFrom</li>
+<li>safeTransferFrom</li>
+<li>safeTransferFrom（引数 data を含むタイプ）</li>
+<li>_safeTransfer</li>
+<li>_isApprovedOrOwner</li>
+<li>_transfer</li>
+<li>_approve</li>
+</ul>
+<p><code>_accountLock</code> によって制限される関数として上記の関数を選んだのも筆者です．
+全ての責任は私にあります．OMG</p>
+<p><code>tokenId</code> が引数として与えられているものを選定し，機能を制限しました．</p>
+<h2 id="4-tips">4. TIPs</h2>
+<h3 id="寄稿をお待ちしております！！">寄稿をお待ちしております！！</h3>
+<p>ご覧いただいてきたように， EIP の段階の IERC5192 をもとに，筆者が可能な限り実装してみたものになります．
+もし間違いに気が付いた場合には，イシューやプルリクエストにて，お知らせいただけたら幸いです．</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../ERC777-related-contracts/" class="navigation navigation-prev " aria-label="Previous page: ERC777">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../ERC5564-related-contracts/" class="navigation navigation-next " aria-label="Next page: ERC5564">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"ERC5192","level":"2.4","depth":1,"next":{"title":"ERC5564","level":"2.5","depth":1,"path":"ERC5564-related-contracts/README.md","ref":"./ERC5564-related-contracts/README.md","articles":[]},"previous":{"title":"ERC777","level":"2.3","depth":1,"path":"ERC777-related-contracts/README.md","ref":"./ERC777-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC5192-related-contracts/README.md","mtime":"2023-05-05T16:09:11.100Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:09:13.573Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/mermaid.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,16 @@
+{
+  "name": "ercs-deepdive",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:unchain-tech/ERCs-deepdive.git",
+  "author": "SHØ <neila@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "honkit build",
+    "serve": "honkit serve"
+  },
+  "devDependencies": {
+    "honkit": "^4.0.7",
+    "honkit-plugin-mermaid-md-adoc": "^0.0.8"
+  }
+}

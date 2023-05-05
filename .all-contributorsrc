@@ -1,0 +1,75 @@
+{
+  "projectName": "openzeppelin-deepdive",
+  "projectOwner": "unchain-dev",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "contributors": [
+    {
+      "login": "neila",
+      "name": "SHØ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40727091?v=4",
+      "profile": "http://akxra.art",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "ryojiroakiyama",
+      "name": "rakiyama",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77039327?v=4",
+      "profile": "https://github.com/ryojiroakiyama",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "mashharuki",
+      "name": "Haruki Kondo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/44923695?v=4",
+      "profile": "http://www.resume.id/haru28675",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "empire-uts",
+      "name": "kii",
+      "avatar_url": "https://avatars.githubusercontent.com/u/98133495?v=4",
+      "profile": "https://github.com/empire-uts",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "terapasta",
+      "name": "hiroaki terayama",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35390466?v=4",
+      "profile": "https://github.com/terapasta",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "yawn-c111",
+      "name": "yawn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69970183?v=4",
+      "profile": "https://github.com/yawn-c111",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Tomosuke0930",
+      "name": "Tomo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84496536?v=4",
+      "profile": "https://tom-sol.notion.site/tom-sol/TomoLabo-755d3474528145fd95e68ee90c18495a",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "commitConvention": "angular",
+  "contributorsPerLine": 7
+}
