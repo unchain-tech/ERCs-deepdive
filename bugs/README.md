@@ -1,6 +1,6 @@
-# UNCHAIN Bug Database
+# Known Smart Contract Bugs
 
-## 🤔 UNCHAIN Bug Database ってなに？
+## 🤔 このチャプターは？
 
 このデータベースは UNCHAIN コミュニティのみなさんで Bug をパターン別に追加して、Audit の知見を蓄積していくためのプロジェクトです
 
@@ -8,13 +8,13 @@
 
 ### For Contributor 🧑‍💻
 
-1. 学習した Bug が該当する Bug のカテゴリーを探す 例) ERC20, ERC721, Reentrancy etc...
+1. 学習した Bug が該当する Bug のカテゴリーを探す 例) [ERC20](../ERC20-related-contracts/README.md), [ERC721](../ERC721-related-contracts/README.md), [Reentrancy](./Reentrancy/UseNonReentrant.md) etc...
 2. カテゴリー内であなたの学習したバグと同じバグが、、、
 
    1. ある: 同じバグのページの Similar Issue に追加する PR を作成する 😎
    2. ない: PR を出してそのバグのパターンをレポジトリに追加するための PR を作成する 😍
 
-   [**`Issue.md`**](https://github.com/unchain-dev/openzeppelin-deepdive/edit/main/bugs/README.md) を参考に PR の作成をお願いします 🙏
+   [**`Issue.md`**](./Issue.md) を参考に PR の作成をお願いします 🙏
 
 3. 管理者のレビューを待つ
 4. Merge される ✨

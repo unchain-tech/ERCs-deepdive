@@ -79,7 +79,7 @@ ERC20 上で最初に import されているのがこのファイルです．
 
 まず最初に，先程紹介した 3 つの `.sol` ファイルを import した後，各 `contract` を `ERC20` という `contract` に継承させています．
 
-```solidity
+```
 import "./IERC20.sol";
 import "./extensions/IERC20Metadata.sol";
 import "../../utils/Context.sol";
@@ -88,7 +88,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 そして，各グローバル変数を定義．
 
-```solidity
+```
     // このマッピングがトークン残高の本体．名付けるならトークン残高．
     // アドレスに対してトークンの量を紐づけ，残高とみなす．
     mapping(address => uint256) private _balances;
@@ -107,7 +107,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 続いて，デプロイ時に string 変数を初期化する `constructor` が定義されています．引数(トークン名とトークンシンボル)はデプロイ時にコンパイルされた Solidity ファイルと一緒に渡してあげます．
 
-```solidity
+```
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
@@ -120,7 +120,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 まずは，変数を変更(変数に代入)できない `view` 関数で，処理が少ないものが定義されています．
 
-```solidity
+```
     // トークンネームを参照する関数
     function name() public view virtual override returns (string memory) {
         return _name;
@@ -164,7 +164,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 メソッドとトリガーと分ける理由は，複雑な関数を定義したいデベロッパーへの配慮のためでしょう．これにより，基本機能だけを用いたいデベロッパーは標準搭載関数で手間なく実装が完了でき，複雑な関数を定義したいデベロッパーは基本機能のメソッドが記述された ""internal"" 関数を骨組みとした複雑な関数の定義を容易に行えます．
 
-```solidity
+```
     // 送金を行う関数．
     // 実際の処理を行う本体とも言える_trancefer関数については，後に説明がなされる．
     // ※中身が直下に無いのは，Solidityのコーディング規則に由来する．関数の可視性によって順序づけて書くようにと
@@ -243,7 +243,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 さらに，"\_beforeTokenTransfer"，"\_afterTokenTransfer" という，標準搭載関数の中でトークン転送を行う関数の前後で追加操作を行う関数が定義されています．これらはデフォルトでは何も定義されておらず，実装時に "override" 修飾子をつけて記述することで関数を上書きして使用します．
 
-```solidity
+```
 // トークン転送(送金)の仕組みがかいてある．
     // 以下を順に実行している．
     // ・自身のアドレスと相手のアドレスが0アドレスでないことを要求

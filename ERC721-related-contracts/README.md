@@ -133,7 +133,7 @@ ERC721 における用途は，`isContract()` の利用です．この関数は 
 次に，変数，マッピングを宣言しています．
 そして，`constructor` で変数群を初期化しています．
 
-```solidity
+```
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts (last updated v4.7.0) (token/ERC721/ERC721.sol)
 
@@ -206,7 +206,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
 > 最後の `_baseURI()` 関数については少し特殊で，この関数はかなり簡単な作りになっており，作成者によってメタデータの扱いを大きく変えることができます．
 > 例えば，`return ""` 内に任意の URL を入力しておけば単にそのアドレスから取得できる画像を表示するという実装になり，他方関数外に `string private baseURI` などの変数，そして変数を書き換える関数を定義し，`return ""` 部分を `return baseURI` として `name()` 変数と同様にその変数を呼び出すような形にしておけば，メタデータを後々変更することが可能な NFT を実装できます．
 
-```solidity
+```
     // ERC165の本体．
     // 引数に取ったinterfaceId(interface の識別子)が，ERC165が実装されたコントラクトまたは
     // 実装したコントラクトに継承したコントラクト内に実装されているか調べることができる．
@@ -297,7 +297,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
 - token 移送許可に関係する `approve()`，`getApproved()`，`setApprovalForAll()`，`isApprovedForAll` 関数
 - 許可を受けた移送を実際に行う `transferFrom()`，`safeTransferFrom()` 関数
 
-```solidity
+```
     // tokenの現ownerがtoアドレスに対してtokenの移送許可を与える関数
     /**
      * @dev See {IERC721-approve}.
@@ -421,7 +421,7 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
 
 - `_beforeTokenTransfer()`，`_afterTokenTransfer()`
 
-```solidity
+```
     // transfer関数にERC721Rceiverを適用した関数．
     /**
      * @dev Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients

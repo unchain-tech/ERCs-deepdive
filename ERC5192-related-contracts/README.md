@@ -144,7 +144,7 @@ ERC5192 は大部分が ERC721 と共通のため，共通部分の解説につ�
 変数定義における ERC721 との違いは，以下の `_accountLock` のみで，これは筆者が EIP をもとに独自に実装した変数になります．
 この変数により，ERC5192 は transfer を制限可能な SoulBound Token としての役割を果たせるようになります．
 
-```solidity
+```
 mapping(uint256 => bool) private _accountLock;
 ```
 
@@ -154,7 +154,7 @@ mapping(uint256 => bool) private _accountLock;
 `locked` 関数は EIP で提唱された IERC5192 に沿ったもので，関数の内部は筆者が実装をしました．
 戻り値として， `tokenId` の transfer がロックされていれば `true` ，ロックされていなければ `false` を返します．
 
-```solidity
+```
 function locked(uint256 tokenId) external view override returns (bool) {
     require(_exists(tokenId), "invalid token ID");
     return _accountLock[tokenId];
