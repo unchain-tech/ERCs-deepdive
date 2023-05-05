@@ -1,1 +1,3 @@
+.github/**
 **/*.sol
+**/page-template.md

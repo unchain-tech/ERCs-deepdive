@@ -3,7 +3,7 @@
 <html lang="ja" >
     <head>
         <meta charset="UTF-8">
-        <title>Bugs🐝 · Deepdive into ERCs</title>
+        <title>ERC20-related bugs · Deepdive into ERCs</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 4.0.7">
@@ -60,10 +60,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ERC20.html" />
+    <link rel="next" href="ERC721.html" />
     
     
-    <link rel="prev" href="../metatx-related-contracts/" />
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -197,7 +197,7 @@
         
         
     
-        <li class="chapter active" data-level="3.1" data-path="./">
+        <li class="chapter " data-level="3.1" data-path="./">
             
                 <a href="./">
             
@@ -211,7 +211,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="3.1.1" data-path="ERC20.html">
+        <li class="chapter active" data-level="3.1.1" data-path="ERC20.html">
             
                 <a href="ERC20.html">
             
@@ -389,7 +389,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Bugs🐝</a>
+        <a href=".." >ERC20-related bugs</a>
     </h1>
 </div>
 
@@ -404,30 +404,67 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="known-smart-contract-bugs">Known Smart Contract Bugs</h1>
-<h2 id="🤔-このチャプターは？">🤔 このチャプターは？</h2>
-<p>このデータベースは UNCHAIN コミュニティのみなさんで Bug をパターン別に追加して、Audit の知見を蓄積していくためのプロジェクトです</p>
-<h2 id="🤩-どうやって使うの？">🤩 どうやって使うの？</h2>
-<h3 id="for-contributor-🧑‍💻">For Contributor 🧑‍💻</h3>
-<ol>
-<li>学習した Bug が該当する Bug のカテゴリーを探す 例) <a href="../ERC20-related-contracts/">ERC20</a>, <a href="../ERC721-related-contracts/">ERC721</a>, <a href="Reentrancy/UseNonReentrant.md">Reentrancy</a> etc...</li>
-<li><p>カテゴリー内であなたの学習したバグと同じバグが、、、</p>
-<ol>
-<li>ある: 同じバグのページの Similar Issue に追加する PR を作成する 😎</li>
-<li>ない: PR を出してそのバグのパターンをレポジトリに追加するための PR を作成する 😍</li>
-</ol>
-<p><a href="Issue.md"><strong><code>Issue.md</code></strong></a> を参考に PR の作成をお願いします 🙏</p>
-</li>
-<li><p>管理者のレビューを待つ</p>
-</li>
-<li>Merge される ✨</li>
-</ol>
-<h3 id="for-user-🙋‍♂️">For User 🙋‍♂️</h3>
+                                <h1 id="erc20-related-bugs">ERC20-related bugs</h1>
+<h2 id="zeroamounttransfer">ZeroAmountTransfer</h2>
+<p>amount=0 で transfer するとエラーが発生する</p>
+<h3 id="🔗-url">🔗 URL</h3>
+<p><a href="https://github.com/code-423n4/2022-02-hubble-findings/issues/29" target="_blank">https://github.com/code-423n4/2022-02-hubble-findings/issues/29</a></p>
+<h3 id="⛳️-condition">⛳️ Condition</h3>
 <ul>
-<li>バグのパターンを学習するために使う！</li>
-<li>バグを見つけた際の説明がわからないときに、参考にする</li>
-<li>このバグって本当にあっているのかな？と思った時に「バグの条件」「バグの攻撃方法」について確認する</li>
+<li>ERC20 トークンが transfer される際に、amount が 0 でないことを確認していない</li>
+<li>トークンの制限をしていないため、どんな ERC20 トークンでも transfer する可能性がある</li>
 </ul>
+<p><a href="https://github.com/code-423n4/2022-05-sturdy/blob/78f51a7a74ebe8adfd055bdbaedfddc05632566f/smart-contracts/ConvexCurveLPVault.sol#L70-L85" target="_blank">https://github.com/code-423n4/2022-05-sturdy/blob/78f51a7a74ebe8adfd055bdbaedfddc05632566f/smart-contracts/ConvexCurveLPVault.sol#L70-L85</a></p>
+<pre><code>  function _transferYield(address _asset) internal {
+    require(_asset != address(0), Errors.VT_PROCESS_YIELD_INVALID);
+    uint256 yieldAmount = IERC20(_asset).balanceOf(address(this));
+
+    // transfer to treasury
+    if (_vaultFee &gt; 0) {
+      uint256 treasuryAmount = _processTreasury(_asset, yieldAmount);
+      yieldAmount = yieldAmount.sub(treasuryAmount);
+    }
+
+    // transfer to yieldManager
+    address yieldManager = _addressesProvider.getAddress(&apos;YIELD_MANAGER&apos;);
+    TransferHelper.safeTransfer(_asset, yieldManager, yieldAmount);
+
+    emit ProcessYield(_asset, yieldAmount);
+  }
+</code></pre><h3 id="👨‍💻-poc">👨‍💻 PoC</h3>
+<p>ERC20 トークンの中には、ゼロ枚の transfer で revert されるものがあります（例：LEND)</p>
+<p>参照: <a href="https://github.com/d-xo/weird-erc20#revert-on-zero-value-transfers" target="_blank">https://github.com/d-xo/weird-erc20#revert-on-zero-value-transfers</a></p>
+<ol>
+<li><code>_asset</code>に LEND トークンが入力される</li>
+<li><code>yieldAmount</code>が 0 になる</li>
+<li>下記のように関数が実行される
+<code>TransferHelper.safeTransfer(LEND_TOKEN_ADDRESS, yieldManager, 0);</code></li>
+<li>トランザクションが revert される</li>
+</ol>
+<pre><code>    // transfer to treasury
+    if (_vaultFee &gt; 0) {
+      uint256 treasuryAmount = _processTreasury(_asset, yieldAmount);
+      yieldAmount = yieldAmount.sub(treasuryAmount);
+    }
+
+    // transfer to yieldManager
+    address yieldManager = _addressesProvider.getAddress(&apos;YIELD_MANAGER&apos;);
+    TransferHelper.safeTransfer(_asset, yieldManager, yieldAmount);
+</code></pre><h3 id="✅-recommendation">✅ Recommendation</h3>
+<p>例: 下記のように変更してください</p>
+<pre><code>+    if (yieldAmount &gt; 0) {
+        // transfer to treasury
+        if (_vaultFee &gt; 0) {
+          uint256 treasuryAmount = _processTreasury(_asset, yieldAmount);
+          yieldAmount = yieldAmount.sub(treasuryAmount);
+        }
+
+        // transfer to yieldManager
+        address yieldManager = _addressesProvider.getAddress(&apos;YIELD_MANAGER&apos;);
+        TransferHelper.safeTransfer(_asset, yieldManager, yieldAmount);
++  }
+</code></pre><h3 id="👬-similar-issue">👬 Similar Issue</h3>
+<p><a href="https://github.com/code-423n4/2022-02-concur-findings/issues/231" target="_blank">https://github.com/code-423n4/2022-02-concur-findings/issues/231</a></p>
 
                                 
                                 </section>
@@ -455,12 +492,12 @@
 
             
                 
-                <a href="../metatx-related-contracts/" class="navigation navigation-prev " aria-label="Previous page: MetaTx">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Bugs🐝">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ERC20.html" class="navigation navigation-next " aria-label="Next page: ERC20-related bugs">
+                <a href="ERC721.html" class="navigation navigation-next " aria-label="Next page: ERC721-related bugs">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -471,7 +508,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Bugs🐝","level":"3.1","depth":1,"next":{"title":"ERC20-related bugs","level":"3.1.1","depth":2,"path":"bugs/ERC20.md","ref":"./bugs/ERC20.md","articles":[]},"previous":{"title":"MetaTx","level":"2.6","depth":1,"path":"metatx-related-contracts/README.md","ref":"./metatx-related-contracts/README.md","articles":[]},"articles":[{"title":"ERC20-related bugs","level":"3.1.1","depth":2,"path":"bugs/ERC20.md","ref":"./bugs/ERC20.md","articles":[]},{"title":"ERC721-related bugs","level":"3.1.2","depth":2,"path":"bugs/ERC721.md","ref":"./bugs/ERC721.md","articles":[]},{"title":"Upgradeable contracts","level":"3.1.3","depth":2,"path":"bugs/Upgradeable.md","ref":"./bugs/Upgradeable.md","articles":[]},{"title":"Reentrancy attacks","level":"3.1.4","depth":2,"path":"bugs/Reentrancy.md","ref":"./bugs/Reentrancy.md","articles":[]},{"title":"Underflows & Overflows","level":"3.1.5","depth":2,"path":"bugs/UnderflowOverflow.md","ref":"./bugs/UnderflowOverflow.md","articles":[]},{"title":"Low-level calls","level":"3.1.6","depth":2,"path":"bugs/LowLevelCall.md","ref":"./bugs/LowLevelCall.md","articles":[]},{"title":"DoS attack vectors","level":"3.1.7","depth":2,"path":"bugs/DoS.md","ref":"./bugs/DoS.md","articles":[]},{"title":"Exploiting MEVs","level":"3.1.8","depth":2,"path":"bugs/MEV.md","ref":"./bugs/MEV.md","articles":[]},{"title":"Exploiting Oracles","level":"3.1.9","depth":2,"path":"bugs/Oracle.md","ref":"./bugs/Oracle.md","articles":[]},{"title":"Rug pulls","level":"3.1.10","depth":2,"path":"bugs/Rug-Pull.md","ref":"./bugs/Rug-Pull.md","articles":[]},{"title":"PRs","level":"3.1.11","depth":2,"path":"bugs/Issue.md","ref":"./bugs/Issue.md","articles":[]}],"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/README.md","mtime":"2023-05-05T16:42:09.754Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:42:11.938Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ERC20-related bugs","level":"3.1.1","depth":2,"next":{"title":"ERC721-related bugs","level":"3.1.2","depth":2,"path":"bugs/ERC721.md","ref":"./bugs/ERC721.md","articles":[]},"previous":{"title":"Bugs🐝","level":"3.1","depth":1,"path":"bugs/README.md","ref":"./bugs/README.md","articles":[{"title":"ERC20-related bugs","level":"3.1.1","depth":2,"path":"bugs/ERC20.md","ref":"./bugs/ERC20.md","articles":[]},{"title":"ERC721-related bugs","level":"3.1.2","depth":2,"path":"bugs/ERC721.md","ref":"./bugs/ERC721.md","articles":[]},{"title":"Upgradeable contracts","level":"3.1.3","depth":2,"path":"bugs/Upgradeable.md","ref":"./bugs/Upgradeable.md","articles":[]},{"title":"Reentrancy attacks","level":"3.1.4","depth":2,"path":"bugs/Reentrancy.md","ref":"./bugs/Reentrancy.md","articles":[]},{"title":"Underflows & Overflows","level":"3.1.5","depth":2,"path":"bugs/UnderflowOverflow.md","ref":"./bugs/UnderflowOverflow.md","articles":[]},{"title":"Low-level calls","level":"3.1.6","depth":2,"path":"bugs/LowLevelCall.md","ref":"./bugs/LowLevelCall.md","articles":[]},{"title":"DoS attack vectors","level":"3.1.7","depth":2,"path":"bugs/DoS.md","ref":"./bugs/DoS.md","articles":[]},{"title":"Exploiting MEVs","level":"3.1.8","depth":2,"path":"bugs/MEV.md","ref":"./bugs/MEV.md","articles":[]},{"title":"Exploiting Oracles","level":"3.1.9","depth":2,"path":"bugs/Oracle.md","ref":"./bugs/Oracle.md","articles":[]},{"title":"Rug pulls","level":"3.1.10","depth":2,"path":"bugs/Rug-Pull.md","ref":"./bugs/Rug-Pull.md","articles":[]},{"title":"PRs","level":"3.1.11","depth":2,"path":"bugs/Issue.md","ref":"./bugs/Issue.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/ERC20.md","mtime":"2023-05-05T16:42:09.754Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:42:11.938Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
