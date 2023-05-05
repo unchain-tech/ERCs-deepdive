@@ -3,7 +3,7 @@
 <html lang="ja" >
     <head>
         <meta charset="UTF-8">
-        <title>Underflows & Overflows · Deepdive into ERCs</title>
+        <title>Reentrancy attacks · Deepdive into ERCs</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 4.0.7">
@@ -60,10 +60,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="LowLevelCall.html" />
+    <link rel="next" href="UnderflowOverflow.html" />
     
     
-    <link rel="prev" href="Reentrancy.html" />
+    <link rel="prev" href="Upgradeable.html" />
     
 
     </head>
@@ -250,7 +250,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.4" data-path="Reentrancy.html">
+        <li class="chapter active" data-level="3.1.4" data-path="Reentrancy.html">
             
                 <a href="Reentrancy.html">
             
@@ -263,7 +263,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.5" data-path="UnderflowOverflow.html">
+        <li class="chapter " data-level="3.1.5" data-path="UnderflowOverflow.html">
             
                 <a href="UnderflowOverflow.html">
             
@@ -376,7 +376,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Underflows & Overflows</a>
+        <a href=".." >Reentrancy attacks</a>
     </h1>
 </div>
 
@@ -391,45 +391,90 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="underflows--overflows">Underflows / Overflows</h1>
-<h2 id="underflow">Underflow</h2>
-<p>Underflow が起こる</p>
+                                <h1 id="reentrancy">Reentrancy</h1>
+<h2 id="use-nonreentrant">Use nonReentrant</h2>
+<p><code>nonReentrant</code> modifier を使用する</p>
 <h3 id="🔗-url">🔗 URL</h3>
-<p><a href="https://github.com/code-423n4/2022-03-timeswap-findings/issues/32" target="_blank">https://github.com/code-423n4/2022-03-timeswap-findings/issues/32</a></p>
+<p><a href="https://github.com/code-423n4/2022-02-redacted-cartel-findings/issues/80" target="_blank">https://github.com/code-423n4/2022-02-redacted-cartel-findings/issues/80</a></p>
 <h3 id="⛳️-condition">⛳️ Condition</h3>
 <ol>
-<li>変数の型が<code>uint</code>で、引き算の結果が 0 よりも小さくなる</li>
+<li><code>safeTransfer</code>, <code>safeTransferFrom</code>が使用されている(fallback function のきっかけになる)</li>
+<li>Check-Effect-Interaction パターンに従っていない</li>
 </ol>
-<p><a href="https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L121-L127" target="_blank">https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L121-L127</a></p>
-<pre><code>if (maxCollateral &gt; dueOut.collateral) {
-    uint256 excess; // default by 0
-    unchecked {
-        excess -= dueOut.collateral; // excess &lt;= 0
+<p>参照: <a href="https://fravoll.github.io/solidity-patterns/checks_effects_interactions.html" target="_blank">https://fravoll.github.io/solidity-patterns/checks_effects_interactions.html</a></p>
+<p><a href="https://github.com/code-423n4/2022-02-redacted-cartel/blob/main/contracts/BribeVault.sol#L164-L205" target="_blank">https://github.com/code-423n4/2022-02-redacted-cartel/blob/main/contracts/BribeVault.sol#L164-L205</a></p>
+<pre><code>function depositBribeERC20(
+    bytes32 bribeIdentifier,
+    bytes32 rewardIdentifier,
+    address token,
+    uint256 amount,
+    address briber
+) external onlyRole(DEPOSITOR_ROLE) {
+    require(bribeIdentifier.length &gt; 0, &quot;Invalid bribeIdentifier&quot;);
+    require(rewardIdentifier.length &gt; 0, &quot;Invalid rewardIdentifier&quot;);
+    require(token != address(0), &quot;Invalid token&quot;);
+    require(amount &gt; 0, &quot;Amount must be greater than 0&quot;);
+    require(briber != address(0), &quot;Invalid briber&quot;);
+
+    Bribe storage b = bribes[bribeIdentifier];
+    address currentToken = b.token;
+    require(
+        // If bribers want to bribe with a different token they need a new identifier
+        currentToken == address(0) || currentToken == token,
+        &quot;Cannot change token&quot;
+    );
+
+    // Since this method is called by a depositor contract, we must transfer from the account
+    // that called the depositor contract - amount must be approved beforehand
+    IERC20(token).safeTransferFrom(briber, address(this), amount);
+
+    b.amount += amount; // Allow bribers to increase bribe
+
+    // Only set the token address and update the reward-to-bribe mapping if not yet set
+    if (currentToken == address(0)) {
+        b.token = token;
+        rewardToBribes[rewardIdentifier].push(bribeIdentifier);
     }
-    ETH.transfer(payable(msg.sender), excess);
+
+    emit DepositBribe(
+        bribeIdentifier,
+        rewardIdentifier,
+        token,
+        amount,
+        b.amount,
+        briber
+    );
 }
 </code></pre><h3 id="👨‍💻-poc">👨‍💻 PoC</h3>
-<ol>
-<li><code>uint256 excess;</code>で、excess 変数が<code>uint256</code>の型で宣言されている。デフォルトの値は 0 なので、excess はこの時点で 0。</li>
-<li><code>dueOut.collateral</code>が 1 だとすると、<code>unchecked</code>キーワードの影響で revert は帰さず excess の値は<code>2^256-1</code>の値になる</li>
-<li><code>ETH.transfer(payable(msg.sender), excess);</code>において excess は量を表すため、予期しない大量のトークンを送信することになるのか、資金不足でトランザクションが revert される</li>
-</ol>
-<h2 id="✅-recommendation">✅ Recommendation</h2>
-<p>ここでは同じコントラクトを参考にすると、<code>excess</code>は 0 ではなく、<code>maxCollateral</code>を代入すべきである
-<a href="https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L347" target="_blank">https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L347</a></p>
-<p>そして underflow が起きないようにチェックが必要である</p>
-<pre><code>// Underflow Check
-if (maxCollateral &gt; dueOut.collateral) {
+<pre><code>function depositBribeERC20(
+    bytes32 bribeIdentifier,
+    bytes32 rewardIdentifier,
+    address token,
+    uint256 amount,
+    address briber
+) external onlyRole(DEPOSITOR_ROLE) {
 
-    // declare excess as a maxColalteral
-    uint256 excess = maxCollateral;
-    unchecked {
-        excess -= dueOut.collateral;
-    }
-    ETH.transfer(payable(msg.sender), excess);
+    // CHECK
+    require(bribeIdentifier.length &gt; 0, &quot;Invalid bribeIdentifier&quot;);
+    require(rewardIdentifier.length &gt; 0, &quot;Invalid rewardIdentifier&quot;);
+    require(token != address(0), &quot;Invalid token&quot;);
+    require(amount &gt; 0, &quot;Amount must be greater than 0&quot;);
+    require(briber != address(0), &quot;Invalid briber&quot;);
+
+    // INTERACTION
+    IERC20(token).safeTransferFrom(briber, address(this), amount);
+
+    // EFFECT
+    b.amount += amount; // Allow bribers to increase bribe
+
+    /* ... */
 }
-</code></pre><h3 id="👬-similar-issue">👬 Similar Issue</h3>
-<p><a href="https://github.com/code-423n4/2022-04-backd-findings/issues/50" target="_blank">https://github.com/code-423n4/2022-04-backd-findings/issues/50</a></p>
+</code></pre><h3 id="✅-recommendation">✅ Recommendation</h3>
+<p>OpenZeppelin の<code>nonReentrant</code> modifier を使用してください</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol#L50-L54" target="_blank">https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol#L50-L54</a></p>
+<p>また Check-Effect-Interaction パターンに従ってください</p>
+<h3 id="👬-similar-issue">👬 Similar Issue</h3>
+<p><a href="https://github.com/code-423n4/2022-05-rubicon-findings/issues/283" target="_blank">https://github.com/code-423n4/2022-05-rubicon-findings/issues/283</a></p>
 
                                 
                                 </section>
@@ -457,12 +502,12 @@ if (maxCollateral &gt; dueOut.collateral) {
 
             
                 
-                <a href="Reentrancy.html" class="navigation navigation-prev " aria-label="Previous page: Reentrancy attacks">
+                <a href="Upgradeable.html" class="navigation navigation-prev " aria-label="Previous page: Upgradeable contracts">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="LowLevelCall.html" class="navigation navigation-next " aria-label="Next page: Low-level calls">
+                <a href="UnderflowOverflow.html" class="navigation navigation-next " aria-label="Next page: Underflows & Overflows">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -473,7 +518,7 @@ if (maxCollateral &gt; dueOut.collateral) {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Underflows & Overflows","level":"3.1.5","depth":2,"next":{"title":"Low-level calls","level":"3.1.6","depth":2,"path":"bugs/LowLevelCall.md","ref":"./bugs/LowLevelCall.md","articles":[]},"previous":{"title":"Reentrancy attacks","level":"3.1.4","depth":2,"path":"bugs/Reentrancy.md","ref":"./bugs/Reentrancy.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/UnderflowOverflow.md","mtime":"2023-05-05T16:48:27.801Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:48:29.581Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Reentrancy attacks","level":"3.1.4","depth":2,"next":{"title":"Underflows & Overflows","level":"3.1.5","depth":2,"path":"bugs/UnderflowOverflow.md","ref":"./bugs/UnderflowOverflow.md","articles":[]},"previous":{"title":"Upgradeable contracts","level":"3.1.3","depth":2,"path":"bugs/Upgradeable.md","ref":"./bugs/Upgradeable.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/Reentrancy.md","mtime":"2023-05-05T16:48:27.801Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:48:29.581Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
