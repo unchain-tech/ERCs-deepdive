@@ -19,7 +19,7 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 
 ## ページ追加方法
 
-- [テンプレート](https://github.com/unchain-tech/ERCs-deepdive/page-template.md)に倣ってください。
+- [テンプレート](https://github.com/unchain-tech/ERCs-deepdive/blob/main/page-template.md)に倣ってください。
 
 ## Contributors
 
