@@ -443,59 +443,63 @@
 <h3 id="31-import-変数定義から-constructor-まで">3.1. &quot;&quot;import&quot;&quot;, 変数定義から &quot;constructor&quot; まで</h3>
 <p>さぁ，それでは本体である <code>ERC20.sol</code> についてみていきましょう．</p>
 <p>まず最初に，先程紹介した 3 つの <code>.sol</code> ファイルを import した後，各 <code>contract</code> を <code>ERC20</code> という <code>contract</code> に継承させています．</p>
-<pre><code>import &quot;./IERC20.sol&quot;;
-import &quot;./extensions/IERC20Metadata.sol&quot;;
-import &quot;../../utils/Context.sol&quot;;
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC20.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./extensions/IERC20Metadata.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Context.sol&quot;</span>;
 contract ERC20 is Context, IERC20, IERC20Metadata {
-</code></pre><p>そして，各グローバル変数を定義．</p>
-<pre><code>    // このマッピングがトークン残高の本体．名付けるならトークン残高．
-    // アドレスに対してトークンの量を紐づけ，残高とみなす．
-    mapping(address =&gt; uint256) private _balances;
+</code></pre>
+<p>そして，各グローバル変数を定義．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// このマッピングがトークン残高の本体．名付けるならトークン残高．</span>
+    <span class="hljs-comment">// アドレスに対してトークンの量を紐づけ，残高とみなす．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256) private _balances;
 
-    // このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．
-    // 任意のアドレスAから，他の任意のアドレスBに対してアドレスAの残高からの引き出し許可を与えるというもの．
-    mapping(address =&gt; mapping(address =&gt; uint256)) private _allowances;
+    <span class="hljs-comment">// このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．</span>
+    <span class="hljs-comment">// 任意のアドレスAから，他の任意のアドレスBに対してアドレスAの残高からの引き出し許可を与えるというもの．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256)) private _allowances;
 
-    // 文字通り，総供給量
+    <span class="hljs-comment">// 文字通り，総供給量</span>
     uint256 private _totalSupply;
 
-    // トークンネームとトークンシンボルの箱．恐らくは，defi等でトークン情報を出力するときに使われる．
+    <span class="hljs-comment">// トークンネームとトークンシンボルの箱．恐らくは，defi等でトークン情報を出力するときに使われる．</span>
     string private _name;
     string private _symbol;
-</code></pre><p>続いて，デプロイ時に string 変数を初期化する <code>constructor</code> が定義されています．引数(トークン名とトークンシンボル)はデプロイ時にコンパイルされた Solidity ファイルと一緒に渡してあげます．</p>
-<pre><code>    constructor(string memory name_, string memory symbol_) {
+</code></pre>
+<p>続いて，デプロイ時に string 変数を初期化する <code>constructor</code> が定義されています．引数(トークン名とトークンシンボル)はデプロイ時にコンパイルされた Solidity ファイルと一緒に渡してあげます．</p>
+<pre><code class="lang-javascript">    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">string memory name_, string memory symbol_</span>)</span> {
         _name = name_;
         _symbol = symbol_;
     }
-</code></pre><h3 id="32-ブロックチェーン上の変数を参照する-view-関数群">3.2. ブロックチェーン上の変数を参照する &quot;&quot;view&quot;&quot; 関数群</h3>
+</code></pre>
+<h3 id="32-ブロックチェーン上の変数を参照する-view-関数群">3.2. ブロックチェーン上の変数を参照する &quot;&quot;view&quot;&quot; 関数群</h3>
 <p>その後に，関数が定義されていきます．</p>
 <p>まずは，変数を変更(変数に代入)できない <code>view</code> 関数で，処理が少ないものが定義されています．</p>
-<pre><code>    // トークンネームを参照する関数
-    function name() public view virtual override returns (string memory) {
-        return _name;
+<pre><code class="lang-javascript">    <span class="hljs-comment">// トークンネームを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _name;
     }
 
-    // トークンシンボルを参照する関数
-    function symbol() public view virtual override returns (string memory) {
-        return _symbol;
+    <span class="hljs-comment">// トークンシンボルを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">symbol</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _symbol;
     }
 
-    // decimalsを参照，ではなくdecimalsを返す関数．
-    // 規格からの変更はまずないだろうということで，変数としておいていないのだと考えられる．
-    function decimals() public view virtual override returns (uint8) {
-        return 18;
+    <span class="hljs-comment">// decimalsを参照，ではなくdecimalsを返す関数．</span>
+    <span class="hljs-comment">// 規格からの変更はまずないだろうということで，変数としておいていないのだと考えられる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decimals</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint8</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">18</span>;
     }
 
-    // 総供給量を参照する関数．
-    function totalSupply() public view virtual override returns (uint256) {
-        return _totalSupply;
+    <span class="hljs-comment">// 総供給量を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">totalSupply</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _totalSupply;
     }
 
-    // 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．
-    function balanceOf(address account) public view virtual override returns (uint256) {
-        return _balances[account];
+    <span class="hljs-comment">// 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">balanceOf</span>(<span class="hljs-params">address account</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _balances[account];
     }
-</code></pre><h3 id="33-標準搭載関数群">3.3. 標準搭載関数群</h3>
+</code></pre>
+<h3 id="33-標準搭載関数群">3.3. 標準搭載関数群</h3>
 <p>そして，<code>ERC20</code> に標準搭載されている関数が定義されます．</p>
 <ul>
 <li>自分による，自分のアドレスから任意のアドレスへのトークン転送</li>
@@ -507,211 +511,213 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 </ul>
 <p>以上 6 機能のトリガーとなる関数です．適切な引数と変数を定義し，次章で解説する実際の操作が記述された &quot;&quot;internal&quot;&quot; 関数をメソッドとして呼び出しています．</p>
 <p>メソッドとトリガーと分ける理由は，複雑な関数を定義したいデベロッパーへの配慮のためでしょう．これにより，基本機能だけを用いたいデベロッパーは標準搭載関数で手間なく実装が完了でき，複雑な関数を定義したいデベロッパーは基本機能のメソッドが記述された &quot;&quot;internal&quot;&quot; 関数を骨組みとした複雑な関数の定義を容易に行えます．</p>
-<pre><code>    // 送金を行う関数．
-    // 実際の処理を行う本体とも言える_trancefer関数については，後に説明がなされる．
-    // ※中身が直下に無いのは，Solidityのコーディング規則に由来する．関数の可視性によって順序づけて書くようにと
-    // 　ドキュメントに言及がある．(https://solidity-jp.readthedocs.io/ja/latest/style-guide.html#order-of-functions)
-    function transfer(address to, uint256 amount) public virtual override returns (bool) {
+<pre><code class="lang-javascript">    <span class="hljs-comment">// 送金を行う関数．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_trancefer関数については，後に説明がなされる．</span>
+    <span class="hljs-comment">// ※中身が直下に無いのは，Solidityのコーディング規則に由来する．関数の可視性によって順序づけて書くようにと</span>
+    <span class="hljs-comment">// 　ドキュメントに言及がある．(https://solidity-jp.readthedocs.io/ja/latest/style-guide.html#order-of-functions)</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span>(<span class="hljs-params">address to, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
         address owner = _msgSender();
         _transfer(owner, to, amount);
-        return true;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
 
-    // allowance(引き出し許可残高)を参照する関数．
-    // 最初の方で定義した_allowancesマッピングを参照している．
-    function allowance(address owner, address spender) public view virtual override returns (uint256) {
-        return _allowances[owner][spender];
+    <span class="hljs-comment">// allowance(引き出し許可残高)を参照する関数．</span>
+    <span class="hljs-comment">// 最初の方で定義した_allowancesマッピングを参照している．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">allowance</span>(<span class="hljs-params">address owner, address spender</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _allowances[owner][spender];
     }
 
-    // 引き出し許可残高を変更する関数．
-    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
-    function approve(address spender, uint256 amount) public virtual override returns (bool) {
+    <span class="hljs-comment">// 引き出し許可残高を変更する関数．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">approve</span>(<span class="hljs-params">address spender, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
         address owner = _msgSender();
         _approve(owner, spender, amount);
-        return true;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
 
-    // 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．
-    // _spendAllowance関数で引き出し許可残高を引き出す残高だけへらし，
-    // _transfer関数で対象アドレスか自身のアドレスへ，残高を移動させる
-    // 実際の処理を行う本体とも言える _ のついた関数については，後に説明がなされる．
-    function transferFrom(
-        address from,
+    <span class="hljs-comment">// 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．</span>
+    <span class="hljs-comment">// _spendAllowance関数で引き出し許可残高を引き出す残高だけへらし，</span>
+    <span class="hljs-comment">// _transfer関数で対象アドレスか自身のアドレスへ，残高を移動させる</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える _ のついた関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transferFrom</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount
-    ) public virtual override returns (bool) {
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
         address spender = _msgSender();
-        _spendAllowance(from, spender, amount);
-        _transfer(from, to, amount);
-        return true;
+        _spendAllowance(<span class="hljs-keyword">from</span>, spender, amount);
+        _transfer(<span class="hljs-keyword">from</span>, to, amount);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
 
-    // 引き出し許可残高を増やす関数．
-    // allowance関数で呼び出した引き出し許可残高に増やしたい値を足した値 を用いて_approve関数を叩くことで，
-    // 引き出し許可残高を上書きしている．
-    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
-    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
+    <span class="hljs-comment">// 引き出し許可残高を増やす関数．</span>
+    <span class="hljs-comment">// allowance関数で呼び出した引き出し許可残高に増やしたい値を足した値 を用いて_approve関数を叩くことで，</span>
+    <span class="hljs-comment">// 引き出し許可残高を上書きしている．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">increaseAllowance</span>(<span class="hljs-params">address spender, uint256 addedValue</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
         address owner = _msgSender();
         _approve(owner, spender, allowance(owner, spender) + addedValue);
-        return true;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
 
-    // 引き出し許可残高を減らす関数．
-    // allowance関数で呼び出した引き出し許可残高から減らしたい値を引いた値 を用いて_approve関数を叩くことで，
-    // 引き出し許可残高を上書きしている．
-    // require文では，_approve関数に入れるuint成分が負の値とならないかどうか確認している．
-    // 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．
-    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
+    <span class="hljs-comment">// 引き出し許可残高を減らす関数．</span>
+    <span class="hljs-comment">// allowance関数で呼び出した引き出し許可残高から減らしたい値を引いた値 を用いて_approve関数を叩くことで，</span>
+    <span class="hljs-comment">// 引き出し許可残高を上書きしている．</span>
+    <span class="hljs-comment">// require文では，_approve関数に入れるuint成分が負の値とならないかどうか確認している．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decreaseAllowance</span>(<span class="hljs-params">address spender, uint256 subtractedValue</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
         address owner = _msgSender();
         uint256 currentAllowance = allowance(owner, spender);
-        require(currentAllowance &gt;= subtractedValue, &quot;ERC20: decreased allowance below zero&quot;);
+        <span class="hljs-built_in">require</span>(currentAllowance &gt;= subtractedValue, <span class="hljs-string">&quot;ERC20: decreased allowance below zero&quot;</span>);
         unchecked {
             _approve(owner, spender, currentAllowance - subtractedValue);
         }
 
-        return true;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
-</code></pre><h3 id="34-メソッド記述と追加機能実装を担う-internal-関数群">3.4. メソッド記述と追加機能実装を担う &quot;&quot;internal&quot;&quot; 関数群</h3>
+</code></pre>
+<h3 id="34-メソッド記述と追加機能実装を担う-internal-関数群">3.4. メソッド記述と追加機能実装を担う &quot;&quot;internal&quot;&quot; 関数群</h3>
 <p>最後に，標準搭載関数のメソッドを記述するためのものや追加実装を行うためのものからなる <code>internal</code> 関数群が定義されています．</p>
 <p>※<code>internal</code> という修飾子は関数の可視性(<code>public</code>, <code>private</code>, <code>internal</code>, <code>external</code>)を表しています．これついては<a href="https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0" target="_blank">ここ</a>を見るとよいでしょう．</p>
 <p>3.3. でものべたように，多くの関数は標準搭載関数のメソッドを記述する関数ですが，違うものもあります．</p>
 <p>まずは&quot;&quot;_mint&quot;&quot; 関数と &quot;&quot;_burn&quot;&quot; 関数です．これらは文字通りトークンのミントとバーンのメソッドを記述した関数ですが，そのトリガー関数が &quot;&quot;ERC20.sol&quot;&quot; 上に標準搭載されていません．実装する場合は，<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/ERC20Burnable.sol" target="_blank">ERC20Burnable.sol</a> を &quot;&quot;import&quot;&quot; して &quot;&quot;burn&quot;&quot; 関数をを定義したり，直接 &quot;mint&quot; 関数を定義したりして メソッドを実行する関数を定義しなければなりません．</p>
 <p>さらに，&quot;_beforeTokenTransfer&quot;，&quot;_afterTokenTransfer&quot; という，標準搭載関数の中でトークン転送を行う関数の前後で追加操作を行う関数が定義されています．これらはデフォルトでは何も定義されておらず，実装時に &quot;override&quot; 修飾子をつけて記述することで関数を上書きして使用します．</p>
-<pre><code>// トークン転送(送金)の仕組みがかいてある．
-    // 以下を順に実行している．
-    // ・自身のアドレスと相手のアドレスが0アドレスでないことを要求
-    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
-    // ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認
-    // ・転送(送金先と送金元のアドレスの残高をamount分だけ増減させる)
-    // ・転送完了をイベントでフロントへ通知
-    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
-    function _transfer(
-        address from,
+<pre><code class="lang-javascript"><span class="hljs-comment">// トークン転送(送金)の仕組みがかいてある．</span>
+    <span class="hljs-comment">// 以下を順に実行している．</span>
+    <span class="hljs-comment">// ・自身のアドレスと相手のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・転送前に行いたい操作を足せる　※_beforeTokenTransfer</span>
+    <span class="hljs-comment">// ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認</span>
+    <span class="hljs-comment">// ・転送(送金先と送金元のアドレスの残高をamount分だけ増減させる)</span>
+    <span class="hljs-comment">// ・転送完了をイベントでフロントへ通知</span>
+    <span class="hljs-comment">// ・転送後に行いたい操作を足せる ※_afterTokenTransfer</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_transfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount
-    ) internal virtual {
-        require(from != address(0), &quot;ERC20: transfer from the zero address&quot;);
-        require(to != address(0), &quot;ERC20: transfer to the zero address&quot;);
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(<span class="hljs-keyword">from</span> != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: transfer from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(to != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: transfer to the zero address&quot;</span>);
 
-        _beforeTokenTransfer(from, to, amount);
+        _beforeTokenTransfer(<span class="hljs-keyword">from</span>, to, amount);
 
-        uint256 fromBalance = _balances[from];
-        require(fromBalance &gt;= amount, &quot;ERC20: transfer amount exceeds balance&quot;);
+        uint256 fromBalance = _balances[<span class="hljs-keyword">from</span>];
+        <span class="hljs-built_in">require</span>(fromBalance &gt;= amount, <span class="hljs-string">&quot;ERC20: transfer amount exceeds balance&quot;</span>);
         unchecked {
-            _balances[from] = fromBalance - amount;
-            // Overflow not possible: the sum of all balances is capped by totalSupply, and the sum is preserved by
-            // decrementing then incrementing.
+            _balances[<span class="hljs-keyword">from</span>] = fromBalance - amount;
+            <span class="hljs-comment">// Overflow not possible: the sum of all balances is capped by totalSupply, and the sum is preserved by</span>
+            <span class="hljs-comment">// decrementing then incrementing.</span>
             _balances[to] += amount;
         }
 
-        emit Transfer(from, to, amount);
+        emit Transfer(<span class="hljs-keyword">from</span>, to, amount);
 
-        _afterTokenTransfer(from, to, amount);
+        _afterTokenTransfer(<span class="hljs-keyword">from</span>, to, amount);
     }
 
-    // トークンmint(貨幣発行)の仕組みがかいてある．
-    // mint関数は実装されていないため，transfer関数のような形で_mint関数を含む関数を別途実装する必要がある．
-    // uncheckedというブロックは，ガス軽減策のようである．
-    // 以下を順に実行している．
-    // ・自身のアドレスが0アドレスでないことを要求
-    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
-    // ・mintしたい量(amount)を総供給量に追加
-    // ・mint(mint先のアドレスの残高をamount分だけ増加させる)
-    // ・mint完了をイベントでフロントへ通知
-    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
-    function _mint(address account, uint256 amount) internal virtual {
-        require(account != address(0), &quot;ERC20: mint to the zero address&quot;);
+    <span class="hljs-comment">// トークンmint(貨幣発行)の仕組みがかいてある．</span>
+    <span class="hljs-comment">// mint関数は実装されていないため，transfer関数のような形で_mint関数を含む関数を別途実装する必要がある．</span>
+    <span class="hljs-comment">// uncheckedというブロックは，ガス軽減策のようである．</span>
+    <span class="hljs-comment">// 以下を順に実行している．</span>
+    <span class="hljs-comment">// ・自身のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・転送前に行いたい操作を足せる　※_beforeTokenTransfer</span>
+    <span class="hljs-comment">// ・mintしたい量(amount)を総供給量に追加</span>
+    <span class="hljs-comment">// ・mint(mint先のアドレスの残高をamount分だけ増加させる)</span>
+    <span class="hljs-comment">// ・mint完了をイベントでフロントへ通知</span>
+    <span class="hljs-comment">// ・転送後に行いたい操作を足せる ※_afterTokenTransfer</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_mint</span>(<span class="hljs-params">address account, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(account != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: mint to the zero address&quot;</span>);
 
-        _beforeTokenTransfer(address(0), account, amount);
+        _beforeTokenTransfer(address(<span class="hljs-number">0</span>), account, amount);
 
         _totalSupply += amount;
         unchecked {
-            // Overflow not possible: balance + amount is at most totalSupply + amount, which is checked above.
+            <span class="hljs-comment">// Overflow not possible: balance + amount is at most totalSupply + amount, which is checked above.</span>
             _balances[account] += amount;
         }
-        emit Transfer(address(0), account, amount);
+        emit Transfer(address(<span class="hljs-number">0</span>), account, amount);
 
-        _afterTokenTransfer(address(0), account, amount);
+        _afterTokenTransfer(address(<span class="hljs-number">0</span>), account, amount);
     }
 
-    // トークンburn(貨幣の消去，焼却)の仕組みがかいてある．
-    // burn関数は実装されていないため，transfer関数のような形で_burn関数を含む関数を別途実装する必要がある．
-    // 以下を順に実行している．
-    // ・自身のアドレスが0アドレスでないことを要求
-    // ・転送前に行いたい操作を足せる　※_beforeTokenTransfer
-    // ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認
-    // ・送金(送金先と送金元のアドレスの残高をamount分だけ増減させる)
-    // ・送金完了をイベントでフロントへ通知
-    // ・転送後に行いたい操作を足せる ※_afterTokenTransfer
-    function _burn(address account, uint256 amount) internal virtual {
-        require(account != address(0), &quot;ERC20: burn from the zero address&quot;);
+    <span class="hljs-comment">// トークンburn(貨幣の消去，焼却)の仕組みがかいてある．</span>
+    <span class="hljs-comment">// burn関数は実装されていないため，transfer関数のような形で_burn関数を含む関数を別途実装する必要がある．</span>
+    <span class="hljs-comment">// 以下を順に実行している．</span>
+    <span class="hljs-comment">// ・自身のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・転送前に行いたい操作を足せる　※_beforeTokenTransfer</span>
+    <span class="hljs-comment">// ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認</span>
+    <span class="hljs-comment">// ・送金(送金先と送金元のアドレスの残高をamount分だけ増減させる)</span>
+    <span class="hljs-comment">// ・送金完了をイベントでフロントへ通知</span>
+    <span class="hljs-comment">// ・転送後に行いたい操作を足せる ※_afterTokenTransfer</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_burn</span>(<span class="hljs-params">address account, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(account != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: burn from the zero address&quot;</span>);
 
-        _beforeTokenTransfer(account, address(0), amount);
+        _beforeTokenTransfer(account, address(<span class="hljs-number">0</span>), amount);
 
         uint256 accountBalance = _balances[account];
-        require(accountBalance &gt;= amount, &quot;ERC20: burn amount exceeds balance&quot;);
+        <span class="hljs-built_in">require</span>(accountBalance &gt;= amount, <span class="hljs-string">&quot;ERC20: burn amount exceeds balance&quot;</span>);
         unchecked {
             _balances[account] = accountBalance - amount;
-            // Overflow not possible: amount &lt;= accountBalance &lt;= totalSupply.
+            <span class="hljs-comment">// Overflow not possible: amount &lt;= accountBalance &lt;= totalSupply.</span>
             _totalSupply -= amount;
         }
 
-        emit Transfer(account, address(0), amount);
+        emit Transfer(account, address(<span class="hljs-number">0</span>), amount);
 
-        _afterTokenTransfer(account, address(0), amount);
+        _afterTokenTransfer(account, address(<span class="hljs-number">0</span>), amount);
     }
 
-    // トークン引き出し許可更新の仕組みがかいてある．
-    // 自分のアドレスに対して相手のアドレスと残高をマッピングで紐づけることによって，
-    // 相手に対して自分の残高の引き出し許可を定義している．
-    // 以下を順に実行しているっぽい．
-    // ・自身と許可を与える者のアドレスが0アドレスでないことを要求
-    // ・引き出し許可残高を更新
-    // ・引き出し許可更新完了をイベントでフロントへ通知
-    function _approve(
+    <span class="hljs-comment">// トークン引き出し許可更新の仕組みがかいてある．</span>
+    <span class="hljs-comment">// 自分のアドレスに対して相手のアドレスと残高をマッピングで紐づけることによって，</span>
+    <span class="hljs-comment">// 相手に対して自分の残高の引き出し許可を定義している．</span>
+    <span class="hljs-comment">// 以下を順に実行しているっぽい．</span>
+    <span class="hljs-comment">// ・自身と許可を与える者のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・引き出し許可残高を更新</span>
+    <span class="hljs-comment">// ・引き出し許可更新完了をイベントでフロントへ通知</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_approve</span>(<span class="hljs-params">
         address owner,
         address spender,
         uint256 amount
-    ) internal virtual {
-        require(owner != address(0), &quot;ERC20: approve from the zero address&quot;);
-        require(spender != address(0), &quot;ERC20: approve to the zero address&quot;);
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(owner != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: approve from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(spender != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: approve to the zero address&quot;</span>);
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
     }
 
-    // トークン引き出し許可残高を減らす関数
-    function _spendAllowance(
+    <span class="hljs-comment">// トークン引き出し許可残高を減らす関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_spendAllowance</span>(<span class="hljs-params">
         address owner,
         address spender,
         uint256 amount
-    ) internal virtual {
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
         uint256 currentAllowance = allowance(owner, spender);
-        if (currentAllowance != type(uint256).max) {
-            require(currentAllowance &gt;= amount, &quot;ERC20: insufficient allowance&quot;);
+        <span class="hljs-keyword">if</span> (currentAllowance != type(uint256).max) {
+            <span class="hljs-built_in">require</span>(currentAllowance &gt;= amount, <span class="hljs-string">&quot;ERC20: insufficient allowance&quot;</span>);
             unchecked {
                 _approve(owner, spender, currentAllowance - amount);
             }
         }
     }
 
-    // トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行前に行いたい動作を設定できる．
-    // デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．
-    function _beforeTokenTransfer(
-        address from,
+    <span class="hljs-comment">// トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行前に行いたい動作を設定できる．</span>
+    <span class="hljs-comment">// デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_beforeTokenTransfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount
-    ) internal virtual {}
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
 
-    // トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行後に行いたい動作を設定できる．
-    // デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．
-    function _afterTokenTransfer(
-        address from,
+    <span class="hljs-comment">// トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行後に行いたい動作を設定できる．</span>
+    <span class="hljs-comment">// デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_afterTokenTransfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount
-    ) internal virtual {}
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
 }
-</code></pre><p>↓ 元ファイル</p>
+</code></pre>
+<p>↓ 元ファイル</p>
 <p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC20/ERC20.sol</a></p>
 <h2 id="4-scam-と-approve-関数">4. SCAM と approve 関数</h2>
 <p>秘密鍵(メタマスクにおけるシードフレーズ)を SCAMMER に知られてしまえば，彼らは自身のデバイスにあなたのウォレットをインポートすることができるようになり，あなたの ERC20 トークンは彼らの手によっていとも簡単にあなたのウォレットから抜かれてしまうでしょう．</p>
@@ -764,7 +770,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ERC20","level":"2.1","depth":1,"next":{"title":"ERC721","level":"2.2","depth":1,"path":"ERC721-related-contracts/README.md","ref":"./ERC721-related-contracts/README.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC20-related-contracts/README.md","mtime":"2023-05-05T16:56:00.777Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:56:03.556Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ERC20","level":"2.1","depth":1,"next":{"title":"ERC721","level":"2.2","depth":1,"path":"ERC721-related-contracts/README.md","ref":"./ERC721-related-contracts/README.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC20-related-contracts/README.md","mtime":"2023-09-12T07:27:37.682Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-09-12T07:27:40.333Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

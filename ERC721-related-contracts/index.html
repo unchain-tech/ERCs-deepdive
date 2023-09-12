@@ -484,62 +484,63 @@ uint である <code>tokenId</code> を string に変換して <code>_baseURI()<
 <p>最初に <code>using</code> コマンドでライブラリの使用を宣言しています．
 次に，変数，マッピングを宣言しています．
 そして，<code>constructor</code> で変数群を初期化しています．</p>
-<pre><code>// SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts (last updated v4.7.0) (token/ERC721/ERC721.sol)
+<pre><code class="lang-javascript"><span class="hljs-comment">// SPDX-License-Identifier: MIT</span>
+<span class="hljs-comment">// OpenZeppelin Contracts (last updated v4.7.0) (token/ERC721/ERC721.sol)</span>
 
-pragma solidity ^0.8.0;
+pragma solidity ^<span class="hljs-number">0.8</span><span class="hljs-number">.0</span>;
 
-import &quot;./IERC721.sol&quot;;
-import &quot;./IERC721Receiver.sol&quot;;
-import &quot;./extensions/IERC721Metadata.sol&quot;;
-import &quot;../../utils/Address.sol&quot;;
-import &quot;../../utils/Context.sol&quot;;
-import &quot;../../utils/Strings.sol&quot;;
-import &quot;../../utils/introspection/ERC165.sol&quot;;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC721.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC721Receiver.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./extensions/IERC721Metadata.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Address.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Context.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Strings.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/introspection/ERC165.sol&quot;</span>;
 
-/**
- * @dev Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@dev </span>Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {ERC721Enumerable}.
- */
+ */</span>
 contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
-    // ライブラリの使用を宣言
-    using Address for address;
-    using Strings for uint256;
+    <span class="hljs-comment">// ライブラリの使用を宣言</span>
+    using Address <span class="hljs-keyword">for</span> address;
+    using Strings <span class="hljs-keyword">for</span> uint256;
 
-    // Token name
+    <span class="hljs-comment">// Token name</span>
     string private _name;
 
-    // Token symbol
+    <span class="hljs-comment">// Token symbol</span>
     string private _symbol;
 
-    // トークンID→所有者アドレス のマッピング
-    // Mapping from token ID to owner address
-    mapping(uint256 =&gt; address) private _owners;
+    <span class="hljs-comment">// トークンID→所有者アドレス のマッピング</span>
+    <span class="hljs-comment">// Mapping from token ID to owner address</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">uint256</span> =&gt;</span> address) private _owners;
 
-    // 所有者アドレス→保有枚数 のマッピング
-    // Mapping owner address to token count
-    mapping(address =&gt; uint256) private _balances;
+    <span class="hljs-comment">// 所有者アドレス→保有枚数 のマッピング</span>
+    <span class="hljs-comment">// Mapping owner address to token count</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256) private _balances;
 
-    // トークンID→移転許可所有アドレス のマッピング
-    // Mapping from token ID to approved address
-    mapping(uint256 =&gt; address) private _tokenApprovals;
+    <span class="hljs-comment">// トークンID→移転許可所有アドレス のマッピング</span>
+    <span class="hljs-comment">// Mapping from token ID to approved address</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">uint256</span> =&gt;</span> address) private _tokenApprovals;
 
-    // 所有者アドレスから移転許可所有アドレス，そして許可の有無へのダブルマッピング
-    // 移転許可所有アドレスを登録する時にマッピングしておいて，
-    // 許可移転する時に許可の有無を確認する時に使う
-    // Mapping from owner to operator approvals
-    mapping(address =&gt; mapping(address =&gt; bool)) private _operatorApprovals;
+    <span class="hljs-comment">// 所有者アドレスから移転許可所有アドレス，そして許可の有無へのダブルマッピング</span>
+    <span class="hljs-comment">// 移転許可所有アドレスを登録する時にマッピングしておいて，</span>
+    <span class="hljs-comment">// 許可移転する時に許可の有無を確認する時に使う</span>
+    <span class="hljs-comment">// Mapping from owner to operator approvals</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> bool)) private _operatorApprovals;
 
-    /**
-     * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
-     */
-    constructor(string memory name_, string memory symbol_) {
-        // トークン名，トークンシンボルを初期化
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Initializes the contract by setting a `name` and a `symbol` to the token collection.
+     */</span>
+    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">string memory name_, string memory symbol_</span>)</span> {
+        <span class="hljs-comment">// トークン名，トークンシンボルを初期化</span>
         _name = name_;
         _symbol = symbol_;
     }
-</code></pre><h3 id="32-ストレージ上の値を書き換えることがない-view-関数群">3.2. ストレージ上の値を書き換えることがない &quot;&quot;view&quot;&quot; 関数群</h3>
+</code></pre>
+<h3 id="32-ストレージ上の値を書き換えることがない-view-関数群">3.2. ストレージ上の値を書き換えることがない &quot;&quot;view&quot;&quot; 関数群</h3>
 <p>さて，ここから関数の記述が始まります．</p>
 <p>まず記述されるのが，ストレージの値を書き換えることのない <code>view</code> 関数群です．
 これらは，おおまかにいえば 4 つに区分できます．</p>
@@ -553,86 +554,87 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
 <p>最後の <code>_baseURI()</code> 関数については少し特殊で，この関数はかなり簡単な作りになっており，作成者によってメタデータの扱いを大きく変えることができます．
 例えば，<code>return &quot;&quot;</code> 内に任意の URL を入力しておけば単にそのアドレスから取得できる画像を表示するという実装になり，他方関数外に <code>string private baseURI</code> などの変数，そして変数を書き換える関数を定義し，<code>return &quot;&quot;</code> 部分を <code>return baseURI</code> として <code>name()</code> 変数と同様にその変数を呼び出すような形にしておけば，メタデータを後々変更することが可能な NFT を実装できます．</p>
 </blockquote>
-<pre><code>    // ERC165の本体．
-    // 引数に取ったinterfaceId(interface の識別子)が，ERC165が実装されたコントラクトまたは
-    // 実装したコントラクトに継承したコントラクト内に実装されているか調べることができる．
-    // 具体的には，まず，ERC165を実装したコントラクト内でERC165内で定義されたsupportsInterface(bytes4 interfaceId)関数をオーバーライドして，
-    // 実装したコントラクトに継承するインターフェイスのIDと引数との等価演算全種を行い，
-    // 継承されているコントラクトの中にERC165が実装されていた場合，そのコントラクトでも同様な等価演算全種を行う．
-    // 最後に行われた全ての等価演算の結果の論理和をとって，返り値として返している．
-    /**
-     * @dev See {IERC165-supportsInterface}.
-     */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
-        return
+<pre><code class="lang-javascript">    <span class="hljs-comment">// ERC165の本体．</span>
+    <span class="hljs-comment">// 引数に取ったinterfaceId(interface の識別子)が，ERC165が実装されたコントラクトまたは</span>
+    <span class="hljs-comment">// 実装したコントラクトに継承したコントラクト内に実装されているか調べることができる．</span>
+    <span class="hljs-comment">// 具体的には，まず，ERC165を実装したコントラクト内でERC165内で定義されたsupportsInterface(bytes4 interfaceId)関数をオーバーライドして，</span>
+    <span class="hljs-comment">// 実装したコントラクトに継承するインターフェイスのIDと引数との等価演算全種を行い，</span>
+    <span class="hljs-comment">// 継承されているコントラクトの中にERC165が実装されていた場合，そのコントラクトでも同様な等価演算全種を行う．</span>
+    <span class="hljs-comment">// 最後に行われた全ての等価演算の結果の論理和をとって，返り値として返している．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC165-supportsInterface}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">supportsInterface</span>(<span class="hljs-params">bytes4 interfaceId</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span>(<span class="hljs-params">ERC165, IERC165</span>) <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        <span class="hljs-keyword">return</span>
             interfaceId == type(IERC721).interfaceId ||
             interfaceId == type(IERC721Metadata).interfaceId ||
-            super.supportsInterface(interfaceId);
+            <span class="hljs-built_in">super</span>.supportsInterface(interfaceId);
     }
 
-    // 上で定義した_balancesマッピングの中身を参照する関数．
-    // アドレスがもつ(このコントラクトで規定された)NFTの総数を返す．
-    /**
-     * @dev See {IERC721-balanceOf}.
-     */
-    function balanceOf(address owner) public view virtual override returns (uint256) {
-        require(owner != address(0), &quot;ERC721: address zero is not a valid owner&quot;);
-        return _balances[owner];
+    <span class="hljs-comment">// 上で定義した_balancesマッピングの中身を参照する関数．</span>
+    <span class="hljs-comment">// アドレスがもつ(このコントラクトで規定された)NFTの総数を返す．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-balanceOf}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">balanceOf</span>(<span class="hljs-params">address owner</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-built_in">require</span>(owner != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC721: address zero is not a valid owner&quot;</span>);
+        <span class="hljs-keyword">return</span> _balances[owner];
     }
 
-    // 上で定義した_ownersマッピングの中身を参照する関数．
-    // 引数にとったトークンIDのNFT(もちろんこれもこのコントラクトで規定されたもののIdのこと)の所有者となっているアドレスを返す．
-    /**
-     * @dev See {IERC721-ownerOf}.
-     */
-    function ownerOf(uint256 tokenId) public view virtual override returns (address) {
+    <span class="hljs-comment">// 上で定義した_ownersマッピングの中身を参照する関数．</span>
+    <span class="hljs-comment">// 引数にとったトークンIDのNFT(もちろんこれもこのコントラクトで規定されたもののIdのこと)の所有者となっているアドレスを返す．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-ownerOf}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ownerOf</span>(<span class="hljs-params">uint256 tokenId</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">address</span>) </span>{
         address owner = _owners[tokenId];
-        require(owner != address(0), &quot;ERC721: invalid token ID&quot;);
-        return owner;
+        <span class="hljs-built_in">require</span>(owner != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC721: invalid token ID&quot;</span>);
+        <span class="hljs-keyword">return</span> owner;
     }
 
-    // 上で定義したトークン名を参照する関数．
-    /**
-     * @dev See {IERC721Metadata-name}.
-     */
-    function name() public view virtual override returns (string memory) {
-        return _name;
+    <span class="hljs-comment">// 上で定義したトークン名を参照する関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721Metadata-name}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _name;
     }
 
-    // 同じくうえで定義したトークンシンボルを参照する関数
-    /**
-     * @dev See {IERC721Metadata-symbol}.
-     */
-    function symbol() public view virtual override returns (string memory) {
-        return _symbol;
+    <span class="hljs-comment">// 同じくうえで定義したトークンシンボルを参照する関数</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721Metadata-symbol}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">symbol</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _symbol;
     }
 
-    // 下で定義する_baseURI()関数の返り値を参照する関数．
-    // この返り値，すなはち_baseURI()関数の中身が俗にいうメタデータである．
-    // 実際にはそれだけではなく，_requireMinted関数でミントされているか確認されたり，
-    // return時にメタデータが空でないか確認されたりしている．
-    // それを満たさなかった場合，revertされることになる．
-    /**
-     * @dev See {IERC721Metadata-tokenURI}.
-     */
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+    <span class="hljs-comment">// 下で定義する_baseURI()関数の返り値を参照する関数．</span>
+    <span class="hljs-comment">// この返り値，すなはち_baseURI()関数の中身が俗にいうメタデータである．</span>
+    <span class="hljs-comment">// 実際にはそれだけではなく，_requireMinted関数でミントされているか確認されたり，</span>
+    <span class="hljs-comment">// return時にメタデータが空でないか確認されたりしている．</span>
+    <span class="hljs-comment">// それを満たさなかった場合，revertされることになる．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721Metadata-tokenURI}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tokenURI</span>(<span class="hljs-params">uint256 tokenId</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
         _requireMinted(tokenId);
 
         string memory baseURI = _baseURI();
-        return bytes(baseURI).length &gt; 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : &quot;&quot;;
+        <span class="hljs-keyword">return</span> bytes(baseURI).length &gt; <span class="hljs-number">0</span> ? string(abi.encodePacked(baseURI, tokenId.toString())) : <span class="hljs-string">&quot;&quot;</span>;
     }
 
-    // 上で言及したメタデータの中身．
-    // 初期値では空になっている(空stringを返す)．
-    /**
-     * @dev Base URI for computing {tokenURI}. If set, the resulting URI for each
+    <span class="hljs-comment">// 上で言及したメタデータの中身．</span>
+    <span class="hljs-comment">// 初期値では空になっている(空stringを返す)．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Base URI for computing {tokenURI}. If set, the resulting URI for each
      * token will be the concatenation of the `baseURI` and the `tokenId`. Empty
      * by default, can be overridden in child contracts.
-     */
-    function _baseURI() internal view virtual returns (string memory) {
-        return &quot;&quot;;
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_baseURI</span>(<span class="hljs-params"></span>) <span class="hljs-title">internal</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
     }
-</code></pre><h3 id="33-主要な機能の発動を担う標準搭載関数群">3.3. 主要な機能の発動を担う標準搭載関数群</h3>
+</code></pre>
+<h3 id="33-主要な機能の発動を担う標準搭載関数群">3.3. 主要な機能の発動を担う標準搭載関数群</h3>
 <p>次に記述されていくのは，主要な機能の発動を担う関数群です．
 発動と表したのは，これらの関数群の挙動は <code>internal</code> 関数を呼び出す形で外部に記述されているからです．
 それらの関数を呼び出すほかには， <code>require</code> 文で発動時の条件を付加したり，呼び出しに必要なローカル変数を定義したりしています．</p>
@@ -640,106 +642,107 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
 <li>token 移送許可に関係する <code>approve()</code>，<code>getApproved()</code>，<code>setApprovalForAll()</code>，<code>isApprovedForAll</code> 関数</li>
 <li>許可を受けた移送を実際に行う <code>transferFrom()</code>，<code>safeTransferFrom()</code> 関数</li>
 </ul>
-<pre><code>    // tokenの現ownerがtoアドレスに対してtokenの移送許可を与える関数
-    /**
-     * @dev See {IERC721-approve}.
-     */
-    function approve(address to, uint256 tokenId) public virtual override {
-        // tokenIdのownerをマッピングから参照
+<pre><code class="lang-javascript">    <span class="hljs-comment">// tokenの現ownerがtoアドレスに対してtokenの移送許可を与える関数</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-approve}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">approve</span>(<span class="hljs-params">address to, uint256 tokenId</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-comment">// tokenIdのownerをマッピングから参照</span>
         address owner = ERC721.ownerOf(tokenId);
-        // toアドレスがownerアドレスと同一でないか確認．
-        // 同一ならrevert．
-        require(to != owner, &quot;ERC721: approval to current owner&quot;);
+        <span class="hljs-comment">// toアドレスがownerアドレスと同一でないか確認．</span>
+        <span class="hljs-comment">// 同一ならrevert．</span>
+        <span class="hljs-built_in">require</span>(to != owner, <span class="hljs-string">&quot;ERC721: approval to current owner&quot;</span>);
 
 
-        // トランザクション送信者が当該tokenのownerまたは移送許可を受けた者であるか確認
-        require(
+        <span class="hljs-comment">// トランザクション送信者が当該tokenのownerまたは移送許可を受けた者であるか確認</span>
+        <span class="hljs-built_in">require</span>(
             _msgSender() == owner || isApprovedForAll(owner, _msgSender()),
-            &quot;ERC721: approve caller is not token owner or approved for all&quot;
+            <span class="hljs-string">&quot;ERC721: approve caller is not token owner or approved for all&quot;</span>
         );
 
-        // 移送許可情報が記録されているマッピングを更新
+        <span class="hljs-comment">// 移送許可情報が記録されているマッピングを更新</span>
         _approve(to, tokenId);
     }
 
-    // token移送許可情報を参照する関数．
-    /**
-     * @dev See {IERC721-getApproved}.
-     */
-    function getApproved(uint256 tokenId) public view virtual override returns (address) {
-        // mintされているものかを確認
+    <span class="hljs-comment">// token移送許可情報を参照する関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-getApproved}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getApproved</span>(<span class="hljs-params">uint256 tokenId</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">address</span>) </span>{
+        <span class="hljs-comment">// mintされているものかを確認</span>
         _requireMinted(tokenId);
 
-        // 移送許可情報が記録されているマッピングを参照
-        return _tokenApprovals[tokenId];
+        <span class="hljs-comment">// 移送許可情報が記録されているマッピングを参照</span>
+        <span class="hljs-keyword">return</span> _tokenApprovals[tokenId];
     }
 
-    // token移送許可を与える関数．
-    // approveより上位の許可として定義されている模様
-    // デフォルトでは使い道がないが，追加実装で活きてくる可能性がある．
-    /**
-     * @dev See {IERC721-setApprovalForAll}.
-     */
-    function setApprovalForAll(address operator, bool approved) public virtual override {
-        // 挙動を司る子関数を呼び出している
+    <span class="hljs-comment">// token移送許可を与える関数．</span>
+    <span class="hljs-comment">// approveより上位の許可として定義されている模様</span>
+    <span class="hljs-comment">// デフォルトでは使い道がないが，追加実装で活きてくる可能性がある．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-setApprovalForAll}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setApprovalForAll</span>(<span class="hljs-params">address operator, bool approved</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-comment">// 挙動を司る子関数を呼び出している</span>
         _setApprovalForAll(_msgSender(), operator, approved);
     }
 
-    // operatorとして渡されたアドレスが上位許可``_operatorApprovals`` を有しているか確認する関数．
-    /**
-     * @dev See {IERC721-isApprovedForAll}.
-     */
-    function isApprovedForAll(address owner, address operator) public view virtual override returns (bool) {
-        // 移送許可情報が記録されているマッピングを参照
-        return _operatorApprovals[owner][operator];
+    <span class="hljs-comment">// operatorとして渡されたアドレスが上位許可``_operatorApprovals`` を有しているか確認する関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-isApprovedForAll}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isApprovedForAll</span>(<span class="hljs-params">address owner, address operator</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        <span class="hljs-comment">// 移送許可情報が記録されているマッピングを参照</span>
+        <span class="hljs-keyword">return</span> _operatorApprovals[owner][operator];
     }
 
-    // 移送許可に準じたtoken移送を行う関数
-    /**
-     * @dev See {IERC721-transferFrom}.
-     */
-    function transferFrom(
-        address from,
+    <span class="hljs-comment">// 移送許可に準じたtoken移送を行う関数</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-transferFrom}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transferFrom</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId
-    ) public virtual override {
-        //solhint-disable-next-line max-line-length
-        // 移送許可があるかどうかを確認
-        require(_isApprovedOrOwner(_msgSender(), tokenId), &quot;ERC721: caller is not token owner or approved&quot;);
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-comment">//solhint-disable-next-line max-line-length</span>
+        <span class="hljs-comment">// 移送許可があるかどうかを確認</span>
+        <span class="hljs-built_in">require</span>(_isApprovedOrOwner(_msgSender(), tokenId), <span class="hljs-string">&quot;ERC721: caller is not token owner or approved&quot;</span>);
 
-        // 挙動を司る子関数を呼び出している
-        _transfer(from, to, tokenId);
+        <span class="hljs-comment">// 挙動を司る子関数を呼び出している</span>
+        _transfer(<span class="hljs-keyword">from</span>, to, tokenId);
     }
 
-    // transferFrom関数にERC165を適用した関数．
-    /**
-     * @dev See {IERC721-safeTransferFrom}.
-     */
-    function safeTransferFrom(
-        address from,
+    <span class="hljs-comment">// transferFrom関数にERC165を適用した関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-safeTransferFrom}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">safeTransferFrom</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId
-    ) public virtual override {
-        // 直下の関数を呼び出している
-        safeTransferFrom(from, to, tokenId, &quot;&quot;);
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-comment">// 直下の関数を呼び出している</span>
+        safeTransferFrom(<span class="hljs-keyword">from</span>, to, tokenId, <span class="hljs-string">&quot;&quot;</span>);
     }
 
-    // caldataを引数として渡すために直上のsafeTransferFromが分割されたもの．
-    /**
-     * @dev See {IERC721-safeTransferFrom}.
-     */
-    function safeTransferFrom(
-        address from,
+    <span class="hljs-comment">// caldataを引数として渡すために直上のsafeTransferFromが分割されたもの．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>See {IERC721-safeTransferFrom}.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">safeTransferFrom</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId,
         bytes memory data
-    ) public virtual override {
-        // 移送許可があるかどうかを確認
-        require(_isApprovedOrOwner(_msgSender(), tokenId), &quot;ERC721: caller is not token owner or approved&quot;);
-        // 挙動を司る関数を呼び出している
-        _safeTransfer(from, to, tokenId, data);
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-comment">// 移送許可があるかどうかを確認</span>
+        <span class="hljs-built_in">require</span>(_isApprovedOrOwner(_msgSender(), tokenId), <span class="hljs-string">&quot;ERC721: caller is not token owner or approved&quot;</span>);
+        <span class="hljs-comment">// 挙動を司る関数を呼び出している</span>
+        _safeTransfer(<span class="hljs-keyword">from</span>, to, tokenId, data);
     }
-</code></pre><h3 id="34-挙動を司る関数群，追加実装のための関数群">3.4. 挙動を司る関数群，追加実装のための関数群</h3>
+</code></pre>
+<h3 id="34-挙動を司る関数群，追加実装のための関数群">3.4. 挙動を司る関数群，追加実装のための関数群</h3>
 <p>残るは，上記の機能発動関数群に呼び出される関数と，いくつかの追加実装をサポートする関数を残すのみとなりました
 ．
 直下に挙げるのは，全て挙動を司る関数です．
@@ -760,9 +763,9 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
 <ul>
 <li><code>_beforeTokenTransfer()</code>，<code>_afterTokenTransfer()</code></li>
 </ul>
-<pre><code>    // transfer関数にERC721Rceiverを適用した関数．
-    /**
-     * @dev Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients
+<pre><code class="lang-javascript">    <span class="hljs-comment">// transfer関数にERC721Rceiverを適用した関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Safely transfers `tokenId` token from `from` to `to`, checking first that contract recipients
      * are aware of the ERC721 protocol to prevent tokens from being forever locked.
      *
      * `data` is additional data, it has no specified format and it is sent in call to `to`.
@@ -778,53 +781,53 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
      * - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer.
      *
      * Emits a {Transfer} event.
-     */
-    function _safeTransfer(
-        address from,
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_safeTransfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId,
         bytes memory data
-    ) internal virtual {
-        // 挙動を司る子関数を呼び出している
-        _transfer(from, to, tokenId);
-        // 送信先がコントラクトでかつERC721Receiverを採用していない場合revertする
-        require(_checkOnERC721Received(from, to, tokenId, data), &quot;ERC721: transfer to non ERC721Receiver implementer&quot;);
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 挙動を司る子関数を呼び出している</span>
+        _transfer(<span class="hljs-keyword">from</span>, to, tokenId);
+        <span class="hljs-comment">// 送信先がコントラクトでかつERC721Receiverを採用していない場合revertする</span>
+        <span class="hljs-built_in">require</span>(_checkOnERC721Received(<span class="hljs-keyword">from</span>, to, tokenId, data), <span class="hljs-string">&quot;ERC721: transfer to non ERC721Receiver implementer&quot;</span>);
     }
 
-    // _requireMinted()関数の子関数．
-    /**
-     * @dev Returns whether `tokenId` exists.
+    <span class="hljs-comment">// _requireMinted()関数の子関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Returns whether `tokenId` exists.
      *
      * Tokens can be managed by their owner or approved accounts via {approve} or {setApprovalForAll}.
      *
      * Tokens start existing when they are minted (`_mint`),
      * and stop existing when they are burned (`_burn`).
-     */
-    function _exists(uint256 tokenId) internal view virtual returns (bool) {
-        // tokenIdのownerが存在するか確認している
-        // Solidityでは大抵のパラメータの初期値は0になっているため，
-        // 0アドレスと該当Idで参照した_owners[]マッピングの返り値(_owners[tokenId])を照合する
-        return _owners[tokenId] != address(0);
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_exists</span>(<span class="hljs-params">uint256 tokenId</span>) <span class="hljs-title">internal</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        <span class="hljs-comment">// tokenIdのownerが存在するか確認している</span>
+        <span class="hljs-comment">// Solidityでは大抵のパラメータの初期値は0になっているため，</span>
+        <span class="hljs-comment">// 0アドレスと該当Idで参照した_owners[]マッピングの返り値(_owners[tokenId])を照合する</span>
+        <span class="hljs-keyword">return</span> _owners[tokenId] != address(<span class="hljs-number">0</span>);
     }
 
-    // 文字通り，引数アドレスが引数Idのトークンのオーナーもしくは移送許可保持者であればtrueを返す関数．
-    /**
-     * @dev Returns whether `spender` is allowed to manage `tokenId`.
+    <span class="hljs-comment">// 文字通り，引数アドレスが引数Idのトークンのオーナーもしくは移送許可保持者であればtrueを返す関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Returns whether `spender` is allowed to manage `tokenId`.
      *
      * Requirements:
      *
      * - `tokenId` must exist.
-     */
-    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
-        // マッピングを用いてIdからオーナーアドレスを参照しローカル変数に定義
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_isApprovedOrOwner</span>(<span class="hljs-params">address spender, uint256 tokenId</span>) <span class="hljs-title">internal</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        <span class="hljs-comment">// マッピングを用いてIdからオーナーアドレスを参照しローカル変数に定義</span>
         address owner = ERC721.ownerOf(tokenId);
-        // 引数のアドレスとオーナー，上位移送許可の有無，そして通常移送許可の有無についての真偽演算を論理和にかける
-        return (spender == owner || isApprovedForAll(owner, spender) || getApproved(tokenId) == spender);
+        <span class="hljs-comment">// 引数のアドレスとオーナー，上位移送許可の有無，そして通常移送許可の有無についての真偽演算を論理和にかける</span>
+        <span class="hljs-keyword">return</span> (spender == owner || isApprovedForAll(owner, spender) || getApproved(tokenId) == spender);
     }
 
-    // _mint関数にERC721Rceiverを適用した関数．
-    /**
-     * @dev Safely mints `tokenId` and transfers it to `to`.
+    <span class="hljs-comment">// _mint関数にERC721Rceiverを適用した関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Safely mints `tokenId` and transfers it to `to`.
      *
      * Requirements:
      *
@@ -832,35 +835,35 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
      * - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer.
      *
      * Emits a {Transfer} event.
-     */
-    function _safeMint(address to, uint256 tokenId) internal virtual {
-        // 直下の子関数を呼び出している
-        _safeMint(to, tokenId, &quot;&quot;);
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_safeMint</span>(<span class="hljs-params">address to, uint256 tokenId</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 直下の子関数を呼び出している</span>
+        _safeMint(to, tokenId, <span class="hljs-string">&quot;&quot;</span>);
     }
 
     直上から呼び出される子関数．
     ERC721Rceiverを適用している．
-    /**
-     * @dev Same as {xref-ERC721-_safeMint-address-uint256-}[`_safeMint`], with an additional `data` parameter which is
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Same as {xref-ERC721-_safeMint-address-uint256-}[`_safeMint`], with an additional `data` parameter which is
      * forwarded in {IERC721Receiver-onERC721Received} to contract recipients.
-     */
-    function _safeMint(
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_safeMint</span>(<span class="hljs-params">
         address to,
         uint256 tokenId,
         bytes memory data
-    ) internal virtual {
-        // 挙動を司る子関数を呼び出している
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 挙動を司る子関数を呼び出している</span>
         _mint(to, tokenId);
-        // ERC721Receiverのメソッドを呼び出している
-        require(
-            _checkOnERC721Received(address(0), to, tokenId, data),
-            &quot;ERC721: transfer to non ERC721Receiver implementer&quot;
+        <span class="hljs-comment">// ERC721Receiverのメソッドを呼び出している</span>
+        <span class="hljs-built_in">require</span>(
+            _checkOnERC721Received(address(<span class="hljs-number">0</span>), to, tokenId, data),
+            <span class="hljs-string">&quot;ERC721: transfer to non ERC721Receiver implementer&quot;</span>
         );
     }
 
-    // トークンミントを行う時に実行されるメソッド．
-    /**
-     * @dev Mints `tokenId` and transfers it to `to`.
+    <span class="hljs-comment">// トークンミントを行う時に実行されるメソッド．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Mints `tokenId` and transfers it to `to`.
      *
      * WARNING: Usage of this method is discouraged, use {_safeMint} whenever possible
      *
@@ -870,30 +873,30 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
      * - `to` cannot be the zero address.
      *
      * Emits a {Transfer} event.
-     */
-    function _mint(address to, uint256 tokenId) internal virtual {
-        // ミント先が0アドレスでないことを確認
-        require(to != address(0), &quot;ERC721: mint to the zero address&quot;);
-        // 既にミントされていないか確認する子関数を呼び出している
-        require(!_exists(tokenId), &quot;ERC721: token already minted&quot;);
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_mint</span>(<span class="hljs-params">address to, uint256 tokenId</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// ミント先が0アドレスでないことを確認</span>
+        <span class="hljs-built_in">require</span>(to != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC721: mint to the zero address&quot;</span>);
+        <span class="hljs-comment">// 既にミントされていないか確認する子関数を呼び出している</span>
+        <span class="hljs-built_in">require</span>(!_exists(tokenId), <span class="hljs-string">&quot;ERC721: token already minted&quot;</span>);
 
-        // トークンの移動前に実行されるメソッドを呼び出す
-        _beforeTokenTransfer(address(0), to, tokenId);
+        <span class="hljs-comment">// トークンの移動前に実行されるメソッドを呼び出す</span>
+        _beforeTokenTransfer(address(<span class="hljs-number">0</span>), to, tokenId);
 
-        // 関係するマッピングの値を適切に変更している
-        _balances[to] += 1;
+        <span class="hljs-comment">// 関係するマッピングの値を適切に変更している</span>
+        _balances[to] += <span class="hljs-number">1</span>;
         _owners[tokenId] = to;
 
-        // フロントエンド等に向けたeventをemitしている
-        emit Transfer(address(0), to, tokenId);
+        <span class="hljs-comment">// フロントエンド等に向けたeventをemitしている</span>
+        emit Transfer(address(<span class="hljs-number">0</span>), to, tokenId);
 
-        // トークンの移動後に実行されるメソッドを呼び出す
-        _afterTokenTransfer(address(0), to, tokenId);
+        <span class="hljs-comment">// トークンの移動後に実行されるメソッドを呼び出す</span>
+        _afterTokenTransfer(address(<span class="hljs-number">0</span>), to, tokenId);
     }
 
-    // トークンをburnする関数
-    /**
-     * @dev Destroys `tokenId`.
+    <span class="hljs-comment">// トークンをburnする関数</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Destroys `tokenId`.
      * The approval is cleared when the token is burned.
      * This is an internal function that does not check if the sender is authorized to operate on the token.
      *
@@ -902,32 +905,32 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
      * - `tokenId` must exist.
      *
      * Emits a {Transfer} event.
-     */
-    function _burn(uint256 tokenId) internal virtual {
-        // 引数をローカル変数に格納
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_burn</span>(<span class="hljs-params">uint256 tokenId</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 引数をローカル変数に格納</span>
         address owner = ERC721.ownerOf(tokenId);
 
-        // トークンの移動前に実行されるメソッドを呼び出す
-        _beforeTokenTransfer(owner, address(0), tokenId);
+        <span class="hljs-comment">// トークンの移動前に実行されるメソッドを呼び出す</span>
+        _beforeTokenTransfer(owner, address(<span class="hljs-number">0</span>), tokenId);
 
-        // 移送許可のマッピングの中身を削除(値を初期値の0に)している
-        // Clear approvals
-        delete _tokenApprovals[tokenId];
+        <span class="hljs-comment">// 移送許可のマッピングの中身を削除(値を初期値の0に)している</span>
+        <span class="hljs-comment">// Clear approvals</span>
+        <span class="hljs-keyword">delete</span> _tokenApprovals[tokenId];
 
-        // 関係するマッピングを適切に変更している
-        _balances[owner] -= 1;
-        delete _owners[tokenId];
+        <span class="hljs-comment">// 関係するマッピングを適切に変更している</span>
+        _balances[owner] -= <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">delete</span> _owners[tokenId];
 
-        // フロントエンド等に向けたeventをemitしている
-        emit Transfer(owner, address(0), tokenId);
+        <span class="hljs-comment">// フロントエンド等に向けたeventをemitしている</span>
+        emit Transfer(owner, address(<span class="hljs-number">0</span>), tokenId);
 
-        // トークンの移動後に実行されるメソッドを呼び出す
-        _afterTokenTransfer(owner, address(0), tokenId);
+        <span class="hljs-comment">// トークンの移動後に実行されるメソッドを呼び出す</span>
+        _afterTokenTransfer(owner, address(<span class="hljs-number">0</span>), tokenId);
     }
 
-    // トークン移送の挙動を司る関数
-    /**
-     * @dev Transfers `tokenId` from `from` to `to`.
+    <span class="hljs-comment">// トークン移送の挙動を司る関数</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Transfers `tokenId` from `from` to `to`.
      *  As opposed to {transferFrom}, this imposes no restrictions on msg.sender.
      *
      * Requirements:
@@ -936,128 +939,128 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
      * - `tokenId` token must be owned by `from`.
      *
      * Emits a {Transfer} event.
-     */
-    function _transfer(
-        address from,
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_transfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId
-    ) internal virtual {
-        // 引数tokenIdのトークンownerが引数のfromと一致しているか確認する
-        require(ERC721.ownerOf(tokenId) == from, &quot;ERC721: transfer from incorrect owner&quot;);
-        // 移送先が0アドレスでないことを確認
-        require(to != address(0), &quot;ERC721: transfer to the zero address&quot;);
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 引数tokenIdのトークンownerが引数のfromと一致しているか確認する</span>
+        <span class="hljs-built_in">require</span>(ERC721.ownerOf(tokenId) == <span class="hljs-keyword">from</span>, <span class="hljs-string">&quot;ERC721: transfer from incorrect owner&quot;</span>);
+        <span class="hljs-comment">// 移送先が0アドレスでないことを確認</span>
+        <span class="hljs-built_in">require</span>(to != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC721: transfer to the zero address&quot;</span>);
 
-        // トークンの移動前に実行されるメソッドを呼び出す
-        _beforeTokenTransfer(from, to, tokenId);
+        <span class="hljs-comment">// トークンの移動前に実行されるメソッドを呼び出す</span>
+        _beforeTokenTransfer(<span class="hljs-keyword">from</span>, to, tokenId);
 
-        // 移送許可のマッピングの中身を削除(値を初期値の0に)している
-        // Clear approvals from the previous owner
-        delete _tokenApprovals[tokenId];
+        <span class="hljs-comment">// 移送許可のマッピングの中身を削除(値を初期値の0に)している</span>
+        <span class="hljs-comment">// Clear approvals from the previous owner</span>
+        <span class="hljs-keyword">delete</span> _tokenApprovals[tokenId];
 
-        // 関係するマッピングを適切に変更している
-        _balances[from] -= 1;
-        _balances[to] += 1;
+        <span class="hljs-comment">// 関係するマッピングを適切に変更している</span>
+        _balances[<span class="hljs-keyword">from</span>] -= <span class="hljs-number">1</span>;
+        _balances[to] += <span class="hljs-number">1</span>;
         _owners[tokenId] = to;
 
-        // フロントエンド等に向けたeventをemitしている
-        emit Transfer(from, to, tokenId);
+        <span class="hljs-comment">// フロントエンド等に向けたeventをemitしている</span>
+        emit Transfer(<span class="hljs-keyword">from</span>, to, tokenId);
 
-        // トークンの移動後に実行されるメソッドを呼び出す
-        _afterTokenTransfer(from, to, tokenId);
+        <span class="hljs-comment">// トークンの移動後に実行されるメソッドを呼び出す</span>
+        _afterTokenTransfer(<span class="hljs-keyword">from</span>, to, tokenId);
     }
 
-    // トークン移送許可付与の挙動を司る関数．
-    /**
-     * @dev Approve `to` to operate on `tokenId`
+    <span class="hljs-comment">// トークン移送許可付与の挙動を司る関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Approve `to` to operate on `tokenId`
      *
      * Emits an {Approval} event.
-     */
-    function _approve(address to, uint256 tokenId) internal virtual {
-        // 関係するマッピングを適切に変更している
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_approve</span>(<span class="hljs-params">address to, uint256 tokenId</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 関係するマッピングを適切に変更している</span>
         _tokenApprovals[tokenId] = to;
-        // フロントエンド等に向けたeventをemitしている
+        <span class="hljs-comment">// フロントエンド等に向けたeventをemitしている</span>
         emit Approval(ERC721.ownerOf(tokenId), to, tokenId);
     }
 
-    // 上位のトークン移送許可の付与の挙動を司る関数．
-    /**
-     * @dev Approve `operator` to operate on all of `owner` tokens
+    <span class="hljs-comment">// 上位のトークン移送許可の付与の挙動を司る関数．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Approve `operator` to operate on all of `owner` tokens
      *
      * Emits an {ApprovalForAll} event.
-     */
-    function _setApprovalForAll(
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_setApprovalForAll</span>(<span class="hljs-params">
         address owner,
         address operator,
         bool approved
-    ) internal virtual {
-        // 移送許可の付与先がトークン保有者出ないことを確認
-        require(owner != operator, &quot;ERC721: approve to caller&quot;);
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 移送許可の付与先がトークン保有者出ないことを確認</span>
+        <span class="hljs-built_in">require</span>(owner != operator, <span class="hljs-string">&quot;ERC721: approve to caller&quot;</span>);
 
-        // 関係するマッピングを適切に変更している
+        <span class="hljs-comment">// 関係するマッピングを適切に変更している</span>
         _operatorApprovals[owner][operator] = approved;
-        // フロントエンド等に向けたeventをemitしている
+        <span class="hljs-comment">// フロントエンド等に向けたeventをemitしている</span>
         emit ApprovalForAll(owner, operator, approved);
     }
 
-    // 引数のtokenIdを持つトークンがミントされているかどうかを確認する関数
-    /**
-     * @dev Reverts if the `tokenId` has not been minted yet.
-     */
-    function _requireMinted(uint256 tokenId) internal view virtual {
-        // 挙動を司る子関数を呼び出している
-        require(_exists(tokenId), &quot;ERC721: invalid token ID&quot;);
+    <span class="hljs-comment">// 引数のtokenIdを持つトークンがミントされているかどうかを確認する関数</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Reverts if the `tokenId` has not been minted yet.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_requireMinted</span>(<span class="hljs-params">uint256 tokenId</span>) <span class="hljs-title">internal</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-comment">// 挙動を司る子関数を呼び出している</span>
+        <span class="hljs-built_in">require</span>(_exists(tokenId), <span class="hljs-string">&quot;ERC721: invalid token ID&quot;</span>);
     }
 
-    // ERC721Rceiverが適用された関数上で適切な操作を施すための関数
-    /**
-     * @dev Internal function to invoke {IERC721Receiver-onERC721Received} on a target address.
+    <span class="hljs-comment">// ERC721Rceiverが適用された関数上で適切な操作を施すための関数</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Internal function to invoke {IERC721Receiver-onERC721Received} on a target address.
      * The call is not executed if the target address is not a contract.
      *
-     * @param from address representing the previous owner of the given token ID
-     * @param to target address that will receive the tokens
-     * @param tokenId uint256 ID of the token to be transferred
-     * @param data bytes optional data to send along with the call
-     * @return bool whether the call correctly returned the expected magic value
-     */
-    function _checkOnERC721Received(
-        address from,
+     * <span class="hljs-doctag">@param </span>from address representing the previous owner of the given token ID
+     * <span class="hljs-doctag">@param </span>to target address that will receive the tokens
+     * <span class="hljs-doctag">@param </span>tokenId uint256 ID of the token to be transferred
+     * <span class="hljs-doctag">@param </span>data bytes optional data to send along with the call
+     * <span class="hljs-doctag">@return </span>bool whether the call correctly returned the expected magic value
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_checkOnERC721Received</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId,
         bytes memory data
-    ) private returns (bool) {
-        // if文の条件節でAddressライブラリから引用した関数の真偽演算を行い，
-        // 引数のtoアドレスがコントラクトかどうか確認
-        // コントラクトでないならelse文でtrueを返す
-        if (to.isContract()) {
-            // 当該コントラクトERC721Rceiverを実装しているか確かめる
-            // 実装されていれば関数のセレクター(関数識別子)が返ってくるので，真偽演算で判定する
-            try IERC721Receiver(to).onERC721Received(_msgSender(), from, tokenId, data) returns (bytes4 retval) {
-                // onERC721Receiverの正しい関数識別子を呼び出し，to上での当該関数識別子呼び出しと比較
-                return retval == IERC721Receiver.onERC721Received.selector;
-            } catch (bytes memory reason) {
-                // reasonのlengthプロパティを参照
-                // 空ならばカスタムエラーは存在しない
-                if (reason.length == 0) {
-                    revert(&quot;ERC721: transfer to non ERC721Receiver implementer&quot;);
-                // 空でない場合，カスタムエラーが存在するので，
-                // エラー内容をアセンブリrevertでキャッチする
-                // https://ethereum.stackexchange.com/questions/133748/trying-to-understand-solidity-assemblys-revert-function
-                } else {
-                    /// @solidity memory-safe-assembly
+    </span>) <span class="hljs-title">private</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        <span class="hljs-comment">// if文の条件節でAddressライブラリから引用した関数の真偽演算を行い，</span>
+        <span class="hljs-comment">// 引数のtoアドレスがコントラクトかどうか確認</span>
+        <span class="hljs-comment">// コントラクトでないならelse文でtrueを返す</span>
+        <span class="hljs-keyword">if</span> (to.isContract()) {
+            <span class="hljs-comment">// 当該コントラクトERC721Rceiverを実装しているか確かめる</span>
+            <span class="hljs-comment">// 実装されていれば関数のセレクター(関数識別子)が返ってくるので，真偽演算で判定する</span>
+            <span class="hljs-keyword">try</span> IERC721Receiver(to).onERC721Received(_msgSender(), <span class="hljs-keyword">from</span>, tokenId, data) returns (bytes4 retval) {
+                <span class="hljs-comment">// onERC721Receiverの正しい関数識別子を呼び出し，to上での当該関数識別子呼び出しと比較</span>
+                <span class="hljs-keyword">return</span> retval == IERC721Receiver.onERC721Received.selector;
+            } <span class="hljs-keyword">catch</span> (bytes memory reason) {
+                <span class="hljs-comment">// reasonのlengthプロパティを参照</span>
+                <span class="hljs-comment">// 空ならばカスタムエラーは存在しない</span>
+                <span class="hljs-keyword">if</span> (reason.length == <span class="hljs-number">0</span>) {
+                    revert(<span class="hljs-string">&quot;ERC721: transfer to non ERC721Receiver implementer&quot;</span>);
+                <span class="hljs-comment">// 空でない場合，カスタムエラーが存在するので，</span>
+                <span class="hljs-comment">// エラー内容をアセンブリrevertでキャッチする</span>
+                <span class="hljs-comment">// https://ethereum.stackexchange.com/questions/133748/trying-to-understand-solidity-assemblys-revert-function</span>
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-comment">/// @solidity memory-safe-assembly</span>
                     assembly {
-                        revert(add(32, reason), mload(reason))
+                        revert(add(<span class="hljs-number">32</span>, reason), mload(reason))
                     }
                 }
             }
-        } else {
-            return true;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
         }
     }
 
-    // トークンの移動前に実行されるメソッドを呼び出す．
-    // デフォルトでは空．
-    /**
-     * @dev Hook that is called before any token transfer. This includes minting
+    <span class="hljs-comment">// トークンの移動前に実行されるメソッドを呼び出す．</span>
+    <span class="hljs-comment">// デフォルトでは空．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Hook that is called before any token transfer. This includes minting
      * and burning.
      *
      * Calling conditions:
@@ -1069,17 +1072,17 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
      * - `from` and `to` are never both zero.
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
-     */
-    function _beforeTokenTransfer(
-        address from,
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_beforeTokenTransfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId
-    ) internal virtual {}
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
 
-    // トークンの移動後に実行されるメソッドを呼び出す．
-    // デフォルトでは空．
-    /**
-     * @dev Hook that is called after any transfer of tokens. This includes
+    <span class="hljs-comment">// トークンの移動後に実行されるメソッドを呼び出す．</span>
+    <span class="hljs-comment">// デフォルトでは空．</span>
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@dev </span>Hook that is called after any transfer of tokens. This includes
      * minting and burning.
      *
      * Calling conditions:
@@ -1088,14 +1091,15 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
      * - `from` and `to` are never both zero.
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
-     */
-    function _afterTokenTransfer(
-        address from,
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_afterTokenTransfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 tokenId
-    ) internal virtual {}
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
 }
-</code></pre><p>↓ 元ファイル</p>
+</code></pre>
+<p>↓ 元ファイル</p>
 <p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC721/ERC721.sol</a></p>
 <h2 id="4-tips">4. TIPs</h2>
 <h3 id="寄稿をお待ちしております！！">寄稿をお待ちしております！！</h3>
@@ -1142,7 +1146,7 @@ mint 系の 2 つについては，NFT の発行のためにいずれかを必�
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ERC721","level":"2.2","depth":1,"next":{"title":"ERC777","level":"2.3","depth":1,"path":"ERC777-related-contracts/README.md","ref":"./ERC777-related-contracts/README.md","articles":[]},"previous":{"title":"ERC20","level":"2.1","depth":1,"path":"ERC20-related-contracts/README.md","ref":"./ERC20-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC721-related-contracts/README.md","mtime":"2023-05-05T16:56:00.781Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:56:03.556Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ERC721","level":"2.2","depth":1,"next":{"title":"ERC777","level":"2.3","depth":1,"path":"ERC777-related-contracts/README.md","ref":"./ERC777-related-contracts/README.md","articles":[]},"previous":{"title":"ERC20","level":"2.1","depth":1,"path":"ERC20-related-contracts/README.md","ref":"./ERC20-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC721-related-contracts/README.md","mtime":"2023-09-12T07:27:37.686Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-09-12T07:27:40.333Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

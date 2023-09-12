@@ -402,9 +402,9 @@
 <li>その配列の長さに応じてループ処理をしている</li>
 </ol>
 <p><a href="https://github.com/code-423n4/2022-03-joyn/blob/c9297ccd925ebb2c44dbc6eaa3effd8db5d2368a/splits/contracts/Splitter.sol#L50-L59" target="_blank">https://github.com/code-423n4/2022-03-joyn/blob/c9297ccd925ebb2c44dbc6eaa3effd8db5d2368a/splits/contracts/Splitter.sol#L50-L59</a></p>
-<pre><code>/// Loop
-for (uint256 i = 0; i &lt; currentWindow; i++) {
-    if (!isClaimed(msg.sender, i)) {
+<pre><code class="lang-javascript"><span class="hljs-comment">/// Loop</span>
+<span class="hljs-keyword">for</span> (uint256 i = <span class="hljs-number">0</span>; i &lt; currentWindow; i++) {
+    <span class="hljs-keyword">if</span> (!isClaimed(msg.sender, i)) {
         setClaimed(msg.sender, i);
 
         amount += scaleAmountByPercentage(
@@ -414,19 +414,20 @@ for (uint256 i = 0; i &lt; currentWindow; i++) {
     }
 }
 
-/// Add item for array
-function incrementWindow(uint256 royaltyAmount) public returns (bool) {
+<span class="hljs-comment">/// Add item for array</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">incrementWindow</span>(<span class="hljs-params">uint256 royaltyAmount</span>) <span class="hljs-title">public</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
     uint256 wethBalance;
 
-    /* ... */
+    <span class="hljs-comment">/* ... */</span>
 
-    // here
+    <span class="hljs-comment">// here</span>
     balanceForWindow.push(royaltyAmount);
-    currentWindow += 1;
+    currentWindow += <span class="hljs-number">1</span>;
     emit WindowIncremented(currentWindow, royaltyAmount);
-    return true;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 }
-</code></pre><h3 id="👨‍💻-poc">👨‍💻 PoC</h3>
+</code></pre>
+<h3 id="👨‍💻-poc">👨‍💻 PoC</h3>
 <ol>
 <li>Eve が<code>incrementWindow()</code>を実行して currentWindow の配列を 1000 まで増加させる</li>
 <li><code>currentWindow</code>を削除する関数がないため、増加するしかない</li>
@@ -437,36 +438,38 @@ function incrementWindow(uint256 royaltyAmount) public returns (bool) {
 <ol>
 <li>配列の要素の最大を決める</li>
 </ol>
-<pre><code>uint256 constant MAX_CURRENT_WINDOW = 100;
+<pre><code class="lang-javascript">uint256 constant MAX_CURRENT_WINDOW = <span class="hljs-number">100</span>;
 
-function incrementWindow(uint256 royaltyAmount) public returns (bool) {
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">incrementWindow</span>(<span class="hljs-params">uint256 royaltyAmount</span>) <span class="hljs-title">public</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
 
-    /* ... */
+    <span class="hljs-comment">/* ... */</span>
 
-    require(balanceForWindow.length &lt; MAX_CURRENT_WINDOW,&quot;TOO MUCH&quot;); // here
+    <span class="hljs-built_in">require</span>(balanceForWindow.length &lt; MAX_CURRENT_WINDOW,<span class="hljs-string">&quot;TOO MUCH&quot;</span>); <span class="hljs-comment">// here</span>
     balanceForWindow.push(royaltyAmount);
-    currentWindow += 1;
+    currentWindow += <span class="hljs-number">1</span>;
 }
-</code></pre><ol>
+</code></pre>
+<ol>
 <li><code>incrementWindow</code>を実行できるユーザーを制限する</li>
 </ol>
-<pre><code>
-mapping(address=&gt;bool) whitelist;
+<pre><code class="lang-javascript">
+mapping(<span class="hljs-function"><span class="hljs-params">address</span>=&gt;</span>bool) whitelist;
 
 modifier onlyWhitelist {
-    require(whitelist[msg.sender]);
+    <span class="hljs-built_in">require</span>(whitelist[msg.sender]);
     _;
 }
 
-function incrementWindow(uint256 royaltyAmount) public /* add */ onlyWhitelist returns (bool) {
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">incrementWindow</span>(<span class="hljs-params">uint256 royaltyAmount</span>) <span class="hljs-title">public</span> /* <span class="hljs-title">add</span> */ <span class="hljs-title">onlyWhitelist</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
 
-    /* ... */
+    <span class="hljs-comment">/* ... */</span>
 
-    require(balanceForWindow.length &lt; MAX_CURRENT_WINDOW,&quot;TOO MUCH&quot;); // here
+    <span class="hljs-built_in">require</span>(balanceForWindow.length &lt; MAX_CURRENT_WINDOW,<span class="hljs-string">&quot;TOO MUCH&quot;</span>); <span class="hljs-comment">// here</span>
     balanceForWindow.push(royaltyAmount);
-    currentWindow += 1;
+    currentWindow += <span class="hljs-number">1</span>;
 }
-</code></pre><h3 id="👬-similar-issue">👬 Similar Issue</h3>
+</code></pre>
+<h3 id="👬-similar-issue">👬 Similar Issue</h3>
 <p><a href="https://github.com/code-423n4/2022-05-aura-findings/issues/197" target="_blank">https://github.com/code-423n4/2022-05-aura-findings/issues/197</a></p>
 <p><a href="https://github.com/code-423n4/2022-03-biconomy-findings/issues/24" target="_blank">https://github.com/code-423n4/2022-03-biconomy-findings/issues/24</a></p>
 <p><a href="https://github.com/code-423n4/2022-02-hubble-findings/issues/41" target="_blank">https://github.com/code-423n4/2022-02-hubble-findings/issues/41</a></p>
@@ -513,7 +516,7 @@ function incrementWindow(uint256 royaltyAmount) public /* add */ onlyWhitelist r
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"DoS attack vectors","level":"3.1.7","depth":2,"next":{"title":"Exploiting MEVs","level":"3.1.8","depth":2,"path":"bugs/MEV.md","ref":"./bugs/MEV.md","articles":[]},"previous":{"title":"Low-level calls","level":"3.1.6","depth":2,"path":"bugs/LowLevelCall.md","ref":"./bugs/LowLevelCall.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/DoS.md","mtime":"2023-05-05T16:56:00.781Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:56:03.556Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"DoS attack vectors","level":"3.1.7","depth":2,"next":{"title":"Exploiting MEVs","level":"3.1.8","depth":2,"path":"bugs/MEV.md","ref":"./bugs/MEV.md","articles":[]},"previous":{"title":"Low-level calls","level":"3.1.6","depth":2,"path":"bugs/LowLevelCall.md","ref":"./bugs/LowLevelCall.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/DoS.md","mtime":"2023-09-12T07:27:37.686Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-09-12T07:27:40.333Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

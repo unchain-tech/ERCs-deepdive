@@ -402,54 +402,56 @@
 <li>取得したデータの検証が不十分である</li>
 </ol>
 <p><a href="https://github.com/code-423n4/2022-04-jpegd/blob/e72861a9ccb707ced9015166fbded5c97c6991b6/contracts/vaults/FungibleAssetVaultForDAO.sol#L104-L115" target="_blank">https://github.com/code-423n4/2022-04-jpegd/blob/e72861a9ccb707ced9015166fbded5c97c6991b6/contracts/vaults/FungibleAssetVaultForDAO.sol#L104-L115</a></p>
-<pre><code>function _collateralPriceUsd() internal view returns (uint256) {
-    int256 answer = oracle.latestAnswer(); // here
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_collateralPriceUsd</span>(<span class="hljs-params"></span>) <span class="hljs-title">internal</span> <span class="hljs-title">view</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+    int256 answer = oracle.latestAnswer(); <span class="hljs-comment">// here</span>
     uint8 decimals = oracle.decimals();
 
-    require(answer &gt; 0, &quot;invalid_oracle_answer&quot;);　// here
+    <span class="hljs-built_in">require</span>(answer &gt; <span class="hljs-number">0</span>, <span class="hljs-string">&quot;invalid_oracle_answer&quot;</span>);　<span class="hljs-comment">// here</span>
 
-    //check chainlink&apos;s precision and convert it to 18 decimals
-    return
-        decimals &gt; 18
-            ? uint256(answer) / 10**(decimals - 18)
-            : uint256(answer) * 10**(18 - decimals);
+    <span class="hljs-comment">//check chainlink&apos;s precision and convert it to 18 decimals</span>
+    <span class="hljs-keyword">return</span>
+        decimals &gt; <span class="hljs-number">18</span>
+            ? uint256(answer) / <span class="hljs-number">10</span>**(decimals - <span class="hljs-number">18</span>)
+            : uint256(answer) * <span class="hljs-number">10</span>**(<span class="hljs-number">18</span> - decimals);
 }
-</code></pre><h3 id="👨‍💻-poc">👨‍💻 PoC</h3>
+</code></pre>
+<h3 id="👨‍💻-poc">👨‍💻 PoC</h3>
 <p>価格が新しいものであるかの確認、timestamp の値が正当であるのかという確認がありません。
 この影響で価格が古かったり、間違った値を返してしまう可能性があります。</p>
 <h3 id="✅-recommendation">✅ Recommendation</h3>
 <p>ここにバグを修正する方法を記載してください</p>
 <p>例: 下記のように変更してください</p>
-<pre><code>// before
-function _collateralPriceUsd() internal view returns (uint256) {
-    int256 answer = oracle.latestAnswer(); // here
+<pre><code class="lang-javascript"><span class="hljs-comment">// before</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_collateralPriceUsd</span>(<span class="hljs-params"></span>) <span class="hljs-title">internal</span> <span class="hljs-title">view</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+    int256 answer = oracle.latestAnswer(); <span class="hljs-comment">// here</span>
     uint8 decimals = oracle.decimals();
 
-    require(answer &gt; 0, &quot;invalid_oracle_answer&quot;);　// here
+    <span class="hljs-built_in">require</span>(answer &gt; <span class="hljs-number">0</span>, <span class="hljs-string">&quot;invalid_oracle_answer&quot;</span>);　<span class="hljs-comment">// here</span>
 
-    //check chainlink&apos;s precision and convert it to 18 decimals
-    return
-        decimals &gt; 18
-            ? uint256(answer) / 10**(decimals - 18)
-            : uint256(answer) * 10**(18 - decimals);
+    <span class="hljs-comment">//check chainlink&apos;s precision and convert it to 18 decimals</span>
+    <span class="hljs-keyword">return</span>
+        decimals &gt; <span class="hljs-number">18</span>
+            ? uint256(answer) / <span class="hljs-number">10</span>**(decimals - <span class="hljs-number">18</span>)
+            : uint256(answer) * <span class="hljs-number">10</span>**(<span class="hljs-number">18</span> - decimals);
 }
 
-// after
-function _collateralPriceUsd() internal view returns (uint256) {
-    int256 answer = oracle.latestAnswer(); // here
+<span class="hljs-comment">// after</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_collateralPriceUsd</span>(<span class="hljs-params"></span>) <span class="hljs-title">internal</span> <span class="hljs-title">view</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+    int256 answer = oracle.latestAnswer(); <span class="hljs-comment">// here</span>
     uint8 decimals = oracle.decimals();
 
-    require(answer &gt; 0, &quot;invalid_oracle_answer&quot;);　// here
-    require(answeredInRound &gt;= roundID, &quot;ChainLink: Stale price&quot;); // add
-    require(timestamp &gt; 0, &quot;ChainLink: Round not complete&quot;); // add
+    <span class="hljs-built_in">require</span>(answer &gt; <span class="hljs-number">0</span>, <span class="hljs-string">&quot;invalid_oracle_answer&quot;</span>);　<span class="hljs-comment">// here</span>
+    <span class="hljs-built_in">require</span>(answeredInRound &gt;= roundID, <span class="hljs-string">&quot;ChainLink: Stale price&quot;</span>); <span class="hljs-comment">// add</span>
+    <span class="hljs-built_in">require</span>(timestamp &gt; <span class="hljs-number">0</span>, <span class="hljs-string">&quot;ChainLink: Round not complete&quot;</span>); <span class="hljs-comment">// add</span>
 
-    //check chainlink&apos;s precision and convert it to 18 decimals
-    return
-        decimals &gt; 18
-            ? uint256(answer) / 10**(decimals - 18)
-            : uint256(answer) * 10**(18 - decimals);
+    <span class="hljs-comment">//check chainlink&apos;s precision and convert it to 18 decimals</span>
+    <span class="hljs-keyword">return</span>
+        decimals &gt; <span class="hljs-number">18</span>
+            ? uint256(answer) / <span class="hljs-number">10</span>**(decimals - <span class="hljs-number">18</span>)
+            : uint256(answer) * <span class="hljs-number">10</span>**(<span class="hljs-number">18</span> - decimals);
 }
-</code></pre><h3 id="👬-similar-issue">👬 Similar Issue</h3>
+</code></pre>
+<h3 id="👬-similar-issue">👬 Similar Issue</h3>
 <p><a href="https://github.com/code-423n4/2022-04-backd-findings/issues/17" target="_blank">https://github.com/code-423n4/2022-04-backd-findings/issues/17</a></p>
 
                                 
@@ -494,7 +496,7 @@ function _collateralPriceUsd() internal view returns (uint256) {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Exploiting Oracles","level":"3.1.9","depth":2,"next":{"title":"Rug pulls","level":"3.1.10","depth":2,"path":"bugs/Rug-Pull.md","ref":"./bugs/Rug-Pull.md","articles":[]},"previous":{"title":"Exploiting MEVs","level":"3.1.8","depth":2,"path":"bugs/MEV.md","ref":"./bugs/MEV.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/Oracle.md","mtime":"2023-05-05T16:56:00.785Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:56:03.556Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Exploiting Oracles","level":"3.1.9","depth":2,"next":{"title":"Rug pulls","level":"3.1.10","depth":2,"path":"bugs/Rug-Pull.md","ref":"./bugs/Rug-Pull.md","articles":[]},"previous":{"title":"Exploiting MEVs","level":"3.1.8","depth":2,"path":"bugs/MEV.md","ref":"./bugs/MEV.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/Oracle.md","mtime":"2023-09-12T07:27:37.690Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-09-12T07:27:40.333Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

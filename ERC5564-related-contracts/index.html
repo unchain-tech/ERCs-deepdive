@@ -495,171 +495,175 @@
 <ul>
 <li><code>IERC5564Registry</code></li>
 </ul>
-<pre><code>/// @notice Registry to map an address to its stealth key information.
+<pre><code class="lang-javascript"><span class="hljs-comment">/// @notice Registry to map an address to its stealth key information.</span>
 interface IERC5564Registry {
-  /// @notice Returns the stealth public keys for the given `registrant` to compute a stealth
-  /// address accessible only to that `registrant` using the provided `generator` contract.
-  /// @dev MUST return zero if a registrant has not registered keys for the given generator.
-  function stealthKeys(address registrant, address generator)
-    external
-    view
-    returns (bytes memory spendingPubKey, bytes memory viewingPubKey);
+  <span class="hljs-comment">/// @notice Returns the stealth public keys for the given `registrant` to compute a stealth</span>
+  <span class="hljs-comment">/// address accessible only to that `registrant` using the provided `generator` contract.</span>
+  <span class="hljs-comment">/// @dev MUST return zero if a registrant has not registered keys for the given generator.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stealthKeys</span>(<span class="hljs-params">address registrant, address generator</span>)
+    <span class="hljs-title">external</span>
+    <span class="hljs-title">view</span>
+    <span class="hljs-title">returns</span> (<span class="hljs-params">bytes memory spendingPubKey, bytes memory viewingPubKey</span>)</span>;
 
-  /// @notice Sets the caller&apos;s stealth public keys for the `generator` contract.
-  function registerKeys(address generator, bytes memory spendingPubKey, bytes memory viewingPubKey)
-    external;
+  <span class="hljs-comment">/// @notice Sets the caller&apos;s stealth public keys for the `generator` contract.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">registerKeys</span>(<span class="hljs-params">address generator, bytes memory spendingPubKey, bytes memory viewingPubKey</span>)
+    <span class="hljs-title">external</span></span>;
 
-  /// @notice Sets the `registrant`s stealth public keys for the `generator` contract using their
-  /// `signature`.
-  /// @dev MUST support both EOA signatures and EIP-1271 signatures.
-  function registerKeysOnBehalf(
+  <span class="hljs-comment">/// @notice Sets the `registrant`s stealth public keys for the `generator` contract using their</span>
+  <span class="hljs-comment">/// `signature`.</span>
+  <span class="hljs-comment">/// @dev MUST support both EOA signatures and EIP-1271 signatures.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">registerKeysOnBehalf</span>(<span class="hljs-params">
     address registrant,
     address generator,
     bytes memory signature,
     bytes memory spendingPubKey,
     bytes memory viewingPubKey
-  ) external;
+  </span>) <span class="hljs-title">external</span></span>;
 
-  /// @dev Emitted when a registrant updates their registered stealth keys.
+  <span class="hljs-comment">/// @dev Emitted when a registrant updates their registered stealth keys.</span>
   event StealthKeyChanged(
     address indexed registrant, address indexed generator, bytes spendingPubKey, bytes viewingPubKey
   );
 }
-</code></pre><ul>
+</code></pre>
+<ul>
 <li><code>IERC5564Generator</code></li>
 </ul>
-<pre><code>/// @notice Interface for generating stealth addresses for keys from a given stealth address scheme.
-/// @dev The Generator contract MUST have a method called `stealthKeys` that returns the recipient&apos;s
-/// public keys as the correct types. The return types will vary for each generator, so a sample
-/// is shown below.
+<pre><code class="lang-javascript"><span class="hljs-comment">/// @notice Interface for generating stealth addresses for keys from a given stealth address scheme.</span>
+<span class="hljs-comment">/// @dev The Generator contract MUST have a method called `stealthKeys` that returns the recipient&apos;s</span>
+<span class="hljs-comment">/// public keys as the correct types. The return types will vary for each generator, so a sample</span>
+<span class="hljs-comment">/// is shown below.</span>
 interface IERC5564Generator {
-  /// @notice Given a `registrant`, returns all relevant data to compute a stealth address.
-  /// @dev MUST return all zeroes if the registrant has not registered keys for this generator.
-  /// @dev The returned `viewTag` MUST be the hash of the `sharedSecret`. THe hashing function used
-  /// is specified by the generator.
-  /// @dev `ephemeralPubKey` represents the ephemeral public key used by the sender.
-  /// @dev Intended to be used off-chain only to prevent exposing secrets on-chain.
-  /// @dev Consider running this against a local node, or using an off-chain library with the same
-  /// logic, instead of via an `eth_call` to a public RPC provider to avoid leaking secrets.
-  function generateStealthAddress(address registrant)
-    external
-    view
-    returns (
+  <span class="hljs-comment">/// @notice Given a `registrant`, returns all relevant data to compute a stealth address.</span>
+  <span class="hljs-comment">/// @dev MUST return all zeroes if the registrant has not registered keys for this generator.</span>
+  <span class="hljs-comment">/// @dev The returned `viewTag` MUST be the hash of the `sharedSecret`. THe hashing function used</span>
+  <span class="hljs-comment">/// is specified by the generator.</span>
+  <span class="hljs-comment">/// @dev `ephemeralPubKey` represents the ephemeral public key used by the sender.</span>
+  <span class="hljs-comment">/// @dev Intended to be used off-chain only to prevent exposing secrets on-chain.</span>
+  <span class="hljs-comment">/// @dev Consider running this against a local node, or using an off-chain library with the same</span>
+  <span class="hljs-comment">/// logic, instead of via an `eth_call` to a public RPC provider to avoid leaking secrets.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateStealthAddress</span>(<span class="hljs-params">address registrant</span>)
+    <span class="hljs-title">external</span>
+    <span class="hljs-title">view</span>
+    <span class="hljs-title">returns</span> (<span class="hljs-params">
       address stealthAddress,
       bytes memory ephemeralPubKey,
       bytes memory sharedSecret,
       bytes32 viewTag
-    );
+    </span>)</span>;
 
-  /// @notice Returns the stealth public keys for the given `registrant`, in the types that best
-  /// represent the curve.
-  /// @dev The below is an example for the secp256k1 curve.
-  function stealthKeys(address registrant)
-    external
-    view
-    returns (
+  <span class="hljs-comment">/// @notice Returns the stealth public keys for the given `registrant`, in the types that best</span>
+  <span class="hljs-comment">/// represent the curve.</span>
+  <span class="hljs-comment">/// @dev The below is an example for the secp256k1 curve.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stealthKeys</span>(<span class="hljs-params">address registrant</span>)
+    <span class="hljs-title">external</span>
+    <span class="hljs-title">view</span>
+    <span class="hljs-title">returns</span> (<span class="hljs-params">
       uint256 spendingPubKeyX,
       uint256 spendingPubKeyY,
       uint256 viewingPubKeyX,
       uint256 viewingPubKeyY
-    );
+    </span>)</span>;
 }
-</code></pre><ul>
+</code></pre>
+<ul>
 <li><code>IERC5564Messenger</code></li>
 </ul>
-<pre><code>/// @notice Interface for announcing that something was sent to a stealth address.
+<pre><code class="lang-javascript"><span class="hljs-comment">/// @notice Interface for announcing that something was sent to a stealth address.</span>
 interface IERC5564Messenger {
-  /// @dev Emitted when sending something to a stealth address.
-  /// @dev See `announce` for documentation on the parameters.
+  <span class="hljs-comment">/// @dev Emitted when sending something to a stealth address.</span>
+  <span class="hljs-comment">/// @dev See `announce` for documentation on the parameters.</span>
   event Announcement(
     bytes ephemeralPubKey, bytes32 indexed stealthRecipientAndViewTag, bytes32 metadata
   );
 
-  /// @dev Called by integrators to emit an `Announcement` event.
-  /// @dev `ephemeralPubKey` represents the ephemeral public key used by the sender.
-  /// @dev `stealthRecipientAndViewTag` contains the stealth address (20 bytes) and the view tag (12
-  /// bytes).
-  /// @dev `metadata` is an arbitrary field that the sender can use however they like, but the below
-  /// guidelines are recommended:
-  ///   - When sending ERC-20 tokens, the metadata SHOULD include the token address as the first 20
-  ///     bytes, and the amount being sent as the following 32 bytes.
-  ///   - When sending ERC-721 tokens, the metadata SHOULD include the token address as the first 20
-  ///     bytes, and the token ID being sent as the following 32 bytes.
-  function announce(
+  <span class="hljs-comment">/// @dev Called by integrators to emit an `Announcement` event.</span>
+  <span class="hljs-comment">/// @dev `ephemeralPubKey` represents the ephemeral public key used by the sender.</span>
+  <span class="hljs-comment">/// @dev `stealthRecipientAndViewTag` contains the stealth address (20 bytes) and the view tag (12</span>
+  <span class="hljs-comment">/// bytes).</span>
+  <span class="hljs-comment">/// @dev `metadata` is an arbitrary field that the sender can use however they like, but the below</span>
+  <span class="hljs-comment">/// guidelines are recommended:</span>
+  <span class="hljs-comment">///   - When sending ERC-20 tokens, the metadata SHOULD include the token address as the first 20</span>
+  <span class="hljs-comment">///     bytes, and the amount being sent as the following 32 bytes.</span>
+  <span class="hljs-comment">///   - When sending ERC-721 tokens, the metadata SHOULD include the token address as the first 20</span>
+  <span class="hljs-comment">///     bytes, and the token ID being sent as the following 32 bytes.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">announce</span>(<span class="hljs-params">
     bytes memory ephemeralPubKey,
     bytes32 stealthRecipientAndViewTag,
     bytes32 metadata
-  ) external;
+  </span>) <span class="hljs-title">external</span></span>;
 }
-</code></pre><h4 id="サンプルジェネレーターコントラクトの実装例">サンプルジェネレーターコントラクトの実装例</h4>
-<pre><code>/// @notice Sample IERC5564Generator implementation for the secp256k1 curve.
+</code></pre>
+<h4 id="サンプルジェネレーターコントラクトの実装例">サンプルジェネレーターコントラクトの実装例</h4>
+<pre><code class="lang-javascript"><span class="hljs-comment">/// @notice Sample IERC5564Generator implementation for the secp256k1 curve.</span>
 contract Secp256k1Generator is IERC5564Generator {
-  /// @notice Address of this chain&apos;s registry contract.
-  IERC5564Registry public constant REGISTRY = IERC5564Registry(address(0));
+  <span class="hljs-comment">/// @notice Address of this chain&apos;s registry contract.</span>
+  IERC5564Registry public constant REGISTRY = IERC5564Registry(address(<span class="hljs-number">0</span>));
 
-  /// @notice Sample implementation for parsing stealth keys on the secp256k1 curve.
-  function stealthKeys(address registrant)
-    external
-    view
-    returns (
+  <span class="hljs-comment">/// @notice Sample implementation for parsing stealth keys on the secp256k1 curve.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stealthKeys</span>(<span class="hljs-params">address registrant</span>)
+    <span class="hljs-title">external</span>
+    <span class="hljs-title">view</span>
+    <span class="hljs-title">returns</span> (<span class="hljs-params">
       uint256 spendingPubKeyX,
       uint256 spendingPubKeyY,
       uint256 viewingPubKeyX,
       uint256 viewingPubKeyY
-    )
-  {
-    // Fetch the raw spending and viewing keys from the registry.
+    </span>)
+  </span>{
+    <span class="hljs-comment">// Fetch the raw spending and viewing keys from the registry.</span>
     (bytes memory spendingPubKey, bytes memory viewingPubKey) =
-      REGISTRY.stealthKeys(registrant, address(this));
+      REGISTRY.stealthKeys(registrant, address(<span class="hljs-built_in">this</span>));
 
-    // Parse the keys.
+    <span class="hljs-comment">// Parse the keys.</span>
     assembly {
-      spendingPubKeyX := mload(add(spendingPubKey, 0x20))
-      spendingPubKeyY := mload(add(spendingPubKey, 0x40))
-      viewingPubKeyX := mload(add(viewingPubKey, 0x20))
-      viewingPubKeyY := mload(add(viewingPubKey, 0x40))
+      <span class="hljs-attr">spendingPubKeyX</span> := mload(add(spendingPubKey, <span class="hljs-number">0x20</span>))
+      <span class="hljs-attr">spendingPubKeyY</span> := mload(add(spendingPubKey, <span class="hljs-number">0x40</span>))
+      <span class="hljs-attr">viewingPubKeyX</span> := mload(add(viewingPubKey, <span class="hljs-number">0x20</span>))
+      <span class="hljs-attr">viewingPubKeyY</span> := mload(add(viewingPubKey, <span class="hljs-number">0x40</span>))
     }
   }
 
-  /// @notice Sample implementation for generating stealth addresses for the secp256k1 curve.
-  function generateStealthAddress(address registrant, bytes memory ephemeralPrivKey)
-    external
-    view
-    returns (
+  <span class="hljs-comment">/// @notice Sample implementation for generating stealth addresses for the secp256k1 curve.</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateStealthAddress</span>(<span class="hljs-params">address registrant, bytes memory ephemeralPrivKey</span>)
+    <span class="hljs-title">external</span>
+    <span class="hljs-title">view</span>
+    <span class="hljs-title">returns</span> (<span class="hljs-params">
       address stealthAddress,
       bytes memory ephemeralPubKey,
       bytes memory sharedSecret,
       bytes32 viewTag
-    )
-  {
-    // Get the ephemeral public key from the private key.
+    </span>)
+  </span>{
+    <span class="hljs-comment">// Get the ephemeral public key from the private key.</span>
     ephemeralPubKey = ecMul(ephemeralPrivKey, G);
 
-    // Get user&apos;s parsed public keys.
+    <span class="hljs-comment">// Get user&apos;s parsed public keys.</span>
     (
       uint256 spendingPubKeyX,
       uint256 spendingPubKeyY,
       uint256 viewingPubKeyX,
       uint256 viewingPubKeyY
-    ) = stealthKeys(registrant, address(this));
+    ) = stealthKeys(registrant, address(<span class="hljs-built_in">this</span>));
 
-    // Generate shared secret from sender&apos;s private key and recipient&apos;s viewing key.
+    <span class="hljs-comment">// Generate shared secret from sender&apos;s private key and recipient&apos;s viewing key.</span>
     sharedSecret = ecMul(ephemeralPrivKey, viewingPubKeyX, viewingPubKeyY);
     bytes32 sharedSecretHash = keccak256(sharedSecret);
 
-    // Generate view tag for enabling faster parsing for the recipient
-    viewTag = sharedSecretHash[0:12];
+    <span class="hljs-comment">// Generate view tag for enabling faster parsing for the recipient</span>
+    viewTag = sharedSecretHash[<span class="hljs-number">0</span>:<span class="hljs-number">12</span>];
 
-    // Generate a point from the hash of the shared secret
+    <span class="hljs-comment">// Generate a point from the hash of the shared secret</span>
     bytes memory sharedSecretPoint = ecMul(sharedSecret, G);
 
-    // Generate sender&apos;s public key from their ephemeral private key.
+    <span class="hljs-comment">// Generate sender&apos;s public key from their ephemeral private key.</span>
     bytes memory stealthPubKey = ecAdd(spendingPubKeyX, spendingPubKeyY, sharedSecretPoint);
 
-    // Compute stealth address from the stealth public key.
+    <span class="hljs-comment">// Compute stealth address from the stealth public key.</span>
     stealthAddress = pubkeyToAddress(stealthPubKey);
 }
-</code></pre><p>ステルスアドレスは、楕円曲線を想定した以下のアルゴリズムで計算されます。Kyber によるポスト量子暗号化など、他の暗号化方式ではこの方法を修正する必要があるかもしれません。</p>
+</code></pre>
+<p>ステルスアドレスは、楕円曲線を想定した以下のアルゴリズムで計算されます。Kyber によるポスト量子暗号化など、他の暗号化方式ではこの方法を修正する必要があるかもしれません。</p>
 <ul>
 <li><p>G は曲線の生成点である。</p>
 </li>
@@ -760,7 +764,7 @@ contract Secp256k1Generator is IERC5564Generator {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ERC5564","level":"2.5","depth":1,"next":{"title":"MetaTx","level":"2.6","depth":1,"path":"metatx-related-contracts/README.md","ref":"./metatx-related-contracts/README.md","articles":[]},"previous":{"title":"ERC5192","level":"2.4","depth":1,"path":"ERC5192-related-contracts/README.md","ref":"./ERC5192-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC5564-related-contracts/README.md","mtime":"2023-05-05T16:56:00.781Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:56:03.556Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ERC5564","level":"2.5","depth":1,"next":{"title":"MetaTx","level":"2.6","depth":1,"path":"metatx-related-contracts/README.md","ref":"./metatx-related-contracts/README.md","articles":[]},"previous":{"title":"ERC5192","level":"2.4","depth":1,"path":"ERC5192-related-contracts/README.md","ref":"./ERC5192-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC5564-related-contracts/README.md","mtime":"2023-09-12T07:27:37.686Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-09-12T07:27:40.333Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

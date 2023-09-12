@@ -492,358 +492,365 @@ ERC777 における用途は，<code>isContract()</code> の利用です．こ�
 </ul>
 <h3 id="31-import-変数定義から-constructor-まで">3.1. import, 変数定義から constructor まで</h3>
 <p>まず最初に，先程紹介した <code>.sol</code> ファイルを import した後，必要な <code>contract</code> を <code>ERC777</code> という <code>contract</code> に継承させています．</p>
-<pre><code>import &quot;./IERC777.sol&quot;;
-import &quot;./IERC777Recipient.sol&quot;;
-import &quot;./IERC777Sender.sol&quot;;
-import &quot;../ERC20/IERC20.sol&quot;;
-import &quot;../../utils/Address.sol&quot;;
-import &quot;../../utils/Context.sol&quot;;
-import &quot;../../utils/introspection/IERC1820Registry.sol&quot;;
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC777.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC777Recipient.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC777Sender.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../ERC20/IERC20.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Address.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Context.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/introspection/IERC1820Registry.sol&quot;</span>;
 
 contract ERC777 is Context, IERC777, IERC20 {
-</code></pre><p>そして，ライブラリの使用の宣言と, 後に使用する ERC1820 Registry のインスタンス用意.</p>
-<pre><code>    // ライブラリの使用を宣言.
-    using Address for address;
+</code></pre>
+<p>そして，ライブラリの使用の宣言と, 後に使用する ERC1820 Registry のインスタンス用意.</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// ライブラリの使用を宣言.</span>
+    using Address <span class="hljs-keyword">for</span> address;
 
-    // ERC1820 Registryをインスタンス化.
-    IERC1820Registry internal constant _ERC1820_REGISTRY = IERC1820Registry(0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24);
-</code></pre><p>各グローバル変数を定義．</p>
-<pre><code>    // このマッピングがトークン残高の本体．名付けるならトークン残高．
-    mapping(address =&gt; uint256) private _balances;
+    <span class="hljs-comment">// ERC1820 Registryをインスタンス化.</span>
+    IERC1820Registry internal constant _ERC1820_REGISTRY = IERC1820Registry(<span class="hljs-number">0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24</span>);
+</code></pre>
+<p>各グローバル変数を定義．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// このマッピングがトークン残高の本体．名付けるならトークン残高．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256) private _balances;
 
-    // 文字通り，総供給量.
+    <span class="hljs-comment">// 文字通り，総供給量.</span>
     uint256 private _totalSupply;
 
-    // トークンネームとトークンシンボルの箱．
+    <span class="hljs-comment">// トークンネームとトークンシンボルの箱．</span>
     string private _name;
     string private _symbol;
 
-    // インタフェースのハッシュ値を保存.
-    bytes32 private constant _TOKENS_SENDER_INTERFACE_HASH = keccak256(&quot;ERC777TokensSender&quot;);
-    bytes32 private constant _TOKENS_RECIPIENT_INTERFACE_HASH = keccak256(&quot;ERC777TokensRecipient&quot;);
+    <span class="hljs-comment">// インタフェースのハッシュ値を保存.</span>
+    bytes32 private constant _TOKENS_SENDER_INTERFACE_HASH = keccak256(<span class="hljs-string">&quot;ERC777TokensSender&quot;</span>);
+    bytes32 private constant _TOKENS_RECIPIENT_INTERFACE_HASH = keccak256(<span class="hljs-string">&quot;ERC777TokensRecipient&quot;</span>);
 
-    // 全てのholderに適用されるデフォルトのoperatorリスト.
+    <span class="hljs-comment">// 全てのholderに適用されるデフォルトのoperatorリスト.</span>
     address[] private _defaultOperatorsArray;
 
-    // このマッピングは, 任意のアドレスがデフォルトoperatorであるかを判別するために使用される.
-    mapping(address =&gt; bool) private _defaultOperators;
+    <span class="hljs-comment">// このマッピングは, 任意のアドレスがデフォルトoperatorであるかを判別するために使用される.</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> bool) private _defaultOperators;
 
-    // これらのマッピングは, アドレスAに対してアドレスBがoperatorであるかを判別するために使用される.
-    mapping(address =&gt; mapping(address =&gt; bool)) private _operators;
-    mapping(address =&gt; mapping(address =&gt; bool)) private _revokedDefaultOperators;
+    <span class="hljs-comment">// これらのマッピングは, アドレスAに対してアドレスBがoperatorであるかを判別するために使用される.</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> bool)) private _operators;
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> bool)) private _revokedDefaultOperators;
 
-    // このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．
-    mapping(address =&gt; mapping(address =&gt; uint256)) private _allowances;
-</code></pre><p>続いて，デプロイ時に string 変数とデフォルトオペレータを初期化する <code>constructor</code> が定義されています．</p>
+    <span class="hljs-comment">// このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256)) private _allowances;
+</code></pre>
+<p>続いて，デプロイ時に string 変数とデフォルトオペレータを初期化する <code>constructor</code> が定義されています．</p>
 <p><code>constructor</code>内の最後にはこのコントラクトが<code>ERC777Token</code>と<code>ERC20Token</code>を実装していることを ERC1820 Registry に登録しています.
 この処理はトークンコントラクトが ERC777 の機能を実装している・ERC20 の機能を実装しているを利用者が判定するためのものです.</p>
-<pre><code>    constructor(string memory name_, string memory symbol_, address[] memory defaultOperators_) {
+<pre><code class="lang-javascript">    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">string memory name_, string memory symbol_, address[] memory defaultOperators_</span>)</span> {
         _name = name_;
         _symbol = symbol_;
 
         _defaultOperatorsArray = defaultOperators_;
-        for (uint256 i = 0; i &lt; defaultOperators_.length; i++) {
-            _defaultOperators[defaultOperators_[i]] = true;
+        <span class="hljs-keyword">for</span> (uint256 i = <span class="hljs-number">0</span>; i &lt; defaultOperators_.length; i++) {
+            _defaultOperators[defaultOperators_[i]] = <span class="hljs-literal">true</span>;
         }
 
-        // register interfaces
-        _ERC1820_REGISTRY.setInterfaceImplementer(address(this), keccak256(&quot;ERC777Token&quot;), address(this));
-        _ERC1820_REGISTRY.setInterfaceImplementer(address(this), keccak256(&quot;ERC20Token&quot;), address(this));
+        <span class="hljs-comment">// register interfaces</span>
+        _ERC1820_REGISTRY.setInterfaceImplementer(address(<span class="hljs-built_in">this</span>), keccak256(<span class="hljs-string">&quot;ERC777Token&quot;</span>), address(<span class="hljs-built_in">this</span>));
+        _ERC1820_REGISTRY.setInterfaceImplementer(address(<span class="hljs-built_in">this</span>), keccak256(<span class="hljs-string">&quot;ERC20Token&quot;</span>), address(<span class="hljs-built_in">this</span>));
     }
-</code></pre><h3 id="32-ブロックチェーン上の変数を参照する-view-関数群">3.2. ブロックチェーン上の変数を参照する view 関数群</h3>
+</code></pre>
+<h3 id="32-ブロックチェーン上の変数を参照する-view-関数群">3.2. ブロックチェーン上の変数を参照する view 関数群</h3>
 <p>その後に，関数が定義されていきます．</p>
 <p>まずは，変数を変更(変数に代入)できない <code>view</code> 関数で，処理が少ないものが定義されています．</p>
-<pre><code>    // トークンネームを参照する関数
-    function name() public view virtual override returns (string memory) {
-        return _name;
+<pre><code class="lang-javascript">    <span class="hljs-comment">// トークンネームを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _name;
     }
 
-    // トークンシンボルを参照する関数
-    function symbol() public view virtual override returns (string memory) {
-        return _symbol;
+    <span class="hljs-comment">// トークンシンボルを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">symbol</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _symbol;
     }
 
-    // decimalsを返す関数．
-    function decimals() public pure virtual returns (uint8) {
-        return 18;
+    <span class="hljs-comment">// decimalsを返す関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decimals</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">pure</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint8</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">18</span>;
     }
 
-    // トークンが分割できる最小単位を返却する関数.
-    function granularity() public view virtual override returns (uint256) {
-        return 1;
+    <span class="hljs-comment">// トークンが分割できる最小単位を返却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">granularity</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
     }
 
-    // 総供給量を参照する関数．
-    function totalSupply() public view virtual override(IERC20, IERC777) returns (uint256) {
-        return _totalSupply;
+    <span class="hljs-comment">// 総供給量を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">totalSupply</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span>(<span class="hljs-params">IERC20, IERC777</span>) <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _totalSupply;
     }
 
-    // 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．
-    function balanceOf(address tokenHolder) public view virtual override(IERC20, IERC777) returns (uint256) {
-        return _balances[tokenHolder];
+    <span class="hljs-comment">// 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">balanceOf</span>(<span class="hljs-params">address tokenHolder</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span>(<span class="hljs-params">IERC20, IERC777</span>) <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _balances[tokenHolder];
     }
-</code></pre><h3 id="33-標準搭載関数群">3.3. 標準搭載関数群</h3>
+</code></pre>
+<h3 id="33-標準搭載関数群">3.3. 標準搭載関数群</h3>
 <p>次に，<code>ERC777</code> のトークン操作のトリガーとなる関数とオペレータに関わる関数が定義されます．</p>
 <p>トークン操作のトリガーとなる関数は, 次章で解説する実際の操作が記述された <code>internal</code> 関数をメソッドとして呼び出しています．</p>
 <p>メソッドとトリガーと分ける理由は，複雑な関数を定義したいデベロッパーへの配慮のためでしょう．これにより，基本機能だけを用いたいデベロッパーは標準搭載関数で手間なく実装が完了でき，複雑な関数を定義したいデベロッパーは基本機能のメソッドが記述された <code>internal</code> 関数を骨組みとした複雑な関数の定義を容易に行えます．</p>
-<pre><code>    // トークンを送信する関数．
-    // ERC20でトークン送信に使用されるtransferとは定義を明確に分けるためにsendという名前で定義されている.
-    function send(address recipient, uint256 amount, bytes memory data) public virtual override {
-        _send(_msgSender(), recipient, amount, data, &quot;&quot;, true);
+<pre><code class="lang-javascript">    <span class="hljs-comment">// トークンを送信する関数．</span>
+    <span class="hljs-comment">// ERC20でトークン送信に使用されるtransferとは定義を明確に分けるためにsendという名前で定義されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">send</span>(<span class="hljs-params">address recipient, uint256 amount, bytes memory data</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        _send(_msgSender(), recipient, amount, data, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-literal">true</span>);
     }
 
-    // トークンを送信する関数.
-    // ERC20との後方互換性のために実装されている.
-    function transfer(address recipient, uint256 amount) public virtual override returns (bool) {
-        _send(_msgSender(), recipient, amount, &quot;&quot;, &quot;&quot;, false);
-        return true;
+    <span class="hljs-comment">// トークンを送信する関数.</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span>(<span class="hljs-params">address recipient, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        _send(_msgSender(), recipient, amount, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-literal">false</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
 
-    // トークンを焼却する関数．
-    function burn(uint256 amount, bytes memory data) public virtual override {
-        _burn(_msgSender(), amount, data, &quot;&quot;);
+    <span class="hljs-comment">// トークンを焼却する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">burn</span>(<span class="hljs-params">uint256 amount, bytes memory data</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        _burn(_msgSender(), amount, data, <span class="hljs-string">&quot;&quot;</span>);
     }
 
-    // 引数の`operator`と`tokenHolder`の間にoperatorとholderの関係があるか否かを返却する関数.
-    function isOperatorFor(address operator, address tokenHolder) public view virtual override returns (bool) {
-        return
+    <span class="hljs-comment">// 引数の`operator`と`tokenHolder`の間にoperatorとholderの関係があるか否かを返却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isOperatorFor</span>(<span class="hljs-params">address operator, address tokenHolder</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        <span class="hljs-keyword">return</span>
             operator == tokenHolder ||
             (_defaultOperators[operator] &amp;&amp; !_revokedDefaultOperators[tokenHolder][operator]) ||
             _operators[tokenHolder][operator];
     }
 
-    // 引数の`operator`を, 関数を呼び出したアカウントのoperatorとして認証する関数.
-    function authorizeOperator(address operator) public virtual override {
-        require(_msgSender() != operator, &quot;ERC777: authorizing self as operator&quot;);
+    <span class="hljs-comment">// 引数の`operator`を, 関数を呼び出したアカウントのoperatorとして認証する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorizeOperator</span>(<span class="hljs-params">address operator</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(_msgSender() != operator, <span class="hljs-string">&quot;ERC777: authorizing self as operator&quot;</span>);
 
-        if (_defaultOperators[operator]) {
-            delete _revokedDefaultOperators[_msgSender()][operator];
-        } else {
-            _operators[_msgSender()][operator] = true;
+        <span class="hljs-keyword">if</span> (_defaultOperators[operator]) {
+            <span class="hljs-keyword">delete</span> _revokedDefaultOperators[_msgSender()][operator];
+        } <span class="hljs-keyword">else</span> {
+            _operators[_msgSender()][operator] = <span class="hljs-literal">true</span>;
         }
 
         emit AuthorizedOperator(operator, _msgSender());
     }
 
-    // 引数の`operator`を, 関数を呼び出したアカウントのoperatorから削除する関数.
-    function revokeOperator(address operator) public virtual override {
-        require(operator != _msgSender(), &quot;ERC777: revoking self as operator&quot;);
+    <span class="hljs-comment">// 引数の`operator`を, 関数を呼び出したアカウントのoperatorから削除する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">revokeOperator</span>(<span class="hljs-params">address operator</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(operator != _msgSender(), <span class="hljs-string">&quot;ERC777: revoking self as operator&quot;</span>);
 
-        if (_defaultOperators[operator]) {
-            _revokedDefaultOperators[_msgSender()][operator] = true;
-        } else {
-            delete _operators[_msgSender()][operator];
+        <span class="hljs-keyword">if</span> (_defaultOperators[operator]) {
+            _revokedDefaultOperators[_msgSender()][operator] = <span class="hljs-literal">true</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">delete</span> _operators[_msgSender()][operator];
         }
 
         emit RevokedOperator(operator, _msgSender());
     }
 
-    // デフォルトoperatorを返却する関数.
-    function defaultOperators() public view virtual override returns (address[] memory) {
-        return _defaultOperatorsArray;
+    <span class="hljs-comment">// デフォルトoperatorを返却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defaultOperators</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">address[] memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _defaultOperatorsArray;
     }
 
-    // operator(msg.sender)がholder(引数では`sender`)に代わってトークンを送信する関数.
-    function operatorSend(
+    <span class="hljs-comment">// operator(msg.sender)がholder(引数では`sender`)に代わってトークンを送信する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">operatorSend</span>(<span class="hljs-params">
         address sender,
         address recipient,
         uint256 amount,
         bytes memory data,
         bytes memory operatorData
-    ) public virtual override {
-        require(isOperatorFor(_msgSender(), sender), &quot;ERC777: caller is not an operator for holder&quot;);
-        _send(sender, recipient, amount, data, operatorData, true);
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(isOperatorFor(_msgSender(), sender), <span class="hljs-string">&quot;ERC777: caller is not an operator for holder&quot;</span>);
+        _send(sender, recipient, amount, data, operatorData, <span class="hljs-literal">true</span>);
     }
 
-    // operator(msg.sender)がholder(引数では`account`)に代わってトークンを焼却する関数.
-    function operatorBurn(
+    <span class="hljs-comment">// operator(msg.sender)がholder(引数では`account`)に代わってトークンを焼却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">operatorBurn</span>(<span class="hljs-params">
         address account,
         uint256 amount,
         bytes memory data,
         bytes memory operatorData
-    ) public virtual override {
-        require(isOperatorFor(_msgSender(), account), &quot;ERC777: caller is not an operator for holder&quot;);
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(isOperatorFor(_msgSender(), account), <span class="hljs-string">&quot;ERC777: caller is not an operator for holder&quot;</span>);
         _burn(account, amount, data, operatorData);
     }
 
-    // allowance(引き出し許可残高)を参照する関数．
-    // ERC20との後方互換性のために実装されている.
-    function allowance(address holder, address spender) public view virtual override returns (uint256) {
-        return _allowances[holder][spender];
+    <span class="hljs-comment">// allowance(引き出し許可残高)を参照する関数．</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">allowance</span>(<span class="hljs-params">address holder, address spender</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _allowances[holder][spender];
     }
 
-    // 引き出し許可残高を変更する関数．
-    // ERC20との後方互換性のために実装されている.
-    function approve(address spender, uint256 value) public virtual override returns (bool) {
+    <span class="hljs-comment">// 引き出し許可残高を変更する関数．</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">approve</span>(<span class="hljs-params">address spender, uint256 value</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
         address holder = _msgSender();
         _approve(holder, spender, value);
-        return true;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
 
-    // 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．
-    function transferFrom(address holder, address recipient, uint256 amount) public virtual override returns (bool) {
+    <span class="hljs-comment">// 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transferFrom</span>(<span class="hljs-params">address holder, address recipient, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
         address spender = _msgSender();
         _spendAllowance(holder, spender, amount);
-        _send(holder, recipient, amount, &quot;&quot;, &quot;&quot;, false);
-        return true;
+        _send(holder, recipient, amount, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-literal">false</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
-</code></pre><h3 id="34-メソッド記述と追加機能実装を担う-internal-関数群">3.4. メソッド記述と追加機能実装を担う internal 関数群</h3>
+</code></pre>
+<h3 id="34-メソッド記述と追加機能実装を担う-internal-関数群">3.4. メソッド記述と追加機能実装を担う internal 関数群</h3>
 <p>最後に，先ほどのトリガー関数のメソッドを記述するためのものや追加実装を行うためのものからなる <code>internal</code> 関数群が定義されています．</p>
 <p>※<code>internal</code> という修飾子は関数の可視性(<code>public</code>, <code>private</code>, <code>internal</code>, <code>external</code>)を表しています．これついては<a href="https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0" target="_blank">ここ</a>を見るとよいでしょう．</p>
-<pre><code>    // _mint関数(後に説明がなされる)を呼び出す関数．
-    function _mint(address account, uint256 amount, bytes memory userData, bytes memory operatorData) internal virtual {
-        _mint(account, amount, userData, operatorData, true);
+<pre><code class="lang-javascript">    <span class="hljs-comment">// _mint関数(後に説明がなされる)を呼び出す関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_mint</span>(<span class="hljs-params">address account, uint256 amount, bytes memory userData, bytes memory operatorData</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        _mint(account, amount, userData, operatorData, <span class="hljs-literal">true</span>);
     }
 
-    // トークンmint(貨幣発行)の仕組みがかいてある．
-    function _mint(
+    <span class="hljs-comment">// トークンmint(貨幣発行)の仕組みがかいてある．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_mint</span>(<span class="hljs-params">
         address account,
         uint256 amount,
         bytes memory userData,
         bytes memory operatorData,
         bool requireReceptionAck
-    ) internal virtual {
-        require(account != address(0), &quot;ERC777: mint to the zero address&quot;);
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(account != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: mint to the zero address&quot;</span>);
 
         address operator = _msgSender();
 
-        _beforeTokenTransfer(operator, address(0), account, amount);
+        _beforeTokenTransfer(operator, address(<span class="hljs-number">0</span>), account, amount);
 
-        // Update state variables
+        <span class="hljs-comment">// Update state variables</span>
         _totalSupply += amount;
         _balances[account] += amount;
 
-        _callTokensReceived(operator, address(0), account, amount, userData, operatorData, requireReceptionAck);
+        _callTokensReceived(operator, address(<span class="hljs-number">0</span>), account, amount, userData, operatorData, requireReceptionAck);
 
         emit Minted(operator, account, amount, userData, operatorData);
-        emit Transfer(address(0), account, amount);
+        emit Transfer(address(<span class="hljs-number">0</span>), account, amount);
     }
 
-    // トークン転送(送金)の流れが書いてある．
-    function _send(
-        address from,
+    <span class="hljs-comment">// トークン転送(送金)の流れが書いてある．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_send</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount,
         bytes memory userData,
         bytes memory operatorData,
         bool requireReceptionAck
-    ) internal virtual {
-        require(from != address(0), &quot;ERC777: transfer from the zero address&quot;);
-        require(to != address(0), &quot;ERC777: transfer to the zero address&quot;);
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(<span class="hljs-keyword">from</span> != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: transfer from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(to != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: transfer to the zero address&quot;</span>);
 
         address operator = _msgSender();
 
-        _callTokensToSend(operator, from, to, amount, userData, operatorData);
+        _callTokensToSend(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
 
-        _move(operator, from, to, amount, userData, operatorData);
+        _move(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
 
-        _callTokensReceived(operator, from, to, amount, userData, operatorData, requireReceptionAck);
+        _callTokensReceived(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData, requireReceptionAck);
     }
 
-    // トークンburn(貨幣の消去，焼却)の仕組みがかいてある．
-    function _burn(address from, uint256 amount, bytes memory data, bytes memory operatorData) internal virtual {
-        require(from != address(0), &quot;ERC777: burn from the zero address&quot;);
+    <span class="hljs-comment">// トークンburn(貨幣の消去，焼却)の仕組みがかいてある．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_burn</span>(<span class="hljs-params">address <span class="hljs-keyword">from</span>, uint256 amount, bytes memory data, bytes memory operatorData</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(<span class="hljs-keyword">from</span> != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: burn from the zero address&quot;</span>);
 
         address operator = _msgSender();
 
-        _callTokensToSend(operator, from, address(0), amount, data, operatorData);
+        _callTokensToSend(operator, <span class="hljs-keyword">from</span>, address(<span class="hljs-number">0</span>), amount, data, operatorData);
 
-        _beforeTokenTransfer(operator, from, address(0), amount);
+        _beforeTokenTransfer(operator, <span class="hljs-keyword">from</span>, address(<span class="hljs-number">0</span>), amount);
 
-        // Update state variables
-        uint256 fromBalance = _balances[from];
-        require(fromBalance &gt;= amount, &quot;ERC777: burn amount exceeds balance&quot;);
+        <span class="hljs-comment">// Update state variables</span>
+        uint256 fromBalance = _balances[<span class="hljs-keyword">from</span>];
+        <span class="hljs-built_in">require</span>(fromBalance &gt;= amount, <span class="hljs-string">&quot;ERC777: burn amount exceeds balance&quot;</span>);
         unchecked {
-            _balances[from] = fromBalance - amount;
+            _balances[<span class="hljs-keyword">from</span>] = fromBalance - amount;
         }
         _totalSupply -= amount;
 
-        emit Burned(operator, from, amount, data, operatorData);
-        emit Transfer(from, address(0), amount);
+        emit Burned(operator, <span class="hljs-keyword">from</span>, amount, data, operatorData);
+        emit Transfer(<span class="hljs-keyword">from</span>, address(<span class="hljs-number">0</span>), amount);
     }
 
-    // トークン転送(送金)の仕組みが書いてある.
-    function _move(
+    <span class="hljs-comment">// トークン転送(送金)の仕組みが書いてある.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_move</span>(<span class="hljs-params">
         address operator,
-        address from,
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount,
         bytes memory userData,
         bytes memory operatorData
-    ) private {
-        _beforeTokenTransfer(operator, from, to, amount);
+    </span>) <span class="hljs-title">private</span> </span>{
+        _beforeTokenTransfer(operator, <span class="hljs-keyword">from</span>, to, amount);
 
-        uint256 fromBalance = _balances[from];
-        require(fromBalance &gt;= amount, &quot;ERC777: transfer amount exceeds balance&quot;);
+        uint256 fromBalance = _balances[<span class="hljs-keyword">from</span>];
+        <span class="hljs-built_in">require</span>(fromBalance &gt;= amount, <span class="hljs-string">&quot;ERC777: transfer amount exceeds balance&quot;</span>);
         unchecked {
-            _balances[from] = fromBalance - amount;
+            _balances[<span class="hljs-keyword">from</span>] = fromBalance - amount;
         }
         _balances[to] += amount;
 
-        emit Sent(operator, from, to, amount, userData, operatorData);
-        emit Transfer(from, to, amount);
+        emit Sent(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
+        emit Transfer(<span class="hljs-keyword">from</span>, to, amount);
     }
 
-    // トークン引き出し許可更新の仕組みがかいてある．
-    // ERC20との後方互換性のために実装されている.
-    function _approve(address holder, address spender, uint256 value) internal virtual {
-        require(holder != address(0), &quot;ERC777: approve from the zero address&quot;);
-        require(spender != address(0), &quot;ERC777: approve to the zero address&quot;);
+    <span class="hljs-comment">// トークン引き出し許可更新の仕組みがかいてある．</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_approve</span>(<span class="hljs-params">address holder, address spender, uint256 value</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(holder != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: approve from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(spender != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: approve to the zero address&quot;</span>);
 
         _allowances[holder][spender] = value;
         emit Approval(holder, spender, value);
     }
 
-    // アカウントのトークンが減少(_send, _burn)する際にトークンの残高操作前に呼び出される.
-    // フックを実行する関数.
-    function _callTokensToSend(
+    <span class="hljs-comment">// アカウントのトークンが減少(_send, _burn)する際にトークンの残高操作前に呼び出される.</span>
+    <span class="hljs-comment">// フックを実行する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_callTokensToSend</span>(<span class="hljs-params">
         address operator,
-        address from,
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount,
         bytes memory userData,
         bytes memory operatorData
-    ) private {
-        address implementer = _ERC1820_REGISTRY.getInterfaceImplementer(from, _TOKENS_SENDER_INTERFACE_HASH);
-        if (implementer != address(0)) {
-            IERC777Sender(implementer).tokensToSend(operator, from, to, amount, userData, operatorData);
+    </span>) <span class="hljs-title">private</span> </span>{
+        address implementer = _ERC1820_REGISTRY.getInterfaceImplementer(<span class="hljs-keyword">from</span>, _TOKENS_SENDER_INTERFACE_HASH);
+        <span class="hljs-keyword">if</span> (implementer != address(<span class="hljs-number">0</span>)) {
+            IERC777Sender(implementer).tokensToSend(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
         }
     }
 
-    // アカウントのトークンが増加(_mint, _send)する際にトークンの残高操作後に呼び出される.
-    // フックを実行する関数.
-    function _callTokensReceived(
+    <span class="hljs-comment">// アカウントのトークンが増加(_mint, _send)する際にトークンの残高操作後に呼び出される.</span>
+    <span class="hljs-comment">// フックを実行する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_callTokensReceived</span>(<span class="hljs-params">
         address operator,
-        address from,
+        address <span class="hljs-keyword">from</span>,
         address to,
         uint256 amount,
         bytes memory userData,
         bytes memory operatorData,
         bool requireReceptionAck
-    ) private {
+    </span>) <span class="hljs-title">private</span> </span>{
         address implementer = _ERC1820_REGISTRY.getInterfaceImplementer(to, _TOKENS_RECIPIENT_INTERFACE_HASH);
-        if (implementer != address(0)) {
-            IERC777Recipient(implementer).tokensReceived(operator, from, to, amount, userData, operatorData);
-        } else if (requireReceptionAck) {
-            require(!to.isContract(), &quot;ERC777: token recipient contract has no implementer for ERC777TokensRecipient&quot;);
+        <span class="hljs-keyword">if</span> (implementer != address(<span class="hljs-number">0</span>)) {
+            IERC777Recipient(implementer).tokensReceived(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (requireReceptionAck) {
+            <span class="hljs-built_in">require</span>(!to.isContract(), <span class="hljs-string">&quot;ERC777: token recipient contract has no implementer for ERC777TokensRecipient&quot;</span>);
         }
     }
 
-    // トークン引き出し許可残高を減らす関数.
-    // ERC20との後方互換性のために実装されている.
-    function _spendAllowance(address owner, address spender, uint256 amount) internal virtual {
+    <span class="hljs-comment">// トークン引き出し許可残高を減らす関数.</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_spendAllowance</span>(<span class="hljs-params">address owner, address spender, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
         uint256 currentAllowance = allowance(owner, spender);
-        if (currentAllowance != type(uint256).max) {
-            require(currentAllowance &gt;= amount, &quot;ERC777: insufficient allowance&quot;);
+        <span class="hljs-keyword">if</span> (currentAllowance != type(uint256).max) {
+            <span class="hljs-built_in">require</span>(currentAllowance &gt;= amount, <span class="hljs-string">&quot;ERC777: insufficient allowance&quot;</span>);
             unchecked {
                 _approve(owner, spender, currentAllowance - amount);
             }
         }
     }
 
-    // トークンの操作を行う関数(_mint, _burn, _move関数)の実行前に行いたい動作を設定できる．
-    function _beforeTokenTransfer(address operator, address from, address to, uint256 amount) internal virtual {}
-</code></pre><p>↓ 元ファイル</p>
+    <span class="hljs-comment">// トークンの操作を行う関数(_mint, _burn, _move関数)の実行前に行いたい動作を設定できる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_beforeTokenTransfer</span>(<span class="hljs-params">address operator, address <span class="hljs-keyword">from</span>, address to, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
+</code></pre>
+<p>↓ 元ファイル</p>
 <p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC777/ERC777.sol" target="_blank">openzeppelin-contracts/blob/master/contracts/token/ERC777/ERC777.sol</a></p>
 <h2 id="4-erc20-との比較">4. ERC20 との比較</h2>
 <p>以下に ERC20 と比較して ERC777 が改善した主要な点を示す.</p>
@@ -954,7 +961,7 @@ ERC777 のコントラクト利用者は, コントラクトを ERC20 として�
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ERC777","level":"2.3","depth":1,"next":{"title":"ERC5192","level":"2.4","depth":1,"path":"ERC5192-related-contracts/README.md","ref":"./ERC5192-related-contracts/README.md","articles":[]},"previous":{"title":"ERC721","level":"2.2","depth":1,"path":"ERC721-related-contracts/README.md","ref":"./ERC721-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC777-related-contracts/README.md","mtime":"2023-05-05T16:56:00.781Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:56:03.556Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ERC777","level":"2.3","depth":1,"next":{"title":"ERC5192","level":"2.4","depth":1,"path":"ERC5192-related-contracts/README.md","ref":"./ERC5192-related-contracts/README.md","articles":[]},"previous":{"title":"ERC721","level":"2.2","depth":1,"path":"ERC721-related-contracts/README.md","ref":"./ERC721-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC777-related-contracts/README.md","mtime":"2023-09-12T07:27:37.686Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-09-12T07:27:40.333Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

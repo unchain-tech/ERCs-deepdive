@@ -490,16 +490,18 @@ ERC5192 は大部分が ERC721 と共通のため，共通部分の解説につ�
 <h3 id="31-変数-accountlock-と-関数-locked">3.1. 変数 _accountLock と 関数 locked</h3>
 <p>変数定義における ERC721 との違いは，以下の <code>_accountLock</code> のみで，これは筆者が EIP をもとに独自に実装した変数になります．
 この変数により，ERC5192 は transfer を制限可能な SoulBound Token としての役割を果たせるようになります．</p>
-<pre><code>mapping(uint256 =&gt; bool) private _accountLock;
-</code></pre><p>この変数は <code>uint256</code> のキーとして渡された <code>tokenId</code> が transfer 可能か否かを保存するフラグの役割を果たしています．
+<pre><code class="lang-javascript">mapping(<span class="hljs-function"><span class="hljs-params">uint256</span> =&gt;</span> bool) private _accountLock;
+</code></pre>
+<p>この変数は <code>uint256</code> のキーとして渡された <code>tokenId</code> が transfer 可能か否かを保存するフラグの役割を果たしています．
 ミント時にのみフラグは更新され， <code>locked</code> 関数で外部から状態を確認することが出来ます．</p>
 <p><code>locked</code> 関数は EIP で提唱された IERC5192 に沿ったもので，関数の内部は筆者が実装をしました．
 戻り値として， <code>tokenId</code> の transfer がロックされていれば <code>true</code> ，ロックされていなければ <code>false</code> を返します．</p>
-<pre><code>function locked(uint256 tokenId) external view override returns (bool) {
-    require(_exists(tokenId), &quot;invalid token ID&quot;);
-    return _accountLock[tokenId];
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">locked</span>(<span class="hljs-params">uint256 tokenId</span>) <span class="hljs-title">external</span> <span class="hljs-title">view</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+    <span class="hljs-built_in">require</span>(_exists(tokenId), <span class="hljs-string">&quot;invalid token ID&quot;</span>);
+    <span class="hljs-keyword">return</span> _accountLock[tokenId];
 }
-</code></pre><h3 id="32-mint-関数への引数-lock-の追加と，それによる-accountlock-の状態の決定">3.2. _mint 関数への引数 lock の追加と，それによる _accountLock の状態の決定</h3>
+</code></pre>
+<h3 id="32-mint-関数への引数-lock-の追加と，それによる-accountlock-の状態の決定">3.2. _mint 関数への引数 lock の追加と，それによる _accountLock の状態の決定</h3>
 <p>上述の <code>_accountLock</code> の状態を決定するため， <code>_mint</code> 関数で <code>lock</code> するかどうかの引数を受け取り， <code>_accountLock</code> に渡します．
 このとき，渡した状態を EIP5192 で決められた IERC5192 に倣ってイベントとしてエミットします．</p>
 <h3 id="33-accountlock-の状態により制限される関数">3.3. _accountLock の状態により制限される関数</h3>
@@ -564,7 +566,7 @@ ERC5192 は大部分が ERC721 と共通のため，共通部分の解説につ�
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ERC5192","level":"2.4","depth":1,"next":{"title":"ERC5564","level":"2.5","depth":1,"path":"ERC5564-related-contracts/README.md","ref":"./ERC5564-related-contracts/README.md","articles":[]},"previous":{"title":"ERC777","level":"2.3","depth":1,"path":"ERC777-related-contracts/README.md","ref":"./ERC777-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC5192-related-contracts/README.md","mtime":"2023-05-05T16:56:00.781Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-05-05T16:56:03.556Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ERC5192","level":"2.4","depth":1,"next":{"title":"ERC5564","level":"2.5","depth":1,"path":"ERC5564-related-contracts/README.md","ref":"./ERC5564-related-contracts/README.md","articles":[]},"previous":{"title":"ERC777","level":"2.3","depth":1,"path":"ERC777-related-contracts/README.md","ref":"./ERC777-related-contracts/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC5192-related-contracts/README.md","mtime":"2023-09-12T07:27:37.682Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2023-09-12T07:27:40.333Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
