@@ -15,7 +15,7 @@ https://github.com/code-423n4/2022-03-joyn-findings/issues/6
 
 https://github.com/code-423n4/2022-03-joyn/blob/c9297ccd925ebb2c44dbc6eaa3effd8db5d2368a/splits/contracts/Splitter.sol#L50-L59
 
-```
+```javascript
 /// Loop
 for (uint256 i = 0; i < currentWindow; i++) {
     if (!isClaimed(msg.sender, i)) {
@@ -53,7 +53,7 @@ function incrementWindow(uint256 royaltyAmount) public returns (bool) {
 
 1. 配列の要素の最大を決める
 
-```
+```javascript
 uint256 constant MAX_CURRENT_WINDOW = 100;
 
 function incrementWindow(uint256 royaltyAmount) public returns (bool) {
@@ -68,7 +68,7 @@ function incrementWindow(uint256 royaltyAmount) public returns (bool) {
 
 2. `incrementWindow`を実行できるユーザーを制限する
 
-```
+```javascript
 
 mapping(address=>bool) whitelist;
 

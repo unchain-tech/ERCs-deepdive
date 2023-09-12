@@ -15,7 +15,7 @@ https://github.com/code-423n4/2022-03-joyn-findings/issues/108
 
 https://github.com/code-423n4/2022-03-lifinance/blob/main/src/Facets/DexManagerFacet.sol#L62-L77
 
-```
+```javascript
 contract CoreProxy is Ownable {
        address private immutable _implement;
 }

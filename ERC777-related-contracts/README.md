@@ -135,7 +135,7 @@ ERC777 という規格は, ERC-20 との後方互換性を保ちつつ, トー�
 
 まず最初に，先程紹介した `.sol` ファイルを import した後，必要な `contract` を `ERC777` という `contract` に継承させています．
 
-```
+```javascript
 import "./IERC777.sol";
 import "./IERC777Recipient.sol";
 import "./IERC777Sender.sol";
@@ -149,7 +149,7 @@ contract ERC777 is Context, IERC777, IERC20 {
 
 そして，ライブラリの使用の宣言と, 後に使用する ERC1820 Registry のインスタンス用意.
 
-```
+```javascript
     // ライブラリの使用を宣言.
     using Address for address;
 
@@ -159,7 +159,7 @@ contract ERC777 is Context, IERC777, IERC20 {
 
 各グローバル変数を定義．
 
-```
+```javascript
     // このマッピングがトークン残高の本体．名付けるならトークン残高．
     mapping(address => uint256) private _balances;
 
@@ -193,7 +193,7 @@ contract ERC777 is Context, IERC777, IERC20 {
 `constructor`内の最後にはこのコントラクトが`ERC777Token`と`ERC20Token`を実装していることを ERC1820 Registry に登録しています.
 この処理はトークンコントラクトが ERC777 の機能を実装している・ERC20 の機能を実装しているを利用者が判定するためのものです.
 
-```
+```javascript
     constructor(string memory name_, string memory symbol_, address[] memory defaultOperators_) {
         _name = name_;
         _symbol = symbol_;
@@ -215,7 +215,7 @@ contract ERC777 is Context, IERC777, IERC20 {
 
 まずは，変数を変更(変数に代入)できない `view` 関数で，処理が少ないものが定義されています．
 
-```
+```javascript
     // トークンネームを参照する関数
     function name() public view virtual override returns (string memory) {
         return _name;
@@ -255,7 +255,7 @@ contract ERC777 is Context, IERC777, IERC20 {
 
 メソッドとトリガーと分ける理由は，複雑な関数を定義したいデベロッパーへの配慮のためでしょう．これにより，基本機能だけを用いたいデベロッパーは標準搭載関数で手間なく実装が完了でき，複雑な関数を定義したいデベロッパーは基本機能のメソッドが記述された `internal` 関数を骨組みとした複雑な関数の定義を容易に行えます．
 
-```
+```javascript
     // トークンを送信する関数．
     // ERC20でトークン送信に使用されるtransferとは定義を明確に分けるためにsendという名前で定義されている.
     function send(address recipient, uint256 amount, bytes memory data) public virtual override {
@@ -365,7 +365,7 @@ contract ERC777 is Context, IERC777, IERC20 {
 
 ※`internal` という修飾子は関数の可視性(`public`, `private`, `internal`, `external`)を表しています．これついては[ここ](https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0)を見るとよいでしょう．
 
-```
+```javascript
     // _mint関数(後に説明がなされる)を呼び出す関数．
     function _mint(address account, uint256 amount, bytes memory userData, bytes memory operatorData) internal virtual {
         _mint(account, amount, userData, operatorData, true);

@@ -15,7 +15,7 @@ https://github.com/code-423n4/2022-01-yield-findings/issues/136
 
 https://github.com/code-423n4/2022-04-jpegd/blob/e72861a9ccb707ced9015166fbded5c97c6991b6/contracts/vaults/FungibleAssetVaultForDAO.sol#L104-L115
 
-```
+```javascript
 function _collateralPriceUsd() internal view returns (uint256) {
     int256 answer = oracle.latestAnswer(); // here
     uint8 decimals = oracle.decimals();
@@ -41,7 +41,7 @@ function _collateralPriceUsd() internal view returns (uint256) {
 
 例: 下記のように変更してください
 
-```
+```javascript
 // before
 function _collateralPriceUsd() internal view returns (uint256) {
     int256 answer = oracle.latestAnswer(); // here

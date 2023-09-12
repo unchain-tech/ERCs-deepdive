@@ -14,7 +14,7 @@ https://github.com/code-423n4/2022-03-timeswap-findings/issues/32
 
 https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L121-L127
 
-```
+```javascript
 if (maxCollateral > dueOut.collateral) {
     uint256 excess; // default by 0
     unchecked {
@@ -37,7 +37,7 @@ https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/co
 
 そして underflow が起きないようにチェックが必要である
 
-```
+```javascript
 // Underflow Check
 if (maxCollateral > dueOut.collateral) {
 

@@ -15,7 +15,7 @@ https://github.com/code-423n4/2022-04-axelar-findings/issues/11
 
 https://github.com/code-423n4/2022-04-axelar/blob/dee2f2d352e8f20f20027977d511b19bfcca23a3/src/AxelarGateway.sol#L545-L548
 
-```
+```javascript
 function _callERC20Token(address tokenAddress, bytes memory callData) internal returns (bool) {
     (bool success, bytes memory returnData) = tokenAddress.call(callData);
     return success && (returnData.length == uint256(0) || abi.decode(returnData, (bool)));
@@ -36,7 +36,7 @@ https://docs.soliditylang.org/en/develop/control-structures.html#error-handling-
 
 https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.5.0/contracts/utils/Address.sol#L36-L42
 
-```
+```javascript
 function isContract(address account) internal view returns (bool) {
     // This method relies on extcodesize/address.code.length, which returns 0
     // for contracts in construction, since the code is only stored at the end

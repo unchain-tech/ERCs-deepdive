@@ -14,7 +14,7 @@ https://github.com/code-423n4/2022-06-infinity-findings/issues/269
 
 https://github.com/code-423n4/2022-06-infinity/blob/765376fa238bbccd8b1e2e12897c91098c7e5ac6/contracts/core/InfinityExchange.sol#L1266-L1269
 
-```
+```javascript
 function setProtocolFee(uint16 _protocolFeeBps) external onlyOwner {
 PROTOCOL_FEE_BPS = _protocolFeeBps;
 emit NewProtocolFee(_protocolFeeBps);
@@ -34,7 +34,7 @@ PROTOCOL_FEE_BPS = 500
 
 PROTOCOL_FEE_BPS の上限値を設定してください
 
-```
+```javascript
 // before
 function setProtocolFee(uint16 _protocolFeeBps) external onlyOwner {
 PROTOCOL_FEE_BPS = _protocolFeeBps;

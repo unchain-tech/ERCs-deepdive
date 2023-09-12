@@ -176,7 +176,7 @@ Optimism、Arbitrum、Starknet、Scroll、Polygon にアカウントを持って
 
 - `IERC5564Registry`
 
-```
+```javascript
 /// @notice Registry to map an address to its stealth key information.
 interface IERC5564Registry {
   /// @notice Returns the stealth public keys for the given `registrant` to compute a stealth
@@ -211,7 +211,7 @@ interface IERC5564Registry {
 
 - `IERC5564Generator`
 
-```
+```javascript
 /// @notice Interface for generating stealth addresses for keys from a given stealth address scheme.
 /// @dev The Generator contract MUST have a method called `stealthKeys` that returns the recipient's
 /// public keys as the correct types. The return types will vary for each generator, so a sample
@@ -252,7 +252,7 @@ interface IERC5564Generator {
 
 - `IERC5564Messenger`
 
-```
+```javascript
 /// @notice Interface for announcing that something was sent to a stealth address.
 interface IERC5564Messenger {
   /// @dev Emitted when sending something to a stealth address.
@@ -281,7 +281,7 @@ interface IERC5564Messenger {
 
 #### サンプルジェネレーターコントラクトの実装例
 
-```
+```javascript
 /// @notice Sample IERC5564Generator implementation for the secp256k1 curve.
 contract Secp256k1Generator is IERC5564Generator {
   /// @notice Address of this chain's registry contract.
