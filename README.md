@@ -1,6 +1,6 @@
-# OPENZEPPELIN-DEEPDIVE
+# EIPs-Encyclopedia
 
-### About
+## About
 
 OpenZeppelin の主要規格について，日本語ベース・コードベースでまとめていこうという企画です.
 また、ERC 規格毎によくある bug の対策サンプルなどもまとめています.
