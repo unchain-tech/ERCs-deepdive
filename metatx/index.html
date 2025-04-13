@@ -1,0 +1,592 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <title>MetaTx · Deepdive into ERCs</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 4.0.7">
+        <meta name="author" content="https://github.com/neila">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../bugs/" />
+    
+    
+    <link rel="prev" href="../ERC5564/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索ワードを入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Understanding ERCs</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../ERC20/">
+            
+                <a href="../ERC20/">
+            
+                    
+                    ERC20
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../ERC721/">
+            
+                <a href="../ERC721/">
+            
+                    
+                    ERC721
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../ERC777/">
+            
+                <a href="../ERC777/">
+            
+                    
+                    ERC777
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../ERC5192/">
+            
+                <a href="../ERC5192/">
+            
+                    
+                    ERC5192
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../ERC5564/">
+            
+                <a href="../ERC5564/">
+            
+                    
+                    ERC5564
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.6" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    MetaTx
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Smart Contract Bugs</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../bugs/">
+            
+                <a href="../bugs/">
+            
+                    
+                    Bugs🐝
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../bugs/ERC20.html">
+            
+                <a href="../bugs/ERC20.html">
+            
+                    
+                    ERC20-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../bugs/ERC721.html">
+            
+                <a href="../bugs/ERC721.html">
+            
+                    
+                    ERC721-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../bugs/Upgradeable.html">
+            
+                <a href="../bugs/Upgradeable.html">
+            
+                    
+                    Upgradeable contracts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../bugs/Reentrancy.html">
+            
+                <a href="../bugs/Reentrancy.html">
+            
+                    
+                    Reentrancy attacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../bugs/UnderflowOverflow.html">
+            
+                <a href="../bugs/UnderflowOverflow.html">
+            
+                    
+                    Underflows & Overflows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../bugs/LowLevelCall.html">
+            
+                <a href="../bugs/LowLevelCall.html">
+            
+                    
+                    Low-level calls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../bugs/DoS.html">
+            
+                <a href="../bugs/DoS.html">
+            
+                    
+                    DoS attack vectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../bugs/MEV.html">
+            
+                <a href="../bugs/MEV.html">
+            
+                    
+                    Exploiting MEVs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../bugs/Oracle.html">
+            
+                <a href="../bugs/Oracle.html">
+            
+                    
+                    Exploiting Oracles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../bugs/Rug-Pull.html">
+            
+                <a href="../bugs/Rug-Pull.html">
+            
+                    
+                    Rug pulls
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            HonKitで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >MetaTx</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="meta-transaction">Meta Transaction</h1>
+<h2 id="目次">目次</h2>
+<h3 id="1-はじめに">1. <a href="#1-はじめに-1">はじめに</a></h3>
+<h3 id="2-meta-transaction-とは">2. <a href="#2-meta-transactionとは-1">meta transaction とは</a></h3>
+<h3 id="3-対象ファイル">3. 対象ファイル</h3>
+<ol>
+<li><a href="#31-erc2771contextsol">ERC2771Context.sol</a></li>
+<li><a href="#31-erc2771contextsol">draft-EIP712.sol</a></li>
+<li><a href="#33-minimalforwardersol">MinimalForwarder.sol</a></li>
+</ol>
+<h3 id="4-relayer-についておまけ">4. <a href="#4-relayerについておまけ-1">relayer について(おまけ)</a></h3>
+<h2 id="1-はじめに">1. はじめに</h2>
+<p>ここでは、openzeppelin の<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/metatx" target="_blank">metatx</a>のディレクトリのファイルとそこにインポートされている主要なファイルについてコードを読み、metatx を理解することを目指します。</p>
+<p>このディレクトリ(metatx)の内容は、以下の図 1 の<strong>forwarder</strong>と<strong>recipient</strong>の範囲となっています。relayer をどのように実現するかは様々な方法がありますが、別途検討する必要があります。</p>
+<p>README では各ファイルが担うの主な機能を伝え、実装の解説は各ファイルのコメントに任せます。</p>
+<p>また、まだ力不足で理解が及んでいない箇所は<code>TODO</code>としています。どんどん修正を加えていただけますと幸いです。</p>
+<h2 id="2-meta-transaction-とは">2. Meta Transaction とは</h2>
+<p>一言で言うとユーザーは gas 代を支払うことなく transaction を発行するための仕組みです。具体的には client と contract の間に relayer を挟み、gas 代を肩代わりすることでこの仕組みを実現します。</p>
+<p>図 1.metatx の流れ</p>
+<div class="mermaid">
+sequenceDiagram
+participant client as Client
+participant relayer as Relayer
+participant forwarder as Forwarder Contract
+participant recipient as Recipient Contract
+
+client -&gt;&gt; relayer: signed request(off-chain)
+note over relayer: gas代を肩代わりする
+relayer -&gt;&gt; forwarder: send(req)
+forwarder -&gt;&gt; forwarder: verify(req, signature)
+forwarder -&gt;&gt; recipient: call(req.data, req.from)
+note over recipient: req.fromでmsg.senderをoverrideし<br>clientが実行しているように見せる
+recipient -&gt;&gt; recipient: executeSomeFunction()
+recipient --&gt;&gt; client: eventで関数の実行完了を知らせる
+</div>
+
+<p>この仕組みを実現しようとした時に、次のような疑問が思い浮かぶと思います。</p>
+<ul>
+<li>transaction を発行するのが client ではなくなると sender の<code>address</code>がわからなくなるのではないか？</li>
+<li>sender が正しいことを証明することはできるのだろうか？</li>
+</ul>
+<p>これらの疑問を解決するための仕組みがそれぞれ<code>ERC2771Context.sol</code>, <code>draft-EIP712.sol</code>に備わっています。</p>
+<p>※以下で client, relayer, forwarder, recipient という word を使用する際は、この図 1 の内容を指します。</p>
+<h2 id="31-erc2771contextsol">3.1 ERC2771Context.sol</h2>
+<p>参照元: <a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/ERC2771Context.sol" target="_blank">https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/ERC2771Context.sol</a></p>
+<p>こちらのファイルは EIP-2771(<a href="https://eips.ethereum.org/EIPS/eip-2771" target="_blank">https://eips.ethereum.org/EIPS/eip-2771</a>) で定義されている規格の抽象コントラクトです。このコントラクトは上記の recipient にあたる Contract に継承させ使用します。</p>
+<p>機能としては主に以下の 3 つを提供します。</p>
+<h3 id="1-forwarder-が-trusted-なものか確認する">1. forwarder が trusted なものか確認する</h3>
+<p><code>constructor</code>で forwader の<code>address</code>を set し、その値と<code>msg.sender</code>が等しいかを<code>isTrustedForwarder(msg.sender)</code>で比較する。これにより、trusted な forwarder からの transaction なのかどうかを判断します。</p>
+<h3 id="2-msgsender-を上記の図-1-の-client-の-address-で-override">2. _msgSender を上記の図 1 の client の address で override</h3>
+<p><code>msg.sender</code>が trusted forwarder であれば、client の address を_msgSender()から返します。そうでない場合は、<code>msg.sender</code>をそのまま返します。</p>
+<p>recipient contract から<code>_msgSender()</code>を呼ぶことで、このトランザクションを実行したい人(client)が誰なのかを知ることができます。</p>
+<h3 id="3-msgdata-を余分なデータを取り除いたデータで-override">3. _msgData を余分なデータを取り除いたデータで override</h3>
+<p><code>msg.sender</code>が trusted forwarder であれば、msg.data から余分なデータ(client address)を取り除いて返します。そうでない場合は、<code>msg.data</code>をそのまま返します。</p>
+<p>forwarder から recipient の関数を実行する際に data の末尾に client の address を付与しているので、元々の純粋な data はその address を除いたものになります。</p>
+<h2 id="32-draft-eip712sol">3.2 draft-EIP712.sol</h2>
+<p>参照元: <a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/draft-EIP712.sol" target="_blank">https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/draft-EIP712.sol</a></p>
+<p>こちらのファイルは EIP-712(<a href="https://eips.ethereum.org/EIPS/eip-712" target="_blank">https://eips.ethereum.org/EIPS/eip-712</a>) で定義されている規格の抽象コントラクトです。EIP-712 は構造体に署名をつけることができる規格です。draft-EIP712.sol では構造体を encode する機能を提供します。</p>
+<p>この際に単純に構造体を encode するだけだと、異なる 2 つの DApp が同一の構造体を使用する場合に一方の DApp を対象にした署名付きメッセージが、もう一方でも有効になってしまうということが起こり得ます。そのため、DApp 毎に異なるドメイン固有の値を含めて encode する必要があり、その仕組みを実装しています。</p>
+<h2 id="33-minimalforwardersol">3.3 MinimalForwarder.sol</h2>
+<p>参照元: <a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/MinimalForwarder.sol" target="_blank">https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/MinimalForwarder.sol</a></p>
+<p>こちらのファイルは forwarder として機能するコントラクトです。しかしながらあくまでテスト用という位置付けで、実運用をするためには機能が不十分とされています。
+機能としては主に以下の 3 つを提供します。</p>
+<h3 id="1-nonce-の管理">1. nonce の管理</h3>
+<p>client の<code>address</code>毎に nonce を保持し、関数を実行するたびに increment します。また nonce を取得するための<code>getNonce()</code>を備えており、フロントエンドからに最新の nonce を取得し、request に含めることができます。これにより、request の nonce と contract で保持している nonce が等しいことを比較することが可能になり、<a href="https://medium.com/cypher-core/replay-attack-vulnerability-in-ethereum-smart-contracts-introduced-by-transferproxy-124bf3694e25" target="_blank">replay attack</a>を防ぐことができます。</p>
+<h3 id="2-署名の検証">2. 署名の検証</h3>
+<p>draft-EIP712、<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/ECDSA.sol" target="_blank">ECDSA</a>の関数を使用し、encode された EIP712 のメッセージのハッシュ値から取得する署名と、<code>verify</code>関数の引数の署名が等しいことを検証します。</p>
+<h3 id="3-recipient-の関数の実行">3. recipient の関数の実行</h3>
+<p>署名の検証に成功したら、nonce を increment し、data の末尾に client の<code>address</code>を付与して、関数を実行します。</p>
+<h2 id="4-relayer-についておまけ">4. relayer について(おまけ)</h2>
+<p>OpenZeppelin は defender(<a href="https://defender.openzeppelin.com" target="_blank">https://defender.openzeppelin.com</a>) というサービスを提供しており、こちらを活用することで簡単に実装することができます。</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../ERC5564/" class="navigation navigation-prev " aria-label="Previous page: ERC5564">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../bugs/" class="navigation navigation-next " aria-label="Next page: Bugs🐝">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"MetaTx","level":"2.6","depth":1,"next":{"title":"Bugs🐝","level":"3.1","depth":1,"path":"bugs/README.md","ref":"./bugs/README.md","articles":[{"title":"ERC20-related bugs","level":"3.1.1","depth":2,"path":"bugs/ERC20.md","ref":"./bugs/ERC20.md","articles":[]},{"title":"ERC721-related bugs","level":"3.1.2","depth":2,"path":"bugs/ERC721.md","ref":"./bugs/ERC721.md","articles":[]},{"title":"Upgradeable contracts","level":"3.1.3","depth":2,"path":"bugs/Upgradeable.md","ref":"./bugs/Upgradeable.md","articles":[]},{"title":"Reentrancy attacks","level":"3.1.4","depth":2,"path":"bugs/Reentrancy.md","ref":"./bugs/Reentrancy.md","articles":[]},{"title":"Underflows & Overflows","level":"3.1.5","depth":2,"path":"bugs/UnderflowOverflow.md","ref":"./bugs/UnderflowOverflow.md","articles":[]},{"title":"Low-level calls","level":"3.1.6","depth":2,"path":"bugs/LowLevelCall.md","ref":"./bugs/LowLevelCall.md","articles":[]},{"title":"DoS attack vectors","level":"3.1.7","depth":2,"path":"bugs/DoS.md","ref":"./bugs/DoS.md","articles":[]},{"title":"Exploiting MEVs","level":"3.1.8","depth":2,"path":"bugs/MEV.md","ref":"./bugs/MEV.md","articles":[]},{"title":"Exploiting Oracles","level":"3.1.9","depth":2,"path":"bugs/Oracle.md","ref":"./bugs/Oracle.md","articles":[]},{"title":"Rug pulls","level":"3.1.10","depth":2,"path":"bugs/Rug-Pull.md","ref":"./bugs/Rug-Pull.md","articles":[]}]},"previous":{"title":"ERC5564","level":"2.5","depth":1,"path":"ERC5564/README.md","ref":"./ERC5564/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"metatx/README.md","mtime":"2025-04-13T12:44:34.667Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2025-04-13T12:44:37.813Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/mermaid.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

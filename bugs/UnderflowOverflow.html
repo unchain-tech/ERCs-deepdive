@@ -1,0 +1,562 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <title>Underflows & Overflows · Deepdive into ERCs</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 4.0.7">
+        <meta name="author" content="https://github.com/neila">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="LowLevelCall.html" />
+    
+    
+    <link rel="prev" href="Reentrancy.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索ワードを入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Understanding ERCs</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../ERC20/">
+            
+                <a href="../ERC20/">
+            
+                    
+                    ERC20
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../ERC721/">
+            
+                <a href="../ERC721/">
+            
+                    
+                    ERC721
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../ERC777/">
+            
+                <a href="../ERC777/">
+            
+                    
+                    ERC777
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../ERC5192/">
+            
+                <a href="../ERC5192/">
+            
+                    
+                    ERC5192
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../ERC5564/">
+            
+                <a href="../ERC5564/">
+            
+                    
+                    ERC5564
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../metatx/">
+            
+                <a href="../metatx/">
+            
+                    
+                    MetaTx
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Smart Contract Bugs</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Bugs🐝
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="ERC20.html">
+            
+                <a href="ERC20.html">
+            
+                    
+                    ERC20-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="ERC721.html">
+            
+                <a href="ERC721.html">
+            
+                    
+                    ERC721-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="Upgradeable.html">
+            
+                <a href="Upgradeable.html">
+            
+                    
+                    Upgradeable contracts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="Reentrancy.html">
+            
+                <a href="Reentrancy.html">
+            
+                    
+                    Reentrancy attacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.5" data-path="UnderflowOverflow.html">
+            
+                <a href="UnderflowOverflow.html">
+            
+                    
+                    Underflows & Overflows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="LowLevelCall.html">
+            
+                <a href="LowLevelCall.html">
+            
+                    
+                    Low-level calls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="DoS.html">
+            
+                <a href="DoS.html">
+            
+                    
+                    DoS attack vectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="MEV.html">
+            
+                <a href="MEV.html">
+            
+                    
+                    Exploiting MEVs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="Oracle.html">
+            
+                <a href="Oracle.html">
+            
+                    
+                    Exploiting Oracles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="Rug-Pull.html">
+            
+                <a href="Rug-Pull.html">
+            
+                    
+                    Rug pulls
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            HonKitで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Underflows & Overflows</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="underflows--overflows">Underflows / Overflows</h1>
+<h2 id="underflow">Underflow</h2>
+<p>Underflow が起こる</p>
+<h3 id="🔗-url">🔗 URL</h3>
+<p><a href="https://github.com/code-423n4/2022-03-timeswap-findings/issues/32" target="_blank">https://github.com/code-423n4/2022-03-timeswap-findings/issues/32</a></p>
+<h3 id="⛳️-condition">⛳️ Condition</h3>
+<ol>
+<li>変数の型が<code>uint</code>で、引き算の結果が 0 よりも小さくなる</li>
+</ol>
+<p><a href="https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L121-L127" target="_blank">https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L121-L127</a></p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">if</span> (maxCollateral &gt; dueOut.collateral) {
+    uint256 excess; <span class="hljs-comment">// default by 0</span>
+    unchecked {
+        excess -= dueOut.collateral; <span class="hljs-comment">// excess &lt;= 0</span>
+    }
+    ETH.transfer(payable(msg.sender), excess);
+}
+</code></pre>
+<h3 id="👨‍💻-poc">👨‍💻 PoC</h3>
+<ol>
+<li><code>uint256 excess;</code>で、excess 変数が<code>uint256</code>の型で宣言されている。デフォルトの値は 0 なので、excess はこの時点で 0。</li>
+<li><code>dueOut.collateral</code>が 1 だとすると、<code>unchecked</code>キーワードの影響で revert は帰さず excess の値は<code>2^256-1</code>の値になる</li>
+<li><code>ETH.transfer(payable(msg.sender), excess);</code>において excess は量を表すため、予期しない大量のトークンを送信することになるのか、資金不足でトランザクションが revert される</li>
+</ol>
+<h2 id="✅-recommendation">✅ Recommendation</h2>
+<p>ここでは同じコントラクトを参考にすると、<code>excess</code>は 0 ではなく、<code>maxCollateral</code>を代入すべきである
+<a href="https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L347" target="_blank">https://github.com/code-423n4/2022-03-timeswap/blob/main/Timeswap/Convenience/contracts/libraries/Borrow.sol#L347</a></p>
+<p>そして underflow が起きないようにチェックが必要である</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// Underflow Check</span>
+<span class="hljs-keyword">if</span> (maxCollateral &gt; dueOut.collateral) {
+
+    <span class="hljs-comment">// declare excess as a maxColalteral</span>
+    uint256 excess = maxCollateral;
+    unchecked {
+        excess -= dueOut.collateral;
+    }
+    ETH.transfer(payable(msg.sender), excess);
+}
+</code></pre>
+<h3 id="👬-similar-issue">👬 Similar Issue</h3>
+<p><a href="https://github.com/code-423n4/2022-04-backd-findings/issues/50" target="_blank">https://github.com/code-423n4/2022-04-backd-findings/issues/50</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Reentrancy.html" class="navigation navigation-prev " aria-label="Previous page: Reentrancy attacks">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="LowLevelCall.html" class="navigation navigation-next " aria-label="Next page: Low-level calls">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Underflows & Overflows","level":"3.1.5","depth":2,"next":{"title":"Low-level calls","level":"3.1.6","depth":2,"path":"bugs/LowLevelCall.md","ref":"./bugs/LowLevelCall.md","articles":[]},"previous":{"title":"Reentrancy attacks","level":"3.1.4","depth":2,"path":"bugs/Reentrancy.md","ref":"./bugs/Reentrancy.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"bugs/UnderflowOverflow.md","mtime":"2025-04-13T12:44:34.666Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2025-04-13T12:44:37.813Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/mermaid.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

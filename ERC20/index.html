@@ -1,0 +1,857 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <title>ERC20 · Deepdive into ERCs</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 4.0.7">
+        <meta name="author" content="https://github.com/neila">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../ERC721/" />
+    
+    
+    <link rel="prev" href="../" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索ワードを入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Understanding ERCs</li>
+        
+        
+    
+        <li class="chapter active" data-level="2.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    ERC20
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../ERC721/">
+            
+                <a href="../ERC721/">
+            
+                    
+                    ERC721
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../ERC777/">
+            
+                <a href="../ERC777/">
+            
+                    
+                    ERC777
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../ERC5192/">
+            
+                <a href="../ERC5192/">
+            
+                    
+                    ERC5192
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../ERC5564/">
+            
+                <a href="../ERC5564/">
+            
+                    
+                    ERC5564
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../metatx/">
+            
+                <a href="../metatx/">
+            
+                    
+                    MetaTx
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Smart Contract Bugs</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../bugs/">
+            
+                <a href="../bugs/">
+            
+                    
+                    Bugs🐝
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../bugs/ERC20.html">
+            
+                <a href="../bugs/ERC20.html">
+            
+                    
+                    ERC20-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../bugs/ERC721.html">
+            
+                <a href="../bugs/ERC721.html">
+            
+                    
+                    ERC721-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../bugs/Upgradeable.html">
+            
+                <a href="../bugs/Upgradeable.html">
+            
+                    
+                    Upgradeable contracts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../bugs/Reentrancy.html">
+            
+                <a href="../bugs/Reentrancy.html">
+            
+                    
+                    Reentrancy attacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../bugs/UnderflowOverflow.html">
+            
+                <a href="../bugs/UnderflowOverflow.html">
+            
+                    
+                    Underflows & Overflows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../bugs/LowLevelCall.html">
+            
+                <a href="../bugs/LowLevelCall.html">
+            
+                    
+                    Low-level calls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../bugs/DoS.html">
+            
+                <a href="../bugs/DoS.html">
+            
+                    
+                    DoS attack vectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../bugs/MEV.html">
+            
+                <a href="../bugs/MEV.html">
+            
+                    
+                    Exploiting MEVs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../bugs/Oracle.html">
+            
+                <a href="../bugs/Oracle.html">
+            
+                    
+                    Exploiting Oracles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../bugs/Rug-Pull.html">
+            
+                <a href="../bugs/Rug-Pull.html">
+            
+                    
+                    Rug pulls
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            HonKitで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >ERC20</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="erc20">ERC20</h1>
+<h2 id="目次">目次</h2>
+<h3 id="1-はじめに">1. <a href="#はじめに">はじめに</a></h3>
+<h3 id="2-erc20sol-にインポートされているファイル">2. ERC20.sol にインポートされているファイル</h3>
+<ol>
+<li><a href="#21-contextsol">Context.sol</a></li>
+<li><a href="#22-ierc20sol">IERC20.sol</a></li>
+<li><a href="#23-ierc20metadatasol">IERC20Metadata.sol</a></li>
+</ol>
+<h3 id="3-erc20sol">3. <a href="#3-erc20sol">ERC20.sol</a></h3>
+<ol>
+<li><a href="#31-import-変数定義から-constructor-まで">&quot;&quot;import&quot;&quot;, 変数定義から &quot;constructor&quot; まで</a></li>
+<li><a href="#32-ブロックチェーン上の変数を参照する-view-関数群">ブロックチェーン上の変数を参照する &quot;&quot;view&quot;&quot; 関数群</a></li>
+<li><a href="#33-標準搭載関数群">標準搭載関数群</a></li>
+<li><a href="#34-メソッド記述と追加機能実装を担う-internal-関数群">メソッド記述と追加機能実装を担う &quot;&quot;internal&quot;&quot; 関数群</a></li>
+</ol>
+<h3 id="4-scam-と-approve-関数">4. <a href="#4-scamとapprove関数">SCAM と approve 関数</a></h3>
+<h2 id="1-はじめに">1. はじめに</h2>
+<p>ここでは，ERC20.sol とその中でインポートされている３つを含めた４つの sol ファイルについて，順番にコードベースでよみとくことによって ERC20 を完全に理解することを目指します．</p>
+<p>しかし，この README.md ファイルではコードは極力使わず，実際にコードを読み解く sol ファイル群へのリンクは添えたうえで，日本語ベース・ノーコードでなるべく簡潔な解説を行っていきます．</p>
+<blockquote>
+<p>尚，Solidity の文法に関してはある程度前提としていますが，Solidity のハンズオンラーニングの手段ともなりえるように，検索可能な用語を用いることを心掛けることとします．</p>
+</blockquote>
+<h2 id="21-contextsol">2.1. Context.sol</h2>
+<p>ERC20 上で最初に import されているのがこのファイルです．</p>
+<p>このファイルでは，<code>abstract</code> という分類の <code>contract</code> の中で，<code>msg.sender</code> という宣言をラップする <code>_msgSender</code>という関数を宣言しています．</p>
+<p>わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いる場合に <code>msg.sender</code> をそのまま使うのは都合が悪いからです．</p>
+<p>以下に簡単な説明をのせておきます．詳しくは<a href="https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx-related-contracts#2-meta-transaction%E3%81%A8%E3%81%AF-1" target="_blank">ここ</a>を参照してください．</p>
+<blockquote>
+<p><code>msg.sender</code> は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に <code>msg.sender</code> をラップした <code>_msgSender()</code> 関数を使うことによって，メタトランザクション使用時には <code>_msg.sender()</code> 関数をオーバーライドして返り値を書き換えることにより <code>msg.sender(gas feeを支払うアドレス)</code> と <code>_msgSender()の返り値(txを実行したいアドレス)</code> を分けることができるようになります．</p>
+</blockquote>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol" target="_blank">openzeppelin-contracts/contracts/utils/Context.sol</a></p>
+<h2 id="22-ierc20sol">2.2. IERC20.sol</h2>
+<p>次に import されているのがこのファイルです．</p>
+<p>このファイルでは，<code>interface</code> という分類の <code>contract</code> の中で，可視性が <code>private</code> でないものの型定義と，コメントを用いた関数の説明がなされています．</p>
+<p><code>abstract</code> と <code>interface</code> の違いは，<code>contract</code> 内に関数を内包するか否かです．</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC20/IERC20.sol</a></p>
+<h2 id="23-ierc20metadatasol">2.3. IERC20Metadata.sol</h2>
+<p>最後に <code>import</code> されているのがこのファイルです．</p>
+<p>このファイルでは，<code>interface</code> という分類の <code>contract</code> の中で，</p>
+<p><code>_name</code> 変数を参照する <code>name</code> 関数，
+<code>_symbol</code> 変数を参照する <code>symbol</code> 関数，
+<code>decimals</code> を定義する <code>decimals</code> 関数</p>
+<p>の三つの関数を型定義しています．</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/IERC20Metadata.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol</a></p>
+<h2 id="3-erc20sol">3. ERC20.sol</h2>
+<h3 id="31-import-変数定義から-constructor-まで">3.1. &quot;&quot;import&quot;&quot;, 変数定義から &quot;constructor&quot; まで</h3>
+<p>さぁ，それでは本体である <code>ERC20.sol</code> についてみていきましょう．</p>
+<p>まず最初に，先程紹介した 3 つの <code>.sol</code> ファイルを import した後，各 <code>contract</code> を <code>ERC20</code> という <code>contract</code> に継承させています．</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC20.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./extensions/IERC20Metadata.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Context.sol&quot;</span>;
+contract ERC20 is Context, IERC20, IERC20Metadata {
+</code></pre>
+<p>そして，各グローバル変数を定義．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// このマッピングがトークン残高の本体．名付けるならトークン残高．</span>
+    <span class="hljs-comment">// アドレスに対してトークンの量を紐づけ，残高とみなす．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256) private _balances;
+
+    <span class="hljs-comment">// このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．</span>
+    <span class="hljs-comment">// 任意のアドレスAから，他の任意のアドレスBに対してアドレスAの残高からの引き出し許可を与えるというもの．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256)) private _allowances;
+
+    <span class="hljs-comment">// 文字通り，総供給量</span>
+    uint256 private _totalSupply;
+
+    <span class="hljs-comment">// トークンネームとトークンシンボルの箱．恐らくは，defi等でトークン情報を出力するときに使われる．</span>
+    string private _name;
+    string private _symbol;
+</code></pre>
+<p>続いて，デプロイ時に string 変数を初期化する <code>constructor</code> が定義されています．引数(トークン名とトークンシンボル)はデプロイ時にコンパイルされた Solidity ファイルと一緒に渡してあげます．</p>
+<pre><code class="lang-javascript">    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">string memory name_, string memory symbol_</span>)</span> {
+        _name = name_;
+        _symbol = symbol_;
+    }
+</code></pre>
+<h3 id="32-ブロックチェーン上の変数を参照する-view-関数群">3.2. ブロックチェーン上の変数を参照する &quot;&quot;view&quot;&quot; 関数群</h3>
+<p>その後に，関数が定義されていきます．</p>
+<p>まずは，変数を変更(変数に代入)できない <code>view</code> 関数で，処理が少ないものが定義されています．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// トークンネームを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _name;
+    }
+
+    <span class="hljs-comment">// トークンシンボルを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">symbol</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _symbol;
+    }
+
+    <span class="hljs-comment">// decimalsを参照，ではなくdecimalsを返す関数．</span>
+    <span class="hljs-comment">// 規格からの変更はまずないだろうということで，変数としておいていないのだと考えられる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decimals</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint8</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">18</span>;
+    }
+
+    <span class="hljs-comment">// 総供給量を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">totalSupply</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _totalSupply;
+    }
+
+    <span class="hljs-comment">// 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">balanceOf</span>(<span class="hljs-params">address account</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _balances[account];
+    }
+</code></pre>
+<h3 id="33-標準搭載関数群">3.3. 標準搭載関数群</h3>
+<p>そして，<code>ERC20</code> に標準搭載されている関数が定義されます．</p>
+<ul>
+<li>自分による，自分のアドレスから任意のアドレスへのトークン転送</li>
+<li>自分による，任意のアドレスからの引き出し許可残高を参照</li>
+<li>自分による，任意のアドレスからの引き出し許可残高を変更</li>
+<li>自分による，任意のアドレスから任意のアドレスへのトークン転送</li>
+<li>自分による，任意のアドレスからの引き出し許可残高の増額</li>
+<li>自分による，任意のアドレスからの引き出し許可残高の減額</li>
+</ul>
+<p>以上 6 機能のトリガーとなる関数です．適切な引数と変数を定義し，次章で解説する実際の操作が記述された &quot;&quot;internal&quot;&quot; 関数をメソッドとして呼び出しています．</p>
+<p>メソッドとトリガーと分ける理由は，複雑な関数を定義したいデベロッパーへの配慮のためでしょう．これにより，基本機能だけを用いたいデベロッパーは標準搭載関数で手間なく実装が完了でき，複雑な関数を定義したいデベロッパーは基本機能のメソッドが記述された &quot;&quot;internal&quot;&quot; 関数を骨組みとした複雑な関数の定義を容易に行えます．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// 送金を行う関数．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_trancefer関数については，後に説明がなされる．</span>
+    <span class="hljs-comment">// ※中身が直下に無いのは，Solidityのコーディング規則に由来する．関数の可視性によって順序づけて書くようにと</span>
+    <span class="hljs-comment">// 　ドキュメントに言及がある．(https://solidity-jp.readthedocs.io/ja/latest/style-guide.html#order-of-functions)</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span>(<span class="hljs-params">address to, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        address owner = _msgSender();
+        _transfer(owner, to, amount);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// allowance(引き出し許可残高)を参照する関数．</span>
+    <span class="hljs-comment">// 最初の方で定義した_allowancesマッピングを参照している．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">allowance</span>(<span class="hljs-params">address owner, address spender</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _allowances[owner][spender];
+    }
+
+    <span class="hljs-comment">// 引き出し許可残高を変更する関数．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">approve</span>(<span class="hljs-params">address spender, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        address owner = _msgSender();
+        _approve(owner, spender, amount);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．</span>
+    <span class="hljs-comment">// _spendAllowance関数で引き出し許可残高を引き出す残高だけへらし，</span>
+    <span class="hljs-comment">// _transfer関数で対象アドレスか自身のアドレスへ，残高を移動させる</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える _ のついた関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transferFrom</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        address spender = _msgSender();
+        _spendAllowance(<span class="hljs-keyword">from</span>, spender, amount);
+        _transfer(<span class="hljs-keyword">from</span>, to, amount);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// 引き出し許可残高を増やす関数．</span>
+    <span class="hljs-comment">// allowance関数で呼び出した引き出し許可残高に増やしたい値を足した値 を用いて_approve関数を叩くことで，</span>
+    <span class="hljs-comment">// 引き出し許可残高を上書きしている．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">increaseAllowance</span>(<span class="hljs-params">address spender, uint256 addedValue</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        address owner = _msgSender();
+        _approve(owner, spender, allowance(owner, spender) + addedValue);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// 引き出し許可残高を減らす関数．</span>
+    <span class="hljs-comment">// allowance関数で呼び出した引き出し許可残高から減らしたい値を引いた値 を用いて_approve関数を叩くことで，</span>
+    <span class="hljs-comment">// 引き出し許可残高を上書きしている．</span>
+    <span class="hljs-comment">// require文では，_approve関数に入れるuint成分が負の値とならないかどうか確認している．</span>
+    <span class="hljs-comment">// 実際の処理を行う本体とも言える_approve関数については，後に説明がなされる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decreaseAllowance</span>(<span class="hljs-params">address spender, uint256 subtractedValue</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        address owner = _msgSender();
+        uint256 currentAllowance = allowance(owner, spender);
+        <span class="hljs-built_in">require</span>(currentAllowance &gt;= subtractedValue, <span class="hljs-string">&quot;ERC20: decreased allowance below zero&quot;</span>);
+        unchecked {
+            _approve(owner, spender, currentAllowance - subtractedValue);
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+</code></pre>
+<h3 id="34-メソッド記述と追加機能実装を担う-internal-関数群">3.4. メソッド記述と追加機能実装を担う &quot;&quot;internal&quot;&quot; 関数群</h3>
+<p>最後に，標準搭載関数のメソッドを記述するためのものや追加実装を行うためのものからなる <code>internal</code> 関数群が定義されています．</p>
+<p>※<code>internal</code> という修飾子は関数の可視性(<code>public</code>, <code>private</code>, <code>internal</code>, <code>external</code>)を表しています．これついては<a href="https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0" target="_blank">ここ</a>を見るとよいでしょう．</p>
+<p>3.3. でものべたように，多くの関数は標準搭載関数のメソッドを記述する関数ですが，違うものもあります．</p>
+<p>まずは&quot;&quot;_mint&quot;&quot; 関数と &quot;&quot;_burn&quot;&quot; 関数です．これらは文字通りトークンのミントとバーンのメソッドを記述した関数ですが，そのトリガー関数が &quot;&quot;ERC20.sol&quot;&quot; 上に標準搭載されていません．実装する場合は，<a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/extensions/ERC20Burnable.sol" target="_blank">ERC20Burnable.sol</a> を &quot;&quot;import&quot;&quot; して &quot;&quot;burn&quot;&quot; 関数をを定義したり，直接 &quot;mint&quot; 関数を定義したりして メソッドを実行する関数を定義しなければなりません．</p>
+<p>さらに，&quot;_beforeTokenTransfer&quot;，&quot;_afterTokenTransfer&quot; という，標準搭載関数の中でトークン転送を行う関数の前後で追加操作を行う関数が定義されています．これらはデフォルトでは何も定義されておらず，実装時に &quot;override&quot; 修飾子をつけて記述することで関数を上書きして使用します．</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// トークン転送(送金)の仕組みがかいてある．</span>
+    <span class="hljs-comment">// 以下を順に実行している．</span>
+    <span class="hljs-comment">// ・自身のアドレスと相手のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・転送前に行いたい操作を足せる　※_beforeTokenTransfer</span>
+    <span class="hljs-comment">// ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認</span>
+    <span class="hljs-comment">// ・転送(送金先と送金元のアドレスの残高をamount分だけ増減させる)</span>
+    <span class="hljs-comment">// ・転送完了をイベントでフロントへ通知</span>
+    <span class="hljs-comment">// ・転送後に行いたい操作を足せる ※_afterTokenTransfer</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_transfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(<span class="hljs-keyword">from</span> != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: transfer from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(to != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: transfer to the zero address&quot;</span>);
+
+        _beforeTokenTransfer(<span class="hljs-keyword">from</span>, to, amount);
+
+        uint256 fromBalance = _balances[<span class="hljs-keyword">from</span>];
+        <span class="hljs-built_in">require</span>(fromBalance &gt;= amount, <span class="hljs-string">&quot;ERC20: transfer amount exceeds balance&quot;</span>);
+        unchecked {
+            _balances[<span class="hljs-keyword">from</span>] = fromBalance - amount;
+            <span class="hljs-comment">// Overflow not possible: the sum of all balances is capped by totalSupply, and the sum is preserved by</span>
+            <span class="hljs-comment">// decrementing then incrementing.</span>
+            _balances[to] += amount;
+        }
+
+        emit Transfer(<span class="hljs-keyword">from</span>, to, amount);
+
+        _afterTokenTransfer(<span class="hljs-keyword">from</span>, to, amount);
+    }
+
+    <span class="hljs-comment">// トークンmint(貨幣発行)の仕組みがかいてある．</span>
+    <span class="hljs-comment">// mint関数は実装されていないため，transfer関数のような形で_mint関数を含む関数を別途実装する必要がある．</span>
+    <span class="hljs-comment">// uncheckedというブロックは，ガス軽減策のようである．</span>
+    <span class="hljs-comment">// 以下を順に実行している．</span>
+    <span class="hljs-comment">// ・自身のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・転送前に行いたい操作を足せる　※_beforeTokenTransfer</span>
+    <span class="hljs-comment">// ・mintしたい量(amount)を総供給量に追加</span>
+    <span class="hljs-comment">// ・mint(mint先のアドレスの残高をamount分だけ増加させる)</span>
+    <span class="hljs-comment">// ・mint完了をイベントでフロントへ通知</span>
+    <span class="hljs-comment">// ・転送後に行いたい操作を足せる ※_afterTokenTransfer</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_mint</span>(<span class="hljs-params">address account, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(account != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: mint to the zero address&quot;</span>);
+
+        _beforeTokenTransfer(address(<span class="hljs-number">0</span>), account, amount);
+
+        _totalSupply += amount;
+        unchecked {
+            <span class="hljs-comment">// Overflow not possible: balance + amount is at most totalSupply + amount, which is checked above.</span>
+            _balances[account] += amount;
+        }
+        emit Transfer(address(<span class="hljs-number">0</span>), account, amount);
+
+        _afterTokenTransfer(address(<span class="hljs-number">0</span>), account, amount);
+    }
+
+    <span class="hljs-comment">// トークンburn(貨幣の消去，焼却)の仕組みがかいてある．</span>
+    <span class="hljs-comment">// burn関数は実装されていないため，transfer関数のような形で_burn関数を含む関数を別途実装する必要がある．</span>
+    <span class="hljs-comment">// 以下を順に実行している．</span>
+    <span class="hljs-comment">// ・自身のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・転送前に行いたい操作を足せる　※_beforeTokenTransfer</span>
+    <span class="hljs-comment">// ・仲介変数を定義して，送金元に送金したい量(amount)より大きな残高があるか確認</span>
+    <span class="hljs-comment">// ・送金(送金先と送金元のアドレスの残高をamount分だけ増減させる)</span>
+    <span class="hljs-comment">// ・送金完了をイベントでフロントへ通知</span>
+    <span class="hljs-comment">// ・転送後に行いたい操作を足せる ※_afterTokenTransfer</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_burn</span>(<span class="hljs-params">address account, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(account != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: burn from the zero address&quot;</span>);
+
+        _beforeTokenTransfer(account, address(<span class="hljs-number">0</span>), amount);
+
+        uint256 accountBalance = _balances[account];
+        <span class="hljs-built_in">require</span>(accountBalance &gt;= amount, <span class="hljs-string">&quot;ERC20: burn amount exceeds balance&quot;</span>);
+        unchecked {
+            _balances[account] = accountBalance - amount;
+            <span class="hljs-comment">// Overflow not possible: amount &lt;= accountBalance &lt;= totalSupply.</span>
+            _totalSupply -= amount;
+        }
+
+        emit Transfer(account, address(<span class="hljs-number">0</span>), amount);
+
+        _afterTokenTransfer(account, address(<span class="hljs-number">0</span>), amount);
+    }
+
+    <span class="hljs-comment">// トークン引き出し許可更新の仕組みがかいてある．</span>
+    <span class="hljs-comment">// 自分のアドレスに対して相手のアドレスと残高をマッピングで紐づけることによって，</span>
+    <span class="hljs-comment">// 相手に対して自分の残高の引き出し許可を定義している．</span>
+    <span class="hljs-comment">// 以下を順に実行しているっぽい．</span>
+    <span class="hljs-comment">// ・自身と許可を与える者のアドレスが0アドレスでないことを要求</span>
+    <span class="hljs-comment">// ・引き出し許可残高を更新</span>
+    <span class="hljs-comment">// ・引き出し許可更新完了をイベントでフロントへ通知</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_approve</span>(<span class="hljs-params">
+        address owner,
+        address spender,
+        uint256 amount
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(owner != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: approve from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(spender != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC20: approve to the zero address&quot;</span>);
+
+        _allowances[owner][spender] = amount;
+        emit Approval(owner, spender, amount);
+    }
+
+    <span class="hljs-comment">// トークン引き出し許可残高を減らす関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_spendAllowance</span>(<span class="hljs-params">
+        address owner,
+        address spender,
+        uint256 amount
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        uint256 currentAllowance = allowance(owner, spender);
+        <span class="hljs-keyword">if</span> (currentAllowance != type(uint256).max) {
+            <span class="hljs-built_in">require</span>(currentAllowance &gt;= amount, <span class="hljs-string">&quot;ERC20: insufficient allowance&quot;</span>);
+            unchecked {
+                _approve(owner, spender, currentAllowance - amount);
+            }
+        }
+    }
+
+    <span class="hljs-comment">// トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行前に行いたい動作を設定できる．</span>
+    <span class="hljs-comment">// デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_beforeTokenTransfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
+
+    <span class="hljs-comment">// トークンの操作を行う関数(_burn, _mint, _transfer関数)の実行後に行いたい動作を設定できる．</span>
+    <span class="hljs-comment">// デフォルトでは中身は空で，オーバーライドして中身を追加して使用する．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_afterTokenTransfer</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
+}
+</code></pre>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC20/ERC20.sol</a></p>
+<h2 id="4-scam-と-approve-関数">4. SCAM と approve 関数</h2>
+<p>秘密鍵(メタマスクにおけるシードフレーズ)を SCAMMER に知られてしまえば，彼らは自身のデバイスにあなたのウォレットをインポートすることができるようになり，あなたの ERC20 トークンは彼らの手によっていとも簡単にあなたのウォレットから抜かれてしまうでしょう．</p>
+<p>しかし，秘密鍵を知られなければ SCAM 被害にはあわないのでしょうか？</p>
+<p>答えは NO です．</p>
+<p>例えば，SCAM サイトのウォレットコネクトボタンに，メタマスクを呼び出す <code>web3.js</code> や <code>ethers.js</code> によるウォレットコネクトリクエストに加えて，あなたの残高からの多額の引き出し許可を SCAMMERs のウォレットに対して与える単一または複数の <code>approve</code> 関数の実行を承認するための関数実行リクエストが仕込まれていた場合のことを考えてみましょう．</p>
+<p>あなたがウォレットコネクト要求を承認すると，もう一つの承認を要求されます．そのトランザクションに署名してしまったが最後，あなたのウォレットは特定の 1 種または複数の通貨の残高を SCAMMER から抜かれ放題な状態になります．</p>
+<p>SCAMMERs による攻撃はこのような方法だけというわけではなく，今この瞬間にもあたらしい手法が開発されていることでしょう．</p>
+<p>信頼のおけるサイト以外からのメタマスクのリクエストには十分に注意を払い，初回や怪しいと思った際には必ず，各チェーンの SCANNING アプリケーションで <code>contract</code> を確認してみるようにしましょう．</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../" class="navigation navigation-prev " aria-label="Previous page: Introduction">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../ERC721/" class="navigation navigation-next " aria-label="Next page: ERC721">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"ERC20","level":"2.1","depth":1,"next":{"title":"ERC721","level":"2.2","depth":1,"path":"ERC721/README.md","ref":"./ERC721/README.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC20/README.md","mtime":"2025-04-13T12:44:34.661Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2025-04-13T12:44:37.813Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/mermaid.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

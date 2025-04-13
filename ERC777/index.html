@@ -1,0 +1,1048 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <title>ERC777 · Deepdive into ERCs</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 4.0.7">
+        <meta name="author" content="https://github.com/neila">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../ERC5192/" />
+    
+    
+    <link rel="prev" href="../ERC721/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索ワードを入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Understanding ERCs</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../ERC20/">
+            
+                <a href="../ERC20/">
+            
+                    
+                    ERC20
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../ERC721/">
+            
+                <a href="../ERC721/">
+            
+                    
+                    ERC721
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.3" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    ERC777
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../ERC5192/">
+            
+                <a href="../ERC5192/">
+            
+                    
+                    ERC5192
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../ERC5564/">
+            
+                <a href="../ERC5564/">
+            
+                    
+                    ERC5564
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../metatx/">
+            
+                <a href="../metatx/">
+            
+                    
+                    MetaTx
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Smart Contract Bugs</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../bugs/">
+            
+                <a href="../bugs/">
+            
+                    
+                    Bugs🐝
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../bugs/ERC20.html">
+            
+                <a href="../bugs/ERC20.html">
+            
+                    
+                    ERC20-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../bugs/ERC721.html">
+            
+                <a href="../bugs/ERC721.html">
+            
+                    
+                    ERC721-related bugs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="../bugs/Upgradeable.html">
+            
+                <a href="../bugs/Upgradeable.html">
+            
+                    
+                    Upgradeable contracts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="../bugs/Reentrancy.html">
+            
+                <a href="../bugs/Reentrancy.html">
+            
+                    
+                    Reentrancy attacks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../bugs/UnderflowOverflow.html">
+            
+                <a href="../bugs/UnderflowOverflow.html">
+            
+                    
+                    Underflows & Overflows
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="../bugs/LowLevelCall.html">
+            
+                <a href="../bugs/LowLevelCall.html">
+            
+                    
+                    Low-level calls
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="../bugs/DoS.html">
+            
+                <a href="../bugs/DoS.html">
+            
+                    
+                    DoS attack vectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="../bugs/MEV.html">
+            
+                <a href="../bugs/MEV.html">
+            
+                    
+                    Exploiting MEVs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="../bugs/Oracle.html">
+            
+                <a href="../bugs/Oracle.html">
+            
+                    
+                    Exploiting Oracles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="../bugs/Rug-Pull.html">
+            
+                <a href="../bugs/Rug-Pull.html">
+            
+                    
+                    Rug pulls
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            HonKitで公開 
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >ERC777</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="erc777">ERC777</h1>
+<ul>
+<li><a href="#erc777">ERC777</a><ul>
+<li><a href="#1-はじめに">1. はじめに</a></li>
+<li><a href="#2-インポートされているファイル">2. インポートされているファイル</a><ul>
+<li><a href="#21-ierc777sol">2.1 IERC777.sol</a></li>
+<li><a href="#22-ierc777recipientsol">2.2 IERC777Recipient.sol</a></li>
+<li><a href="#23-ierc777sendersol">2.3 IERC777Sender.sol</a></li>
+<li><a href="#24-ierc20sol">2.4 IERC20.sol</a></li>
+<li><a href="#25-addresssol">2.5 Address.sol</a></li>
+<li><a href="#26-contextsol">2.6 Context.sol</a></li>
+<li><a href="#27-ierc1820registrysol">2.7 IERC1820Registry.sol</a></li>
+</ul>
+</li>
+<li><a href="#3-erc777sol">3. ERC777.sol</a><ul>
+<li><a href="#31-import-変数定義から-constructor-まで">3.1. import, 変数定義から constructor まで</a></li>
+<li><a href="#32-ブロックチェーン上の変数を参照する-view-関数群">3.2. ブロックチェーン上の変数を参照する view 関数群</a></li>
+<li><a href="#33-標準搭載関数群">3.3. 標準搭載関数群</a></li>
+<li><a href="#34-メソッド記述と追加機能実装を担う-internal-関数群">3.4. メソッド記述と追加機能実装を担う internal 関数群</a></li>
+</ul>
+</li>
+<li><a href="#4-erc20-との比較">4. ERC20 との比較</a><ul>
+<li><a href="#データ">データ</a></li>
+<li><a href="#フック">フック</a></li>
+<li><a href="#オペレータ">オペレータ</a></li>
+<li><a href="#まとめ">まとめ</a></li>
+</ul>
+</li>
+<li><a href="#5-後方互換性について">5. 後方互換性について</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="1-はじめに">1. はじめに</h2>
+<p>ここでは，ERC777.sol とその中でインポートされている 7 つを含めた 8 つの sol ファイルについて，順番にコードベースで読み解くことによって ERC777 を完全に理解することを目指します．</p>
+<p>しかし，この README.md ファイルではコードは極力使わず，実際にコードを読み解く sol ファイル群へのリンクは添えたうえで，日本語ベース・ノーコードでなるべく簡潔な解説を行っていきます．</p>
+<blockquote>
+<p>尚，Solidity の文法に関してはある程度前提としていますが，Solidity のハンズオンラーニングの手段ともなりえるように，検索可能な用語を用いることを心掛けることとします．</p>
+</blockquote>
+<h2 id="2-インポートされているファイル">2. インポートされているファイル</h2>
+<h3 id="21-ierc777sol">2.1 IERC777.sol</h3>
+<p>このファイルでは，<code>interface</code> という分類の <code>contract</code> の中で，可視性が <code>private</code> でないものの ERC777 の型定義と，コメントを用いた関数の説明がなされています．</p>
+<p><code>abstract</code> と <code>interface</code> の違いは，<code>contract</code> 内に関数を内包するか否かです．</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC777/IERC777.sol" target="_blank">openzeppelin-contracts/blob/master/contracts/token/ERC777/IERC777.sol</a></p>
+<h3 id="22-ierc777recipientsol">2.2 IERC777Recipient.sol</h3>
+<p>このファイルの中身は ERC777 内でトークン転送時に実行されるフック <code>tokensReceived</code> を定義する <code>interface</code> です.</p>
+<p><code>tokensReceived</code> は ERC777 トークンがアカウント A からアカウント B に移動した後に, B が実行したい処理を実装するための関数です.</p>
+<p>例えば, B は特定の条件下では A からのトークン転送を拒否するなどの処理を組み込むことが可能です.</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC777/IERC777Recipient.sol" target="_blank">openzeppelin-contracts/blob/master/contracts/token/ERC777/IERC777Recipient.sol</a></p>
+<h3 id="23-ierc777sendersol">2.3 IERC777Sender.sol</h3>
+<p>このファイルの中身は ERC777 内でトークン転送時に実行されるフック <code>tokensToSend</code> を定義する <code>interface</code> です.</p>
+<p><code>tokensToSend</code> は ERC777 トークンがアカウント A からアカウント B に移動する前に, A が実行したい処理を実装するための関数です.</p>
+<p>例えば, A は特定の条件下ではトークン転送を中止するなどの処理を組み込むことが可能です.</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC777/IERC777Sender.sol" target="_blank">openzeppelin-contracts/blob/master/contracts/token/ERC777/IERC777Sender.sol</a></p>
+<h3 id="24-ierc20sol">2.4 IERC20.sol</h3>
+<p>このファイルの中身は ERC20 の <code>interface</code> です.</p>
+<p>ERC777 は ERC20 との後方互換性を保っているため, ERC20 の機能も実装するためにインポートしています.</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol" target="_blank">openzeppelin-contracts/contracts/token/ERC20/IERC20.sol</a></p>
+<h3 id="25-addresssol">2.5 Address.sol</h3>
+<p>このファイルでは， <code>address</code> 型の変数に関する関数を集めた <code>Address</code> ライブラリを定義しています．
+ERC777 における用途は，<code>isContract()</code> の利用です．この関数は <code>address</code> 値を引数にとり，そのアドレス長が 0 より大きいかどうかを <code>bool</code> 値で返します．こうすることで，4 種ほどの例外を除き，引数のアドレスがコントラクトアドレスかどうかを判断します．</p>
+<blockquote>
+<p>この例外というのはコントラクトが機能しない特殊な状況にある場合です．なので，実質的にはコントラクトが利用可能な状態であるかどうかを示すものになります．そして，コントラクトとウォレットアドレス(EOA アドレス)は形式が同じであるため，仮に存在するウォレットアドレスを引数としたとしても <code>isContract()</code> は <code>true</code> を返すと思われます．</p>
+</blockquote>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Address.sol" target="_blank">openzeppelin-contracts/contracts/utils/Address.sol</a></p>
+<h3 id="26-contextsol">2.6 Context.sol</h3>
+<p>このファイルでは，<code>abstract</code> という分類の <code>contract</code> の中で，<code>msg.sender</code> という宣言をラップする <code>_msgSender</code>という関数を宣言しています．</p>
+<p>わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いる場合に <code>msg.sender</code> をそのまま使うのは都合が悪いからです．</p>
+<p>以下に簡単な説明をのせておきます．詳しくは<a href="https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx-related-contracts#2-meta-transaction%E3%81%A8%E3%81%AF-1" target="_blank">ここ</a>を参照してください．</p>
+<blockquote>
+<p><code>msg.sender</code> は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に <code>msg.sender</code> をラップした <code>_msgSender()</code> 関数を使うことによって，メタトランザクション使用時には <code>_msg.sender()</code> 関数をオーバーライドして返り値を書き換えることにより <code>msg.sender(gas feeを支払うアドレス)</code> と <code>_msgSender()の返り値(txを実行したいアドレス)</code> を分けることができるようになります．</p>
+</blockquote>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Context.sol" target="_blank">openzeppelin-contracts/contracts/utils/Context.sol</a></p>
+<h3 id="27-ierc1820registrysol">2.7 IERC1820Registry.sol</h3>
+<p>このファイルの中身は ERC1820 Registry の <code>interface</code> です.</p>
+<p>ERC1820 Registry は, 任意のアカウントが「あるインタフェースとそのインタフェースを実装したコントラクト」を登録することを可能にします.</p>
+<p><a href="#22-ierc777recipientsol">IERC777Recipient</a>と<a href="#23-ierc777sendersol">IERC777Sender</a>のインタフェースとそのインタフェースを実装したコントラクトが任意のアカウントによって登録されているかの判定に使用します.</p>
+<p>例えば, アカウント A が B にトークンを転送する際に, A は<code>tokensToSend</code>を実装したコントラクトを用意(登録)しているか, B は<code>tokensReceived</code>を実装したコントラクトを用意(登録)しているかが ERC777 コントラクト内部でチェックされます.</p>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/introspection/IERC1820Registry.sol" target="_blank">openzeppelin-contracts/blob/master/contracts/utils/introspection/IERC1820Registry.sol</a></p>
+<h2 id="3-erc777sol">3. ERC777.sol</h2>
+<p>それでは本体である <code>ERC777.sol</code> についてみていきましょう．</p>
+<p>ERC777 という規格は, ERC-20 との後方互換性を保ちつつ, トークンコントラクトと対話するための新しい方法を定義しています.</p>
+<p>特に新しい概念が以下の２つです.</p>
+<ul>
+<li><p>オペレータ: トークンを送信・発行・焼却するアカウント
+トークンを保有するアカウント A のオペレータは A でもあり, 他のアカウント B をオペレータに追加することも可能です.
+つまり B が(A のオペレータに登録されているのならば) A の保有するトークンを転送することも可能です.</p>
+</li>
+<li><p>フック関数(<code>tokensToSend</code>/<code>tokensReceived</code>): トークンの転送時に実行されるフック関数
+<code>tokensToSend</code>: トークン保有者が自分のトークンが減少する際に実行したい処理
+<code>tokensReceived</code>: トークン受信者が自分のトークンが増加する際に実行したい処理</p>
+</li>
+</ul>
+<h3 id="31-import-変数定義から-constructor-まで">3.1. import, 変数定義から constructor まで</h3>
+<p>まず最初に，先程紹介した <code>.sol</code> ファイルを import した後，必要な <code>contract</code> を <code>ERC777</code> という <code>contract</code> に継承させています．</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC777.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC777Recipient.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;./IERC777Sender.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../ERC20/IERC20.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Address.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/Context.sol&quot;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;../../utils/introspection/IERC1820Registry.sol&quot;</span>;
+
+contract ERC777 is Context, IERC777, IERC20 {
+</code></pre>
+<p>そして，ライブラリの使用の宣言と, 後に使用する ERC1820 Registry のインスタンス用意.</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// ライブラリの使用を宣言.</span>
+    using Address <span class="hljs-keyword">for</span> address;
+
+    <span class="hljs-comment">// ERC1820 Registryをインスタンス化.</span>
+    IERC1820Registry internal constant _ERC1820_REGISTRY = IERC1820Registry(<span class="hljs-number">0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24</span>);
+</code></pre>
+<p>各グローバル変数を定義．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// このマッピングがトークン残高の本体．名付けるならトークン残高．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256) private _balances;
+
+    <span class="hljs-comment">// 文字通り，総供給量.</span>
+    uint256 private _totalSupply;
+
+    <span class="hljs-comment">// トークンネームとトークンシンボルの箱．</span>
+    string private _name;
+    string private _symbol;
+
+    <span class="hljs-comment">// インタフェースのハッシュ値を保存.</span>
+    bytes32 private constant _TOKENS_SENDER_INTERFACE_HASH = keccak256(<span class="hljs-string">&quot;ERC777TokensSender&quot;</span>);
+    bytes32 private constant _TOKENS_RECIPIENT_INTERFACE_HASH = keccak256(<span class="hljs-string">&quot;ERC777TokensRecipient&quot;</span>);
+
+    <span class="hljs-comment">// 全てのholderに適用されるデフォルトのoperatorリスト.</span>
+    address[] private _defaultOperatorsArray;
+
+    <span class="hljs-comment">// このマッピングは, 任意のアドレスがデフォルトoperatorであるかを判別するために使用される.</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> bool) private _defaultOperators;
+
+    <span class="hljs-comment">// これらのマッピングは, アドレスAに対してアドレスBがoperatorであるかを判別するために使用される.</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> bool)) private _operators;
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> bool)) private _revokedDefaultOperators;
+
+    <span class="hljs-comment">// このマッピングは，後述のtransferFrom関数で使われる．名付けるなら引き出し許可残高．</span>
+    mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> mapping(<span class="hljs-function"><span class="hljs-params">address</span> =&gt;</span> uint256)) private _allowances;
+</code></pre>
+<p>続いて，デプロイ時に string 変数とデフォルトオペレータを初期化する <code>constructor</code> が定義されています．</p>
+<p><code>constructor</code>内の最後にはこのコントラクトが<code>ERC777Token</code>と<code>ERC20Token</code>を実装していることを ERC1820 Registry に登録しています.
+この処理はトークンコントラクトが ERC777 の機能を実装している・ERC20 の機能を実装しているを利用者が判定するためのものです.</p>
+<pre><code class="lang-javascript">    <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params">string memory name_, string memory symbol_, address[] memory defaultOperators_</span>)</span> {
+        _name = name_;
+        _symbol = symbol_;
+
+        _defaultOperatorsArray = defaultOperators_;
+        <span class="hljs-keyword">for</span> (uint256 i = <span class="hljs-number">0</span>; i &lt; defaultOperators_.length; i++) {
+            _defaultOperators[defaultOperators_[i]] = <span class="hljs-literal">true</span>;
+        }
+
+        <span class="hljs-comment">// register interfaces</span>
+        _ERC1820_REGISTRY.setInterfaceImplementer(address(<span class="hljs-built_in">this</span>), keccak256(<span class="hljs-string">&quot;ERC777Token&quot;</span>), address(<span class="hljs-built_in">this</span>));
+        _ERC1820_REGISTRY.setInterfaceImplementer(address(<span class="hljs-built_in">this</span>), keccak256(<span class="hljs-string">&quot;ERC20Token&quot;</span>), address(<span class="hljs-built_in">this</span>));
+    }
+</code></pre>
+<h3 id="32-ブロックチェーン上の変数を参照する-view-関数群">3.2. ブロックチェーン上の変数を参照する view 関数群</h3>
+<p>その後に，関数が定義されていきます．</p>
+<p>まずは，変数を変更(変数に代入)できない <code>view</code> 関数で，処理が少ないものが定義されています．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// トークンネームを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _name;
+    }
+
+    <span class="hljs-comment">// トークンシンボルを参照する関数</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">symbol</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">string memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _symbol;
+    }
+
+    <span class="hljs-comment">// decimalsを返す関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decimals</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">pure</span> <span class="hljs-title">virtual</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint8</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">18</span>;
+    }
+
+    <span class="hljs-comment">// トークンが分割できる最小単位を返却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">granularity</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-comment">// 総供給量を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">totalSupply</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span>(<span class="hljs-params">IERC20, IERC777</span>) <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _totalSupply;
+    }
+
+    <span class="hljs-comment">// 最初の方で定義された_balancesマッピングから，該当アドレスにおける該当トークン残高を参照する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">balanceOf</span>(<span class="hljs-params">address tokenHolder</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span>(<span class="hljs-params">IERC20, IERC777</span>) <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _balances[tokenHolder];
+    }
+</code></pre>
+<h3 id="33-標準搭載関数群">3.3. 標準搭載関数群</h3>
+<p>次に，<code>ERC777</code> のトークン操作のトリガーとなる関数とオペレータに関わる関数が定義されます．</p>
+<p>トークン操作のトリガーとなる関数は, 次章で解説する実際の操作が記述された <code>internal</code> 関数をメソッドとして呼び出しています．</p>
+<p>メソッドとトリガーと分ける理由は，複雑な関数を定義したいデベロッパーへの配慮のためでしょう．これにより，基本機能だけを用いたいデベロッパーは標準搭載関数で手間なく実装が完了でき，複雑な関数を定義したいデベロッパーは基本機能のメソッドが記述された <code>internal</code> 関数を骨組みとした複雑な関数の定義を容易に行えます．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// トークンを送信する関数．</span>
+    <span class="hljs-comment">// ERC20でトークン送信に使用されるtransferとは定義を明確に分けるためにsendという名前で定義されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">send</span>(<span class="hljs-params">address recipient, uint256 amount, bytes memory data</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        _send(_msgSender(), recipient, amount, data, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-literal">true</span>);
+    }
+
+    <span class="hljs-comment">// トークンを送信する関数.</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span>(<span class="hljs-params">address recipient, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        _send(_msgSender(), recipient, amount, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-literal">false</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// トークンを焼却する関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">burn</span>(<span class="hljs-params">uint256 amount, bytes memory data</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        _burn(_msgSender(), amount, data, <span class="hljs-string">&quot;&quot;</span>);
+    }
+
+    <span class="hljs-comment">// 引数の`operator`と`tokenHolder`の間にoperatorとholderの関係があるか否かを返却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isOperatorFor</span>(<span class="hljs-params">address operator, address tokenHolder</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        <span class="hljs-keyword">return</span>
+            operator == tokenHolder ||
+            (_defaultOperators[operator] &amp;&amp; !_revokedDefaultOperators[tokenHolder][operator]) ||
+            _operators[tokenHolder][operator];
+    }
+
+    <span class="hljs-comment">// 引数の`operator`を, 関数を呼び出したアカウントのoperatorとして認証する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorizeOperator</span>(<span class="hljs-params">address operator</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(_msgSender() != operator, <span class="hljs-string">&quot;ERC777: authorizing self as operator&quot;</span>);
+
+        <span class="hljs-keyword">if</span> (_defaultOperators[operator]) {
+            <span class="hljs-keyword">delete</span> _revokedDefaultOperators[_msgSender()][operator];
+        } <span class="hljs-keyword">else</span> {
+            _operators[_msgSender()][operator] = <span class="hljs-literal">true</span>;
+        }
+
+        emit AuthorizedOperator(operator, _msgSender());
+    }
+
+    <span class="hljs-comment">// 引数の`operator`を, 関数を呼び出したアカウントのoperatorから削除する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">revokeOperator</span>(<span class="hljs-params">address operator</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(operator != _msgSender(), <span class="hljs-string">&quot;ERC777: revoking self as operator&quot;</span>);
+
+        <span class="hljs-keyword">if</span> (_defaultOperators[operator]) {
+            _revokedDefaultOperators[_msgSender()][operator] = <span class="hljs-literal">true</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">delete</span> _operators[_msgSender()][operator];
+        }
+
+        emit RevokedOperator(operator, _msgSender());
+    }
+
+    <span class="hljs-comment">// デフォルトoperatorを返却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">defaultOperators</span>(<span class="hljs-params"></span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">address[] memory</span>) </span>{
+        <span class="hljs-keyword">return</span> _defaultOperatorsArray;
+    }
+
+    <span class="hljs-comment">// operator(msg.sender)がholder(引数では`sender`)に代わってトークンを送信する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">operatorSend</span>(<span class="hljs-params">
+        address sender,
+        address recipient,
+        uint256 amount,
+        bytes memory data,
+        bytes memory operatorData
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(isOperatorFor(_msgSender(), sender), <span class="hljs-string">&quot;ERC777: caller is not an operator for holder&quot;</span>);
+        _send(sender, recipient, amount, data, operatorData, <span class="hljs-literal">true</span>);
+    }
+
+    <span class="hljs-comment">// operator(msg.sender)がholder(引数では`account`)に代わってトークンを焼却する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">operatorBurn</span>(<span class="hljs-params">
+        address account,
+        uint256 amount,
+        bytes memory data,
+        bytes memory operatorData
+    </span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> </span>{
+        <span class="hljs-built_in">require</span>(isOperatorFor(_msgSender(), account), <span class="hljs-string">&quot;ERC777: caller is not an operator for holder&quot;</span>);
+        _burn(account, amount, data, operatorData);
+    }
+
+    <span class="hljs-comment">// allowance(引き出し許可残高)を参照する関数．</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">allowance</span>(<span class="hljs-params">address holder, address spender</span>) <span class="hljs-title">public</span> <span class="hljs-title">view</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">uint256</span>) </span>{
+        <span class="hljs-keyword">return</span> _allowances[holder][spender];
+    }
+
+    <span class="hljs-comment">// 引き出し許可残高を変更する関数．</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">approve</span>(<span class="hljs-params">address spender, uint256 value</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        address holder = _msgSender();
+        _approve(holder, spender, value);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+
+    <span class="hljs-comment">// 引き出し許可をもとに，自分のアドレスに他のアドレスから残高を移動させる関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transferFrom</span>(<span class="hljs-params">address holder, address recipient, uint256 amount</span>) <span class="hljs-title">public</span> <span class="hljs-title">virtual</span> <span class="hljs-title">override</span> <span class="hljs-title">returns</span> (<span class="hljs-params">bool</span>) </span>{
+        address spender = _msgSender();
+        _spendAllowance(holder, spender, amount);
+        _send(holder, recipient, amount, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-literal">false</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+</code></pre>
+<h3 id="34-メソッド記述と追加機能実装を担う-internal-関数群">3.4. メソッド記述と追加機能実装を担う internal 関数群</h3>
+<p>最後に，先ほどのトリガー関数のメソッドを記述するためのものや追加実装を行うためのものからなる <code>internal</code> 関数群が定義されています．</p>
+<p>※<code>internal</code> という修飾子は関数の可視性(<code>public</code>, <code>private</code>, <code>internal</code>, <code>external</code>)を表しています．これついては<a href="https://qiita.com/ryu-yama/items/fae7e502d1bd5f0707b0" target="_blank">ここ</a>を見るとよいでしょう．</p>
+<pre><code class="lang-javascript">    <span class="hljs-comment">// _mint関数(後に説明がなされる)を呼び出す関数．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_mint</span>(<span class="hljs-params">address account, uint256 amount, bytes memory userData, bytes memory operatorData</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        _mint(account, amount, userData, operatorData, <span class="hljs-literal">true</span>);
+    }
+
+    <span class="hljs-comment">// トークンmint(貨幣発行)の仕組みがかいてある．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_mint</span>(<span class="hljs-params">
+        address account,
+        uint256 amount,
+        bytes memory userData,
+        bytes memory operatorData,
+        bool requireReceptionAck
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(account != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: mint to the zero address&quot;</span>);
+
+        address operator = _msgSender();
+
+        _beforeTokenTransfer(operator, address(<span class="hljs-number">0</span>), account, amount);
+
+        <span class="hljs-comment">// Update state variables</span>
+        _totalSupply += amount;
+        _balances[account] += amount;
+
+        _callTokensReceived(operator, address(<span class="hljs-number">0</span>), account, amount, userData, operatorData, requireReceptionAck);
+
+        emit Minted(operator, account, amount, userData, operatorData);
+        emit Transfer(address(<span class="hljs-number">0</span>), account, amount);
+    }
+
+    <span class="hljs-comment">// トークン転送(送金)の流れが書いてある．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_send</span>(<span class="hljs-params">
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount,
+        bytes memory userData,
+        bytes memory operatorData,
+        bool requireReceptionAck
+    </span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(<span class="hljs-keyword">from</span> != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: transfer from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(to != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: transfer to the zero address&quot;</span>);
+
+        address operator = _msgSender();
+
+        _callTokensToSend(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
+
+        _move(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
+
+        _callTokensReceived(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData, requireReceptionAck);
+    }
+
+    <span class="hljs-comment">// トークンburn(貨幣の消去，焼却)の仕組みがかいてある．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_burn</span>(<span class="hljs-params">address <span class="hljs-keyword">from</span>, uint256 amount, bytes memory data, bytes memory operatorData</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(<span class="hljs-keyword">from</span> != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: burn from the zero address&quot;</span>);
+
+        address operator = _msgSender();
+
+        _callTokensToSend(operator, <span class="hljs-keyword">from</span>, address(<span class="hljs-number">0</span>), amount, data, operatorData);
+
+        _beforeTokenTransfer(operator, <span class="hljs-keyword">from</span>, address(<span class="hljs-number">0</span>), amount);
+
+        <span class="hljs-comment">// Update state variables</span>
+        uint256 fromBalance = _balances[<span class="hljs-keyword">from</span>];
+        <span class="hljs-built_in">require</span>(fromBalance &gt;= amount, <span class="hljs-string">&quot;ERC777: burn amount exceeds balance&quot;</span>);
+        unchecked {
+            _balances[<span class="hljs-keyword">from</span>] = fromBalance - amount;
+        }
+        _totalSupply -= amount;
+
+        emit Burned(operator, <span class="hljs-keyword">from</span>, amount, data, operatorData);
+        emit Transfer(<span class="hljs-keyword">from</span>, address(<span class="hljs-number">0</span>), amount);
+    }
+
+    <span class="hljs-comment">// トークン転送(送金)の仕組みが書いてある.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_move</span>(<span class="hljs-params">
+        address operator,
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount,
+        bytes memory userData,
+        bytes memory operatorData
+    </span>) <span class="hljs-title">private</span> </span>{
+        _beforeTokenTransfer(operator, <span class="hljs-keyword">from</span>, to, amount);
+
+        uint256 fromBalance = _balances[<span class="hljs-keyword">from</span>];
+        <span class="hljs-built_in">require</span>(fromBalance &gt;= amount, <span class="hljs-string">&quot;ERC777: transfer amount exceeds balance&quot;</span>);
+        unchecked {
+            _balances[<span class="hljs-keyword">from</span>] = fromBalance - amount;
+        }
+        _balances[to] += amount;
+
+        emit Sent(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
+        emit Transfer(<span class="hljs-keyword">from</span>, to, amount);
+    }
+
+    <span class="hljs-comment">// トークン引き出し許可更新の仕組みがかいてある．</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_approve</span>(<span class="hljs-params">address holder, address spender, uint256 value</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        <span class="hljs-built_in">require</span>(holder != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: approve from the zero address&quot;</span>);
+        <span class="hljs-built_in">require</span>(spender != address(<span class="hljs-number">0</span>), <span class="hljs-string">&quot;ERC777: approve to the zero address&quot;</span>);
+
+        _allowances[holder][spender] = value;
+        emit Approval(holder, spender, value);
+    }
+
+    <span class="hljs-comment">// アカウントのトークンが減少(_send, _burn)する際にトークンの残高操作前に呼び出される.</span>
+    <span class="hljs-comment">// フックを実行する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_callTokensToSend</span>(<span class="hljs-params">
+        address operator,
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount,
+        bytes memory userData,
+        bytes memory operatorData
+    </span>) <span class="hljs-title">private</span> </span>{
+        address implementer = _ERC1820_REGISTRY.getInterfaceImplementer(<span class="hljs-keyword">from</span>, _TOKENS_SENDER_INTERFACE_HASH);
+        <span class="hljs-keyword">if</span> (implementer != address(<span class="hljs-number">0</span>)) {
+            IERC777Sender(implementer).tokensToSend(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
+        }
+    }
+
+    <span class="hljs-comment">// アカウントのトークンが増加(_mint, _send)する際にトークンの残高操作後に呼び出される.</span>
+    <span class="hljs-comment">// フックを実行する関数.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_callTokensReceived</span>(<span class="hljs-params">
+        address operator,
+        address <span class="hljs-keyword">from</span>,
+        address to,
+        uint256 amount,
+        bytes memory userData,
+        bytes memory operatorData,
+        bool requireReceptionAck
+    </span>) <span class="hljs-title">private</span> </span>{
+        address implementer = _ERC1820_REGISTRY.getInterfaceImplementer(to, _TOKENS_RECIPIENT_INTERFACE_HASH);
+        <span class="hljs-keyword">if</span> (implementer != address(<span class="hljs-number">0</span>)) {
+            IERC777Recipient(implementer).tokensReceived(operator, <span class="hljs-keyword">from</span>, to, amount, userData, operatorData);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (requireReceptionAck) {
+            <span class="hljs-built_in">require</span>(!to.isContract(), <span class="hljs-string">&quot;ERC777: token recipient contract has no implementer for ERC777TokensRecipient&quot;</span>);
+        }
+    }
+
+    <span class="hljs-comment">// トークン引き出し許可残高を減らす関数.</span>
+    <span class="hljs-comment">// ERC20との後方互換性のために実装されている.</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_spendAllowance</span>(<span class="hljs-params">address owner, address spender, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{
+        uint256 currentAllowance = allowance(owner, spender);
+        <span class="hljs-keyword">if</span> (currentAllowance != type(uint256).max) {
+            <span class="hljs-built_in">require</span>(currentAllowance &gt;= amount, <span class="hljs-string">&quot;ERC777: insufficient allowance&quot;</span>);
+            unchecked {
+                _approve(owner, spender, currentAllowance - amount);
+            }
+        }
+    }
+
+    <span class="hljs-comment">// トークンの操作を行う関数(_mint, _burn, _move関数)の実行前に行いたい動作を設定できる．</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_beforeTokenTransfer</span>(<span class="hljs-params">address operator, address <span class="hljs-keyword">from</span>, address to, uint256 amount</span>) <span class="hljs-title">internal</span> <span class="hljs-title">virtual</span> </span>{}
+</code></pre>
+<p>↓ 元ファイル</p>
+<p><a href="https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC777/ERC777.sol" target="_blank">openzeppelin-contracts/blob/master/contracts/token/ERC777/ERC777.sol</a></p>
+<h2 id="4-erc20-との比較">4. ERC20 との比較</h2>
+<p>以下に ERC20 と比較して ERC777 が改善した主要な点を示す.</p>
+<h3 id="データ">データ</h3>
+<p>ERC777 の mint, send, burn 処理はすべてデータおよびオペレータデータフィールドを利用することができます.</p>
+<p>これらのフィールドは単純なユースケースでは空かもしれませんが, トークンの転送に関連する貴重な情報を含めることも可能です.</p>
+<p>つまり, データの内容によって処理を変化させるなど, ERC20 に比べてトークン転送プロセスを多様化させることが可能です.</p>
+<h3 id="フック">フック</h3>
+<p>ERC777 の規格には, トークン転送時に実行されるフック関数という概念が存在します.</p>
+<ul>
+<li><p><code>tokensToSend</code>: トークン保有者が自分のトークンが減少する際に実行したい処理を記述するフック関数</p>
+</li>
+<li><p><code>tokensReceived</code>: トークン受信者が自分のトークンが増加する際に実行したい処理を記述するフック関数</p>
+</li>
+</ul>
+<p>以上を前提にトークンの転送について ERC20 と ERC777 を比較します.</p>
+<p>ERC20 でトークンを転送する方法として以下の 2 つがあります.</p>
+<p>アカウント A のトークンがアカウント B に転送される場合</p>
+<ul>
+<li><p>A が<code>transfer</code>関数を使用して B へ送信する</p>
+</li>
+<li><p>A が<code>approve</code> 関数を使用して B へトークンを移動する権限を与え, B が<code>transferFrom</code> 関数を使用してトークンを転送する</p>
+</li>
+</ul>
+<p>1 つ目 の方法の懸念点として, A がトークンの送信先アドレスを間違える可能性があり, 間違えた宛先が「A からトークンを受信することを想定していないコントラクト」の場合は送信されたままトークンが「動かせなくなる」=「ロックされる」可能性があります.</p>
+<p>2 つ目 の方法は, 受信者が転送アクションを起こすため 1 つ目の方法に比べ比較的安全な転送になりますが, 2 つのトランザクションが必要なため当事者間でのコミュニケーションが生じます.</p>
+<p>これに対し, ERC777 でトークンを転送する際, 全ての転送プロセス(mint, send, operatorSend, transfer, transferFrom, burn, operatorBurn)に以下の処理が実装されることが明確に定義されています.</p>
+<p>ある転送プロセスによって, アカウント A のトークンがアカウント B に転送される場合</p>
+<ol>
+<li><p>A が <code>tokensToSend</code> を実装したコントラクトを用意していれば(ERC1820 Registry に登録していれば), <code>tokensToSend</code> を実行.
+<code>tokensToSend</code>内では, トランザクション情報を精査して特定の条件下ではトランザクションをキャンセルするなどの処理を書くことができます.</p>
+</li>
+<li><p>A のトークン残高を減らし, B のトークン残高を増やす.</p>
+</li>
+<li><p>B が <code>tokensReceived</code> を実装したコントラクトを用意していれば(ERC1820 Registry に登録していれば), <code>tokensReceived</code> を実行.
+<code>tokensToSend</code>内では, トランザクション情報を精査して特定の条件下ではトランザクションをキャンセルするなどの処理を書くことができます.</p>
+</li>
+</ol>
+<p>よって, 毎回のトークン転送において, トークン保有者とトークン受信者の両側で必要に応じてトランザクション内容のチェックが行われるため, トークンの誤送信を最小限に防ぐことができます.</p>
+<p>また, アカウント B(トークン受信者)がコントラクトの場合は誤送信によってトークンがロックされる可能性が高まるため, B がコントラクトの場合は<code>tokensReceived</code>を用意しておくことが強制されています.
+※ ERC20 との互換性のために実装されている transfer, transferFrom では強制されていません.</p>
+<p>処理の流れは明確に定義されていますが, フック関数の実装内容は自由なので柔軟性があります.</p>
+<p>また, 上記の転送処理が 1 つのトランザクションで行われることも当事者間の不要なコミュニケーションを削減できるという利点があります.</p>
+<h3 id="オペレータ">オペレータ</h3>
+<p>ERC777 の規格には, ホルダーとオペレータという概念が存在し, トークンを保有するアカウントをホルダー, トークンを転送(発行/送信/焼却)するアクションを実際に起こすアカウントをオペレータと呼びます.</p>
+<p>ホルダー A のオペレータは A でもあり, 他のアカウント B をオペレータに追加することも可能です.</p>
+<p>つまり B が(A のオペレータに登録されているのならば) A の保有するトークンを転送することも可能です.</p>
+<p>ERC20 では, <code>approve</code>関数を使用することで同じようなことが実現可能ですが, ERC777 のように「トークン保有者」と「転送アクションを起こすアカウント」に明確な関係性は定義されていません.</p>
+<p>アカウント間に明確な関係性を定義することは, 各アカウントの役割をわかりやすくし, トークンコントラクトの機能を利用する際の混乱を間違いを避けられます.</p>
+<p>例えば, ERC777 において, ホルダーがトークンを送信するときには<code>send</code>関数を使用し, オペレータがトークンを送信するときには<code>operatorSend</code>関数を使用します.
+アカウントの役割が明確化されていることで, ホルダー・オペレータはそれぞれどの関数を使用してトークンを送信すれば良いのかわかりやすいです.</p>
+<h3 id="まとめ">まとめ</h3>
+<p>※ 個人の意見です.</p>
+<p>ERC777 は, 上記の ERC20 の改善点が実装されている分, ERC20 よりも中身は複雑です.
+懸念点としては, 利用者は機能の理解をするというハードルがあること, 毎トランザクションで ERC20 にはなかった処理が入ることによるガス代の増加(正確にどれくらいかは把握できていません)が挙げられると思います.</p>
+<p>それでも上記の ERC20 の改善点がトークン利用者に必要とされる場合, 特にトークンの誤送信が問題として顕著に表れるなどは現実的そうですが, ERC777 の普及の可能性はあると思います.</p>
+<p>↓ 情報源</p>
+<p><a href="https://eips.ethereum.org/EIPS/eip-777#rationale" target="_blank">EIP777 Rationale</a></p>
+<h2 id="5-後方互換性について">5. 後方互換性について</h2>
+<p>この規格では ERC20 の関数 transfer, transferFrom, approve, allowance を並行して実装することで ERC-20 と完全互換のトークンとすることができます.</p>
+<p>また, 標準のトークンの送信関数として transfer と transferFrom を使用せず,send と operatorSend を使用し, どのトークン規格(ERC777/ERC20)が使用されているかを解読する際の混乱や間違いを避けるようにしています.</p>
+<p>ERC20 で規定されているイベント Transfer に対して, ERC777 では Sent/Minted/Burned が規定されています.
+ERC777 のコントラクト利用者は, コントラクトを ERC20 として使用する場合は Transfer について考慮し, ERC777 として使用する場合は Sent/Minted/Burned について考慮するといった形で, それぞれを別の動きとして捉える必要があります.</p>
+<p>コントラクトに ERC20 機能を有効または無効にするスイッチがある場合, スイッチが起動するたびに, トークンは ERC1820 を介して自身のアドレスの ERC20Token インタフェースを適宜登録または登録解除しなければなりません.</p>
+<p>最後に, IERC1820 Registry をフック関数の実行フローに採用している点は, 既存の「フック関数を登録していないアカウント」でも ERC777 を使用できるという点で互換性を保ちます.</p>
+<p>↓ 情報源</p>
+<p><a href="https://eips.ethereum.org/EIPS/eip-777#backward-compatibility" target="_blank">EIP777 Backward Compatibility</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../ERC721/" class="navigation navigation-prev " aria-label="Previous page: ERC721">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../ERC5192/" class="navigation navigation-next " aria-label="Next page: ERC5192">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"ERC777","level":"2.3","depth":1,"next":{"title":"ERC5192","level":"2.4","depth":1,"path":"ERC5192/README.md","ref":"./ERC5192/README.md","articles":[]},"previous":{"title":"ERC721","level":"2.2","depth":1,"path":"ERC721/README.md","ref":"./ERC721/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["highlight","mermaid-md-adoc"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"mermaid-md-adoc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"https://github.com/neila","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Deepdive into ERCs","language":"ja","gitbook":"*","description":"色んなERCを読んでみる"},"file":{"path":"ERC777/README.md","mtime":"2025-04-13T12:44:34.665Z","type":"markdown"},"gitbook":{"version":"4.0.7","time":"2025-04-13T12:44:37.813Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/honkit-plugin-mermaid-md-adoc/mermaid.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
