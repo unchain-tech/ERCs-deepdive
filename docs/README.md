@@ -29,7 +29,7 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://akxra.art"><img src="https://avatars.githubusercontent.com/u/40727091?v=4?s=100" width="100px;" alt="SHØ"/><br /><sub><b>SHØ</b></sub></a><br /><a href="#doc-neila" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://github.com/neila"><img src="https://avatars.githubusercontent.com/u/40727091?v=4?s=100" width="100px;" alt="SHØ"/><br /><sub><b>neila</b></sub></a><br /><a href="#doc-neila" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ryojiroakiyama"><img src="https://avatars.githubusercontent.com/u/77039327?v=4?s=100" width="100px;" alt="rakiyama"/><br /><sub><b>rakiyama</b></sub></a><br /><a href="#doc-ryojiroakiyama" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.resume.id/haru28675"><img src="https://avatars.githubusercontent.com/u/44923695?v=4?s=100" width="100px;" alt="Haruki Kondo"/><br /><sub><b>Haruki Kondo</b></sub></a><br /><a href="#doc-mashharuki" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/empire-uts"><img src="https://avatars.githubusercontent.com/u/98133495?v=4?s=100" width="100px;" alt="kii"/><br /><sub><b>kii</b></sub></a><br /><a href="#doc-empire-uts" title="Documentation">📖</a></td>
