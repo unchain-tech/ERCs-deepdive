@@ -1,6 +1,6 @@
 {
-  "projectName": "openzeppelin-deepdive",
-  "projectOwner": "unchain-dev",
+  "projectName": "ERCs-deepdive",
+  "projectOwner": "unchain-tech",
   "files": [
     "README.md"
   ],
@@ -8,9 +8,9 @@
   "contributors": [
     {
       "login": "neila",
-      "name": "SHØ",
+      "name": "neila",
       "avatar_url": "https://avatars.githubusercontent.com/u/40727091?v=4",
-      "profile": "http://akxra.art",
+      "profile": "http://github.com/neila/",
       "contributions": [
         "doc"
       ]
