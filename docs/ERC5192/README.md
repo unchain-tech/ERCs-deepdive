@@ -56,7 +56,7 @@ ERC5192 における用途は，`isContract()` の利用です．この関数は
 
 わざわざ関数でラップしているのはなぜかというと，メタトランザクションスキームを用いる場合に `msg.sender` をそのまま使うのは都合が悪いからです．
 
-以下に簡単な説明をのせておきます．詳しくは[ここ](https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx-related-contracts#2-meta-transaction%E3%81%A8%E3%81%AF-1)を参照してください．
+以下に簡単な説明をのせておきます．詳しくは[ここ](https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx#2-meta-transaction%E3%81%A8%E3%81%AF-1)を参照してください．
 
 > `msg.sender` は EVM に規定されたグローバル変数なので書き換えできませんが，関数の中に `msg.sender` をラップした `_msgSender()` 関数を使うことによって，メタトランザクション使用時には `_msg.sender()` 関数をオーバーライドして返り値を書き換えることにより `msg.sender(gas feeを支払うアドレス)` と `_msgSender()の返り値(txを実行したいアドレス)` を分けることができるようになります．
 
@@ -137,7 +137,7 @@ SoulBound Token を実装するための EIP 段階の標準になります．
 EIP 段階の IERC5192 をベースに，筆者が実装したものになります．
 ERC5192 は大部分が ERC721 と共通のため，共通部分の解説については ERC721 の README をご覧ください．
 
-[unchain-dev/openzeppelin-deepdive/ERC721-related-contracts/README.md](https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/ERC721-related-contracts#readme)
+[unchain-dev/openzeppelin-deepdive/ERC721/README.md](https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/ERC721#readme)
 
 ### 3.1. 変数 \_accountLock と 関数 locked
 

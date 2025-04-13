@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 
 // EIP-2771などの，メタトランザクションという
 // ある程度オフチェーン通信コストと引き換えにガス代を仲介者が肩代わりするスキームが存在している．
-// 詳しくはここを参照(https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx-related-contracts#2-meta-transaction%E3%81%A8%E3%81%AF-1)．
+// 詳しくはここを参照(https://github.com/unchain-dev/openzeppelin-deepdive/tree/main/metatx#2-meta-transaction%E3%81%A8%E3%81%AF-1)．
 // msg.senderはEVMに規定されたグローバル変数なので書き換えできないが，
 // 関数の中にmsg.senderをラップした_msgSender()関数を使うことによって，
 // メタトランザクション使用時には_msg.sender()関数をオーバーライドして返り値を書き換えることにより，

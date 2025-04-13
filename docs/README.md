@@ -9,12 +9,12 @@ OpenZeppelin の主要規格について，日本語ベース・コードベー�
 
 ## Contents
 
-- [ERC20](./ERC20-related-contracts/README.md)
-- [ERC721](./ERC721-related-contracts/README.md)
-- [ERC777](./ERC777-related-contracts/README.md)
-- [ERC5192](./ERC5192-related-contracts/README.md)
-- [ERC5564](./ERC5564-related-contracts/README.md)
-- [Metatransactions](./metatx-related-contracts/README.md)
+- [ERC20](./ERC20/README.md)
+- [ERC721](./ERC721/README.md)
+- [ERC777](./ERC777/README.md)
+- [ERC5192](./ERC5192/README.md)
+- [ERC5564](./ERC5564/README.md)
+- [Metatransactions](./metatx/README.md)
 - and [related bugs](./bugs/README.md)
 
 ## ページ追加方法

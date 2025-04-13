@@ -8,7 +8,7 @@
 
 ### For Contributor 🧑‍💻
 
-1. 学習した Bug が該当する Bug のカテゴリーを探す 例) [ERC20](../ERC20-related-contracts/README.md), [ERC721](../ERC721-related-contracts/README.md), [Reentrancy](./Reentrancy/UseNonReentrant.md) etc...
+1. 学習した Bug が該当する Bug のカテゴリーを探す 例) [ERC20](../ERC20/README.md), [ERC721](../ERC721/README.md), [Reentrancy](./Reentrancy/UseNonReentrant.md) etc...
 2. カテゴリー内であなたの学習したバグと同じバグが、、、
 
    1. ある: 同じバグのページの Similar Issue に追加する PR を作成する 😎
