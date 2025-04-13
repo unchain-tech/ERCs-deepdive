@@ -43,3 +43,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_book
           enable_jekyll: true
+          cname: eips.unchain.tech
