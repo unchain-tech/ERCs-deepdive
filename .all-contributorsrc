@@ -2,9 +2,10 @@
   "projectName": "ERCs-deepdive",
   "projectOwner": "unchain-tech",
   "files": [
-    "README.md"
+    "docs/README.md"
   ],
-  "imageSize": 100,
+  "commit": true,
+  "skipCi": false,
   "contributors": [
     {
       "login": "neila",
@@ -69,7 +70,5 @@
         "doc"
       ]
     }
-  ],
-  "commitConvention": "angular",
-  "contributorsPerLine": 7
+  ]
 }
